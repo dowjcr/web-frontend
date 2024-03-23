@@ -1,5 +1,12 @@
 <script lang="ts">
-	import logo from '$lib/assets/logo.png';
+	import type { LayoutData } from './$types';
+	export let data: LayoutData;
+	const headingOrder = ['News', 'Welfare', 'Services', 'About'];
+	data.topLevelNavItems.then((x) =>
+		x.sort((a, b) => headingOrder.indexOf(a.heading) - headingOrder.indexOf(b.heading))
+	);
+
+	import logoUrl from '$lib/assets/logo-cleaned.svg?url';
 	import { browser } from '$app/environment';
 	import '../app.postcss';
 	import '@fortawesome/fontawesome-free/css/fontawesome.css';
@@ -9,11 +16,14 @@
 		AppShell,
 		AppBar,
 		Modal,
-		storePopup,
 		type ModalSettings,
-		type ModalComponent
+		type ModalComponent,
+		initializeStores,
+		getDrawerStore,
+		getModalStore,
+		setInitialClassState
 	} from '@skeletonlabs/skeleton';
-	import { initializeStores, getDrawerStore, getModalStore } from '@skeletonlabs/skeleton';
+	import { storePopup } from '$lib/components/Popup';
 	initializeStores();
 	const modalStore = getModalStore();
 	const drawerStore = getDrawerStore();
@@ -21,15 +31,16 @@
 	import SearchModal from './SearchModal.svelte';
 	import NavBarDropdown from './NavBarDropdown.svelte';
 	import NavBarDrawer from './NavBarDrawer.svelte';
+	import Footer from './Footer.svelte';
 
 	function openDrawer(): void {
-		drawerStore.open({ position: 'right', width: 'w-1/3' });
+		drawerStore.open({ position: 'right' }); // width: 'w-1/3'
 	}
 	function openSearchModal(): void {
 		const modal: ModalSettings = {
 			type: 'component',
 			component: 'SearchModal',
-			position: 'item-start'
+			position: 'items-center'
 		};
 		modalStore.trigger(modal);
 	}
@@ -55,6 +66,8 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
+<!-- Make sure mode is the same after page reload -->
+<svelte:head>{@html '<script>(' + setInitialClassState.toString() + ')();</script>'}</svelte:head>
 <!-- Use stopPropagation to override Chrome for Windows search shortcut -->
 <svelte:window on:keydown|stopPropagation={onWindowKeydown} />
 <Modal components={modalRegistry} />
@@ -63,54 +76,74 @@
 	<svelte:fragment slot="header">
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<a href="/" class="flex items-center space-x-2">
-					<img src={logo} alt="Downing JCR Logo" class="bg-white md:w-10 md:h-10" />
-					<strong class="text-xl">Downing JCR</strong>
+				<a href="/" class="flex items-center space-x-4">
+					<div
+						class="bg-primary-500 border-primary-500 dark:bg-tertiary-50 dark:border-tertiary-50 border-2"
+					>
+						<svg
+							class="fill-surface-100 dark:fill-surface-800"
+							viewBox="0 0 1200 1200"
+							width="2.5rem"
+							height="2.5rem"
+						>
+							<use xlink:href={logoUrl + '#logoSymbol'} />
+						</svg>
+					</div>
+					<!-- <img src={logo} alt="Downing JCR Logo" class="dark:bg-white md:w-10 md:h-10" /> -->
+					<p class="hidden lg:inline-block text-2xl h1 whitespace-nowrap">Downing JCR</p>
+					<p class="md:inline-block lg:hidden text-2xl h1 whitespace-nowrap">DowJCR</p>
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<NavBarDropdown href="https://skeleton.dev/">
-					Launch Documentation
-					<svelte:fragment slot="hover-content">
-						Commodo eiusmod cillum veniam pariatur.
-					</svelte:fragment>
-				</NavBarDropdown>
-				<NavBarDropdown href="https://discord.gg/EXqV7W8MtY">
-					Discord
-					<svelte:fragment slot="hover-content">
-						Consectetur cupidatat exercitation commodo elit proident quis cillum ad reprehenderit
-						sunt officia aliqua nisi labore.
-					</svelte:fragment></NavBarDropdown
-				>
-				<NavBarDropdown href="https://twitter.com/SkeletonUI">
-					Twitter
-					<svelte:fragment slot="hover-content">Consectetur magna in in sint.</svelte:fragment>
-				</NavBarDropdown>
-				<NavBarDropdown href="https://github.com">
-					Github
-					<svelte:fragment slot="hover-content">
-						Cillum Lorem cupidatat irure laboris exercitation aute cupidatat proident voluptate enim
-						sint elit ullamco.
-					</svelte:fragment>
-				</NavBarDropdown>
-
-				<div class="md:inline md:ml-4">
-					<button
-						on:click={openSearchModal}
-						class="btn space-x-4 variant-soft hover:variant-soft-primary"
-					>
-						<i class="fa-solid fa-magnifying-glass text-sm" />
-						<small class="hidden md:inline-block">{isMacOs ? '⌘' : 'Ctrl'}+K</small>
+				<div class="flex items-center lg:space-x-2">
+					{#await data.topLevelNavItems}
+						{#each headingOrder as heading}
+							<NavBarDropdown href={'/' + heading.toLowerCase()} text={heading}>
+								<svelte:fragment></svelte:fragment>
+							</NavBarDropdown>
+						{/each}
+					{:then topLevelNavItems}
+						{#each topLevelNavItems as item}
+							<NavBarDropdown
+								href={'/' + encodeURIComponent(item.heading.toLowerCase().replaceAll(' ', '-'))}
+								text={item.heading}
+							>
+								<nav class="card w-60 overflow-hidden">
+									<ul>
+										{#each item.navitems as subItem}
+											<li class="">
+												<a
+													href={'/' + encodeURIComponent(subItem.path)}
+													class="px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
+												>
+													<span>{subItem.label}</span>
+													<span
+														class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary-500 dark:bg-surface-100"
+													></span>
+												</a>
+											</li>
+										{/each}
+									</ul>
+								</nav>
+							</NavBarDropdown>
+						{/each}
+					{/await}
+					<div class="md:inline mx-4">
+						<button
+							on:click={openSearchModal}
+							class="btn space-x-4 variant-soft hover:variant-soft-primary"
+						>
+							<i class="fa-solid fa-magnifying-glass text-sm" />
+							<small class="hidden md:inline-block font-mono">{isMacOs ? '⌘' : 'Ctrl'}+K</small>
+						</button>
+					</div>
+					<button on:click={openDrawer} class="hover:variant-soft-surface btn-icon btn-icon-sm">
+						<i class="fa-solid fa-bars text-xl" />
 					</button>
 				</div>
-
-				<!-- Hamburger Menu -->
-				<button on:click={openDrawer} class="btn-icon btn-icon-sm">
-					<i class="fa-solid fa-bars text-xl" />
-				</button>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<!-- Page Route Content -->
 	<slot />
+	<Footer />
 </AppShell>

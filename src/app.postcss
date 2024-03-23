@@ -14,3 +14,73 @@ body {
 	src: url('/fonts/Quicksand.ttf');
 	font-display: swap;
 }
+
+@font-face {
+	font-family: 'DreamAvenue';
+	src: url('/fonts/DreamAvenue.ttf');
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Switzer';
+	src: url('/fonts/Switzer.ttf');
+	font-display: swap;
+}
+@font-face {
+	font-family: 'SwitzerItalic';
+	src: url('/fonts/SwitzerItalic.ttf');
+	font-display: swap;
+}
+@font-face {
+	font-family: 'NotoSerifDisplay';
+	src: url('/fonts/NotoSerifDisplay.ttf');
+	font-display: swap;
+}
+@font-face {
+	font-family: 'NotoSerifDisplayItalic';
+	src: url('/fonts/NotoSerifDisplayItalic.ttf');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Jost';
+	src: url('/fonts/Jost.ttf'), url('/fonts/Jost-Italic.ttf');
+	font-display: swap;
+}
+
+:root [data-theme='modern'] {
+    --theme-font-family-base: 'Quicksand', sans-serif;
+    --theme-font-family-heading: 'Jost', sans-serif;
+}
+
+/* Tailwind Typography Plug (.prose) */
+/* Provides default styling for the Tailwind Typography plugin via element modifiers. */
+/* https://tailwindcss.com/docs/typography-plugin */
+/* https://tailwindcss.com/docs/typography-plugin#element-modifiers */
+
+.prose {
+    /* Text Neutral */
+	@apply text-token font-token;
+	@apply prose-blockquote:!text-surface-900/75 dark:prose-blockquote:!text-surface-50/75;
+    @apply prose-headings:text-surface-900 dark:prose-headings:text-surface-50;
+    @apply prose-p:text-surface-900/75 dark:prose-p:text-surface-50/75;
+    @apply prose-strong:font-bold prose-strong:text-surface-900/75 dark:prose-strong:text-surface-50/75;
+    @apply prose-ul:text-surface-900/75 dark:prose-ul:text-surface-50/75;
+    @apply prose-ol:text-surface-900/75 dark:prose-ol:text-surface-50/75;
+    @apply prose-table:text-surface-900/75 dark:prose-table:text-surface-50/75;
+    /* Text Colors */
+    @apply prose-a:!text-primary-500;
+    /* Images */
+    @apply prose-img:mx-auto;
+	/* Headings */
+	@apply prose-h1:h1 prose-h2:h2 prose-h3:h3 prose-h4:h4 prose-h5:h5 prose-h6:h6
+}
+
+/* <code> elements */
+.prose pre:not(.code-block pre) {
+    @apply font-mono text-base bg-neutral-900/90 text-white p-4 whitespace-pre-wrap overflow-x-auto rounded-container-token;
+}
+.prose code:is(:not(pre *)) {
+    @apply font-mono text-xs text-primary-700 dark:text-primary-400 whitespace-nowrap;
+    @apply bg-primary-500/30 dark:bg-primary-500/20;
+    @apply py-0.5 px-1 rounded;
+}

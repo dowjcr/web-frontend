@@ -5,8 +5,17 @@
 
 <Drawer>
 	<div class="w-full h-full flex justify-center items-center relative">
-		<div class="absolute top-0 right-0 m-4">
-			<LightSwitch />
+		<div class="absolute top-1 right-0 m-4">
+			<div class="flex items-center space-x-2">
+				<LightSwitch />
+				<!-- Hamburger Menu -->
+				<button
+					on:click={() => drawerStore.close()}
+					class="hover:variant-soft-surface btn-icon btn-icon-sm"
+				>
+					<i class="fa-solid fa-bars text-xl" />
+				</button>
+			</div>
 		</div>
 		<div class="text-center space-y-2">
 			{#if $drawerStore.meta}<h2 class="h2">{$drawerStore.meta}</h2>{/if}

@@ -1,32 +1,36 @@
 <script lang="ts">
 	export let href = '';
+	export let text = 'text';
+	export let caret = true;
 	let popupId = (Math.random() * 10e15).toString(16);
 
-	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { popup, type PopupSettings } from '$lib/components/Popup';
 	const popupHover: PopupSettings = {
-		event: 'hover',
+		event: 'hover2boogaloo',
 		target: 'popupHover-' + popupId,
 		closeQuery: ''
 	};
 </script>
 
-<a
-	{href}
-	rel="noreferrer"
-	class="btn btn-sm variant-ghost-surface [&>*]:pointer-events-none"
-	use:popup={popupHover}
->
-	<slot>
-		<span>(icon)</span>
-		<span>Hover</span>
-	</slot>
-</a>
+<div class="relative hidden lg:block">
+	<a
+		{href}
+		rel="noreferrer"
+		use:popup={popupHover}
+		class="[&>*]:pointer-events-none btn btn-sm py-3 hover:text-primary-500 dark:hover:text-token dark:hover:variant-soft-surface text-sm hidden md:inline"
+	>
+		<span class="mr-0">{text}</span>
+		{#if caret}
+			<i class="ml-0 fa-solid fa-caret-down opacity-50" />
+		{/if}
+	</a>
 
-<!-- https://www.skeleton.dev/utilities/popups#avoiding-style-conflicts -->
-<div data-popup={popupHover.target}>
-	<div class="card p-4 shadow-xl variant-filled-surface">
-		<slot name="hover-content">
-			<p>Hover Content</p>
+	<!-- https://www.skeleton.dev/utilities/popups#avoiding-style-conflicts -->
+	<div data-popup={popupHover.target}>
+		<slot>
+			<div class="card w-60 p-4">
+				<p>Hover Content</p>
+			</div>
 		</slot>
 	</div>
 </div>
