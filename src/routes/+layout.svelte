@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 	const headingOrder = ['News', 'Welfare', 'Services', 'About'];
@@ -72,16 +74,30 @@
 <svelte:window on:keydown|stopPropagation={onWindowKeydown} />
 <Modal components={modalRegistry} />
 <NavBarDrawer />
-<AppShell shadow="shadow-2xl" slotTrail="!space-x-2">
+<AppShell
+	shadow="shadow-2xl"
+	slotTrail="!space-x-2"
+	slotSidebarLeft="bg-surface-50 dark:bg-surface-900 {$page.url.pathname === '/'
+		? 'w-0'
+		: 'w-0 lg:w-64'}"
+>
+	<!-- <svelte:fragment slot="sidebarLeft">
+		<div class="size-full bg-slate-50 dark:bg-surface-900">
+			<div class="p-6">
+				<h1 id="sidebar-left" class="hidden lg:block text-lg font-heading-token">Sidebar</h1>
+				<hr />
+			</div>
+		</div>
+	</svelte:fragment> -->
 	<svelte:fragment slot="header">
-		<AppBar>
+		<AppBar class="shadow-xl !bg-slate-50 dark:!bg-surface-900">
 			<svelte:fragment slot="lead">
 				<a href="/" class="flex items-center space-x-4">
 					<div
 						class="bg-primary-500 border-primary-500 dark:bg-tertiary-50 dark:border-tertiary-50 border-2"
 					>
 						<svg
-							class="fill-surface-100 dark:fill-surface-800"
+							class="fill-slate-50 dark:fill-surface-900"
 							viewBox="0 0 1200 1200"
 							width="2.5rem"
 							height="2.5rem"
@@ -95,7 +111,7 @@
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<div class="flex items-center lg:space-x-2">
+				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
 					{#await data.topLevelNavItems}
 						{#each headingOrder as heading}
 							<NavBarDropdown href={'/' + heading.toLowerCase()} text={heading}>
@@ -105,15 +121,15 @@
 					{:then topLevelNavItems}
 						{#each topLevelNavItems as item}
 							<NavBarDropdown
-								href={'/' + encodeURIComponent(item.heading.toLowerCase().replaceAll(' ', '-'))}
+								href={'/' + item.heading.toLowerCase().replaceAll(' ', '-')}
 								text={item.heading}
 							>
-								<nav class="card w-60 overflow-hidden">
+								<nav class="card rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800">
 									<ul>
 										{#each item.navitems as subItem}
 											<li class="">
 												<a
-													href={'/' + encodeURIComponent(subItem.path)}
+													href={'/' + subItem.path}
 													class="px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
 												>
 													<span>{subItem.label}</span>
@@ -131,7 +147,7 @@
 					<div class="md:inline mx-4">
 						<button
 							on:click={openSearchModal}
-							class="btn space-x-4 variant-soft hover:variant-soft-primary"
+							class="btn space-x-4 variant-soft hover:variant-soft-primary dark:hover:variant-soft-surface"
 						>
 							<i class="fa-solid fa-magnifying-glass text-sm" />
 							<small class="hidden md:inline-block font-mono">{isMacOs ? '⌘' : 'Ctrl'}+K</small>

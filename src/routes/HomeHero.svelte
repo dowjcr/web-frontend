@@ -21,14 +21,19 @@
 		</div>
 	</div>
 	<div class="flex items-center justify-end">
-		<svg
-			class="hidden md:inline rounded-container-token shadow-xl"
-			viewBox="0 0 1200 1200"
-			fill="rgba(var(--color-primary-500))"
-			width="400"
-			height="400"
+		<a
+			href="https://www.dow.cam.ac.uk/"
+			class="hidden btn rounded-container-token md:inline shadow-2x overflow-hidden cursor-pointer transition-all duration-700"
 		>
-			<use xlink:href={logoUrl + '#logoSymbol'} />
-		</svg>
+			<svg
+				class="rounded-container-token"
+				viewBox="0 0 1200 1200"
+				fill="rgba(var(--color-primary-500))"
+				width="30rem"
+				height="30rem"
+			>
+				<use xlink:href={logoUrl + '#logoSymbol'} />
+			</svg>
+		</a>
 	</div>
 </div>

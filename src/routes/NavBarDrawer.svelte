@@ -4,10 +4,12 @@
 </script>
 
 <Drawer>
-	<div class="w-full h-full flex justify-center items-center relative">
+	<div
+		class="w-full h-full bg-slate-50 dark:bg-surface-900 flex justify-center items-center relative"
+	>
 		<div class="absolute top-1 right-0 m-4">
-			<div class="flex items-center space-x-2">
-				<LightSwitch />
+			<div class="flex items-center lg:space-x-2">
+				<LightSwitch class="mx-4 bg-opacity-0" />
 				<!-- Hamburger Menu -->
 				<button
 					on:click={() => drawerStore.close()}

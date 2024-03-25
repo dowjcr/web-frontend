@@ -39,8 +39,10 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	};
 	[elemPopup, elemArrow] = setDomElements(); // init
 
+	let popupPlacement: string | null = null;
 	// Render Floating UI Popup
 	const render = (): void => {
+		popupPlacement = args.placement ?? 'bottom';
 		// Error handling for required Floating UI modules
 		if (!elemPopup) {
 			throw new Error(
@@ -246,20 +248,59 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 		}
 	};
 
+	// Note that these do not account for combined args.placement values like 'top-start'
+	const triggerToPopupCondition = (e: MouseEvent) => {
+		switch (popupPlacement?.split('-')[0]) {
+			case 'top':
+				return e.pageY + e.offsetY < triggerNode.getBoundingClientRect().top;
+			case 'bottom':
+				return e.pageY + e.offsetY > triggerNode.getBoundingClientRect().bottom;
+			case 'left':
+				return e.pageX + e.offsetX < triggerNode.getBoundingClientRect().left;
+			case 'right':
+				return e.pageX + e.offsetX > triggerNode.getBoundingClientRect().right;
+			default:
+				return true; // Use true because it helps testing
+		}
+	};
+
+	const popupToTriggerCondition = (e: MouseEvent) => {
+		switch (popupPlacement?.split('-')[0]) {
+			case 'top':
+				return e.pageY + e.offsetY > elemPopup.getBoundingClientRect().bottom;
+			case 'bottom':
+				return e.pageY + e.offsetY < elemPopup.getBoundingClientRect().top;
+			case 'left':
+				return e.pageX + e.offsetX > elemPopup.getBoundingClientRect().right;
+			case 'right':
+				return e.pageX + e.offsetX < elemPopup.getBoundingClientRect().left;
+			default:
+				return true;
+		}
+	};
+
 	let closeTimeout: NodeJS.Timeout;
-	const mouseLeaveTriggerHandler = (event: MouseEvent) => {
-		if (event.pageY > triggerNode.getBoundingClientRect().bottom) {
-			console.log('starting timeout');
-			closeTimeout = setTimeout(close, 500); // close only after delay
+	const mouseLeaveTriggerHandler = (e: MouseEvent) => {
+		if (triggerToPopupCondition(e)) {
+			closeTimeout = setTimeout(close, 1000); // close only after delay
 		} else {
 			close();
 		}
 	};
-	const mouseOverPopupHandler = (event: MouseEvent) => {
+	const keepPopupOpen = () => {
 		if (closeTimeout) {
 			clearTimeout(closeTimeout);
 		}
 		open();
+	};
+	const mouseLeavePopupHandler = (e: MouseEvent) => {
+		if (e.target === elemPopup || !elemPopup.contains(e.target as Node)) {
+			if (popupToTriggerCondition(e)) {
+				closeTimeout = setTimeout(close, 1000); // close only after delay
+			} else {
+				close();
+			}
+		}
 	};
 
 	// Event Listeners
@@ -273,21 +314,11 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 			triggerNode.addEventListener('mouseleave', () => close(), true);
 			break;
 		case 'hover2boogaloo':
-			triggerNode.addEventListener('mouseover', open, true);
+			triggerNode.addEventListener('mouseover', keepPopupOpen, true);
 			triggerNode.addEventListener('mouseleave', mouseLeaveTriggerHandler, true);
-			elemPopup.addEventListener('mouseover', mouseOverPopupHandler, true);
+			elemPopup.addEventListener('mouseover', keepPopupOpen, true);
 			// NOTE: not 100% sure why e.target===elemPopup is a valid condition...
-			elemPopup.addEventListener(
-				'mouseleave',
-				(e) => {
-					if (e.target === elemPopup || !elemPopup.contains(e.target as Node)) {
-						close();
-					} else {
-						console.log('not closing because ', e.target, ' is in the popup');
-					}
-				},
-				true
-			);
+			elemPopup.addEventListener('mouseleave', mouseLeavePopupHandler, true);
 			break;
 		case 'focus-blur':
 			triggerNode.addEventListener('focus', toggle, true);
@@ -325,7 +356,7 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 			window.removeEventListener('keydown', onWindowKeyDown, true);
 			triggerNode.removeEventListener('mouseover', open, true);
 			triggerNode.removeEventListener('mouseleave', mouseLeaveTriggerHandler, true);
-			elemPopup.removeEventListener('mouseover', mouseOverPopupHandler, true);
+			elemPopup.removeEventListener('mouseover', keepPopupOpen, true);
 			elemPopup.removeEventListener('mouseleave', mouseLeaveTriggerHandler, true);
 		}
 	};
