@@ -5,6 +5,7 @@ const cmsApiUrl = 'https://' + CMS_HOST + '/api/';
 export interface CommitteePage {
 	id: string;
 	approved: boolean;
+	readyforapproval: boolean;
 	lastEditedBy: {
 		id: string;
 		committee_information: object;
@@ -15,9 +16,18 @@ export interface CommitteePage {
 	title: string;
 	path: string;
 	content: object;
+	category: string;
 	createdAt: string;
 	updatedAt: string;
-	content_html: string;
+	approveditems: {
+		path: string;
+		title: string;
+		lastEditedBy: string;
+		lastEditedByOfficeText: string;
+		lastEditedAt: string;
+		acontent: object;
+		content_html: string;
+	};
 }
 
 export interface CommitteePageQueryResponse {
@@ -33,17 +43,27 @@ export interface CommitteePageQueryResponse {
 	nextPage?: number | null;
 }
 
-export interface NavItem {
+export interface ReturnNavItem {
 	label: string;
 	path: string;
-	id: string;
 }
 
-export interface TopLevelNavItem {
-	heading: string;
-	navitems: NavItem[];
-	id: string;
+export interface ReturnNavHeader {
+	header: string;
+	navitems?: ReturnNavItem[];
 }
+
+export interface PageResponse {
+	path: string;
+	title: string;
+	html: string;
+	lastEditedBy: string;
+	lastEditedAt: string;
+}
+
+export type GetPages = PageResponse[];
+
+export type ReturnNavBar = ReturnNavHeader[];
 
 /**
  * Fetches page content from a specified path.
@@ -51,10 +71,12 @@ export interface TopLevelNavItem {
  * @param {string} path - The path to fetch data from.
  * @returns {Promise<Response>} The response from the fetch request.
  */
-export async function fetchByPath(path: string, fetch_?: typeof fetch): Promise<Response> {
+export async function fetchByPath(path: string, fetch_?: typeof fetch): Promise<PageResponse> {
 	return (fetch_ || fetch)('https://' + CMS_HOST + CMS_GETBYPATH + '/' + encodeURIComponent(path), {
 		headers
-	});
+	})
+		.then((r) => r.json())
+		.catch(() => null);
 }
 
 export async function fetchByPath2(
@@ -72,8 +94,7 @@ export async function fetchByPath2(
 		}
 	)
 		.then((r) => r.json() as Promise<CommitteePageQueryResponse>)
-		.then((r) => r.docs[0])
-		.catch(() => null);
+		.then((r) => r.docs[0]);
 }
 
 /**
@@ -82,16 +103,23 @@ export async function fetchByPath2(
  * @returns {Promise<Response>} The response from the fetch request.
  */
 export async function fetchPagesInCollection(
-	collection: string,
+	collection?: string,
 	fetch_?: typeof fetch
 ): Promise<CommitteePageQueryResponse> {
-	return (fetch_ || fetch)('https://' + CMS_HOST + '/api/' + collection + '?sort=-createdAt', {
-		headers
-	}).then((r) => r.json() as Promise<CommitteePageQueryResponse>);
+	return (fetch_ || fetch)(
+		'https://' +
+			CMS_HOST +
+			'/api/' +
+			(collection || CMS_MAIN_COLLECTION) +
+			'?where[approved][equals]=true&&sort=-createdAt',
+		{
+			headers
+		}
+	).then((r) => r.json() as Promise<CommitteePageQueryResponse>);
 }
 
-export async function queryNavBar(fetch_?: typeof fetch): Promise<TopLevelNavItem[]> {
+export async function queryNavBar(fetch_?: typeof fetch): Promise<ReturnNavHeader[]> {
 	return (fetch_ || fetch)('https://cmsnewweb.downingjcr.co.uk/api/globals/nav/navbar', {
 		headers
-	}).then((r) => r.json() as Promise<TopLevelNavItem[]>);
+	}).then((r) => r.json() as Promise<ReturnNavHeader[]>);
 }

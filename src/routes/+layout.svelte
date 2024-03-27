@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
+
+	import { page } from '$app/stores';
+	import { searchStore } from '$lib/components/Search';
+	import lunr from 'lunr';
+	data.searchIndex.then(searchStore.set);
+
 	const headingOrder = ['News', 'Welfare', 'Services', 'About'];
 	data.topLevelNavItems.then((x) =>
-		x.sort((a, b) => headingOrder.indexOf(a.heading) - headingOrder.indexOf(b.heading))
+		x.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header))
 	);
 
 	import logoUrl from '$lib/assets/logo-cleaned.svg?url';
@@ -42,7 +46,8 @@
 		const modal: ModalSettings = {
 			type: 'component',
 			component: 'SearchModal',
-			position: 'items-center'
+			position: 'items-center',
+			backdropClasses: '!bg-primary-100/60 dark:!bg-surface-500/30'
 		};
 		modalStore.trigger(modal);
 	}
@@ -81,8 +86,8 @@
 		? 'w-0'
 		: 'w-0 lg:w-64'}"
 >
-	<!-- <svelte:fragment slot="sidebarLeft">
-		<div class="size-full bg-slate-50 dark:bg-surface-900">
+	<!-- <svelte:fragment ">
+		<div slot="sidebarLeft class="size-full bg-slate-50 dark:bg-surface-900">
 			<div class="p-6">
 				<h1 id="sidebar-left" class="hidden lg:block text-lg font-heading-token">Sidebar</h1>
 				<hr />
@@ -121,24 +126,26 @@
 					{:then topLevelNavItems}
 						{#each topLevelNavItems as item}
 							<NavBarDropdown
-								href={'/' + item.heading.toLowerCase().replaceAll(' ', '-')}
-								text={item.heading}
+								href={'/' + item.header.toLowerCase().replaceAll(' ', '-')}
+								text={item.header}
 							>
 								<nav class="card rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800">
 									<ul>
-										{#each item.navitems as subItem}
-											<li class="">
-												<a
-													href={'/' + subItem.path}
-													class="px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
-												>
-													<span>{subItem.label}</span>
-													<span
-														class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary-500 dark:bg-surface-100"
-													></span>
-												</a>
-											</li>
-										{/each}
+										{#if item.navitems}
+											{#each item.navitems as subItem}
+												<li class="">
+													<a
+														href={subItem.path}
+														class="px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
+													>
+														<span>{subItem.label}</span>
+														<span
+															class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary-500 dark:bg-surface-100"
+														></span>
+													</a>
+												</li>
+											{/each}
+										{/if}
 									</ul>
 								</nav>
 							</NavBarDropdown>
