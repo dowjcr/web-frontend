@@ -17,9 +17,9 @@
 		{href}
 		rel="noreferrer"
 		use:popup={popupHover}
-		class="[&>*]:pointer-events-none btn btn-sm py-3 hover:text-primary-500 dark:hover:text-token dark:hover:variant-soft-surface text-sm hidden md:inline"
+		class="[&>*]:pointer-events-none btn btn-sm py-3 hover:text-primary-500 hover:variant-soft-primary dark:hover:text-token dark:hover:variant-soft-surface text-sm hidden md:inline"
 	>
-		<span class="mr-0">{text}</span>
+		<span class="mr-0 font-bold">{text}</span>
 		{#if caret}
 			<i class="ml-0 fa-solid fa-caret-down opacity-50" />
 		{/if}

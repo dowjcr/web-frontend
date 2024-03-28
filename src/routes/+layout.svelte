@@ -4,7 +4,6 @@
 
 	import { page } from '$app/stores';
 	import { searchStore } from '$lib/components/Search';
-	import lunr from 'lunr';
 	data.searchIndex.then(searchStore.set);
 
 	const headingOrder = ['News', 'Welfare', 'Services', 'About'];
@@ -47,7 +46,7 @@
 			type: 'component',
 			component: 'SearchModal',
 			position: 'items-center',
-			backdropClasses: '!bg-primary-100/60 dark:!bg-surface-500/30'
+			backdropClasses: '!bg-transparent backdrop-blur-sm dark:!bg-surface-500/30'
 		};
 		modalStore.trigger(modal);
 	}
@@ -111,8 +110,8 @@
 						</svg>
 					</div>
 					<!-- <img src={logo} alt="Downing JCR Logo" class="dark:bg-white md:w-10 md:h-10" /> -->
-					<p class="hidden lg:inline-block text-2xl h1 whitespace-nowrap">Downing JCR</p>
-					<p class="md:inline-block lg:hidden text-2xl h1 whitespace-nowrap">DowJCR</p>
+					<h1 class="inline-block text-2xl h1 whitespace-nowrap font-bold">Downing JCR</h1>
+					<!-- <p class="md:inline-block lg:hidden text-2xl h1 whitespace-nowrap">DowJCR</p> -->
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
@@ -136,7 +135,7 @@
 												<li class="">
 													<a
 														href={subItem.path}
-														class="px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
+														class="font-normal px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
 													>
 														<span>{subItem.label}</span>
 														<span
@@ -157,7 +156,9 @@
 							class="btn space-x-4 variant-soft hover:variant-soft-primary dark:hover:variant-soft-surface"
 						>
 							<i class="fa-solid fa-magnifying-glass text-sm" />
-							<small class="hidden md:inline-block font-mono">{isMacOs ? '⌘' : 'Ctrl'}+K</small>
+							<small class="hidden md:inline-block font-mono font-bold"
+								>{isMacOs ? '⌘' : 'Ctrl'}+K</small
+							>
 						</button>
 					</div>
 					<button on:click={openDrawer} class="hover:variant-soft-surface btn-icon btn-icon-sm">

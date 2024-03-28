@@ -282,7 +282,7 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	let closeTimeout: NodeJS.Timeout;
 	const mouseLeaveTriggerHandler = (e: MouseEvent) => {
 		if (triggerToPopupCondition(e)) {
-			closeTimeout = setTimeout(close, 1000); // close only after delay
+			closeTimeout = setTimeout(close, 200); // close only after delay
 		} else {
 			close();
 		}
@@ -296,7 +296,7 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	const mouseLeavePopupHandler = (e: MouseEvent) => {
 		if (e.target === elemPopup || !elemPopup.contains(e.target as Node)) {
 			if (popupToTriggerCondition(e)) {
-				closeTimeout = setTimeout(close, 1000); // close only after delay
+				closeTimeout = setTimeout(close, 200); // close only after delay
 			} else {
 				close();
 			}

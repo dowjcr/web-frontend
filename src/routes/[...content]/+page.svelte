@@ -10,6 +10,7 @@
 		return { h1Content, restContent };
 	}
 	$: ({ h1Content: pageTitle, restContent: pageProse } = extractH1AndRest(data.html));
+	pageTitle = pageTitle || data.title;
 </script>
 
 <div class="bg-slate-50 dark:bg-surface-900">
@@ -18,7 +19,7 @@
 		<div></div>
 		<article
 			use:tocCrawler={{ mode: 'generate', key: data.html }}
-			class="lg:subgrid lg:col-span-2 max-w-2xl py-20 px-5 lg:px-0"
+			class="lg:subgrid lg:col-span-2 max-w-2xl py-20 px-5 lg:px-0 w-full m-auto"
 		>
 			<div class="prose lg:prose-xl">
 				<h1>{pageTitle}</h1>
