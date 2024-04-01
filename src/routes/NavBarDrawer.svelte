@@ -13,7 +13,7 @@
 				<!-- Hamburger Menu -->
 				<button
 					on:click={() => drawerStore.close()}
-					class="hover:variant-soft-surface btn-icon btn-icon-sm"
+					class="hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
 				>
 					<i class="fa-solid fa-bars text-xl" />
 				</button>

@@ -2,12 +2,13 @@
 	import HomeHero from './HomeHero.svelte';
 </script>
 
-<div>
-	<header id="hero" class="bg-surface-100-800-token">
-		<div class="section-container"><HomeHero /></div>
-	</header>
+<!-- <div> -->
+<!-- <header id="hero" class="bg-surface-100-800-token"> -->
+<div class="fixed top-0 left-0 right-0"><HomeHero /></div>
 
-	<!-- 
+<!-- </header> -->
+
+<!-- 
 	<section id="playground" class="bg-surface-100-800-token">
 		<div class="section-container">
 			<div
@@ -23,13 +24,14 @@
 			</div>
 		</div>
 	</section> -->
-</div>
+<!-- </div> -->
 
 <style lang="postcss">
-	.section-container {
-		@apply w-full p-4 py-16 md:py-24;
-	}
-	header {
+	/* .section-container {
+		@apply w-full py-16 md:py-24;
+		@apply bg-slate-50 dark:bg-surface-800;
+	} */
+	/* header {
 		background-image: radial-gradient(
 				at 0% 0%,
 				rgba(var(--color-secondary-500) / 0.33) 0px,
@@ -45,5 +47,5 @@
 				transparent 50%
 			),
 			radial-gradient(at 98% 1%, rgba(var(--color-error-400) * 0.33) 0px, transparent 50%);
-	}
+	} */
 </style>

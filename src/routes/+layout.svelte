@@ -6,10 +6,11 @@
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	const headingOrder = ['News', 'Welfare', 'Services', 'About'];
-	data.topLevelNavItems.then((x) =>
-		x.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header))
-	);
+	import { navStore } from '$lib';
+	const headingOrder = $navStore.map((x) => x.header);
+	data.topLevelNavItems
+		.then((x) => x.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header)))
+		.then(navStore.set);
 
 	import logoUrl from '$lib/assets/logo-cleaned.svg?url';
 	import { browser } from '$app/environment';
@@ -21,7 +22,6 @@
 		AppShell,
 		AppBar,
 		Modal,
-		type ModalSettings,
 		type ModalComponent,
 		initializeStores,
 		getDrawerStore,
@@ -42,13 +42,11 @@
 		drawerStore.open({ position: 'right' }); // width: 'w-1/3'
 	}
 	function openSearchModal(): void {
-		const modal: ModalSettings = {
+		modalStore.trigger({
 			type: 'component',
 			component: 'SearchModal',
-			position: 'items-center',
 			backdropClasses: '!bg-transparent backdrop-blur-sm dark:!bg-surface-500/30'
-		};
-		modalStore.trigger(modal);
+		});
 	}
 	const modalRegistry: Record<string, ModalComponent> = {
 		SearchModal: { ref: SearchModal }
@@ -98,7 +96,7 @@
 			<svelte:fragment slot="lead">
 				<a href="/" class="flex items-center space-x-4">
 					<div
-						class="bg-primary-500 border-primary-500 dark:bg-tertiary-50 dark:border-tertiary-50 border-2"
+						class="bg-primary-900 border-primary-900 dark:bg-tertiary-50 dark:border-tertiary-50 border-2"
 					>
 						<svg
 							class="fill-slate-50 dark:fill-surface-900"
@@ -106,7 +104,7 @@
 							width="2.5rem"
 							height="2.5rem"
 						>
-							<use xlink:href={logoUrl + '#logoSymbol'} />
+							<use xlink:href="/favicon.svg#logoNotInverted" />
 						</svg>
 					</div>
 					<!-- <img src={logo} alt="Downing JCR Logo" class="dark:bg-white md:w-10 md:h-10" /> -->
@@ -116,40 +114,42 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
-					{#await data.topLevelNavItems}
+					<!-- {#await data.topLevelNavItems}
 						{#each headingOrder as heading}
 							<NavBarDropdown href={'/' + heading.toLowerCase()} text={heading}>
 								<svelte:fragment></svelte:fragment>
 							</NavBarDropdown>
 						{/each}
-					{:then topLevelNavItems}
-						{#each topLevelNavItems as item}
-							<NavBarDropdown
-								href={'/' + item.header.toLowerCase().replaceAll(' ', '-')}
-								text={item.header}
+					{:then topLevelNavItems} -->
+					{#each $navStore as item}
+						<NavBarDropdown
+							href={'/' + item.header.toLowerCase().replaceAll(' ', '-')}
+							text={item.header}
+						>
+							<nav
+								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>
-								<nav class="card rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800">
-									<ul>
-										{#if item.navitems}
-											{#each item.navitems as subItem}
-												<li class="">
-													<a
-														href={subItem.path}
-														class="font-normal px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
-													>
-														<span>{subItem.label}</span>
-														<span
-															class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary-500 dark:bg-surface-100"
-														></span>
-													</a>
-												</li>
-											{/each}
-										{/if}
-									</ul>
-								</nav>
-							</NavBarDropdown>
-						{/each}
-					{/await}
+								<ul>
+									{#if item.navitems}
+										{#each item.navitems as subItem}
+											<li class="">
+												<a
+													href={subItem.path}
+													class="font-normal px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
+												>
+													<span>{subItem.label}</span>
+													<span
+														class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary-500 dark:bg-surface-100"
+													></span>
+												</a>
+											</li>
+										{/each}
+									{/if}
+								</ul>
+							</nav>
+						</NavBarDropdown>
+					{/each}
+					<!-- {/await} -->
 					<div class="md:inline mx-4">
 						<button
 							on:click={openSearchModal}
@@ -161,7 +161,10 @@
 							>
 						</button>
 					</div>
-					<button on:click={openDrawer} class="hover:variant-soft-surface btn-icon btn-icon-sm">
+					<button
+						on:click={openDrawer}
+						class="hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
+					>
 						<i class="fa-solid fa-bars text-xl" />
 					</button>
 				</div>

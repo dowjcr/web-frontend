@@ -4,21 +4,16 @@
 	import { insertLunrFuzzyMatcher, searchStore } from '$lib/components/Search';
 	const modalStore = getModalStore();
 	let searchTerm = '';
-	let searchIndex: lunr.Index | null = null;
+	let searchIndex: lunr.Index = lunr.Index.load(JSON.parse($searchStore));
 	let searchResults: lunr.Index.Result[] = [];
 	let searchPages: { href: string; title: string }[] = [];
-	searchStore.subscribe((value) => {
-		if (value) searchIndex = lunr.Index.load(JSON.parse(value));
-	});
 
 	const updateResults = () => {
-		if (searchIndex) {
-			searchResults = searchIndex.search(insertLunrFuzzyMatcher(searchTerm));
-			searchPages = searchResults.map((r) => {
-				let [href, title] = r.ref.split('<SEP>');
-				return { href, title };
-			});
-		}
+		searchResults = searchIndex.search(insertLunrFuzzyMatcher(searchTerm));
+		searchPages = searchResults.map((r) => {
+			let [href, title] = r.ref.split('<SEP>');
+			return { href, title };
+		});
 	};
 	let searchElement: HTMLElement;
 	function onKeyDown(event: KeyboardEvent): void {
@@ -35,7 +30,6 @@
 >
 	<div>
 		<header class="modal-search-header mt-auto bg-surface-300-600-token flex items-center">
-			<!-- TODO: fix annoying clash of focussed search box and top RH corner -->
 			<i class="fa-solid fa-magnifying-glass text-xl ml-4" />
 			<input
 				bind:value={searchTerm}
