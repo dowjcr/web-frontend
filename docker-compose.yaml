@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  web-frontend:
+    build:
+      context: .
+      args:
+        - APP_HOST=$APP_HOST
+        - APP_PORT=$APP_PORT
+        - CMS_GETBYPATH=$CMS_GETBYPATH
+        - CMS_GETPAGES=$CMS_GETPAGES
+        - CMS_AUTH=$CMS_AUTH
+        - CMS_HOST=$CMS_HOST
+        - CMS_MAIN_COLLECTION=$CMS_MAIN_COLLECTION
+    ports:
+      - $APP_PORT:$APP_PORT
