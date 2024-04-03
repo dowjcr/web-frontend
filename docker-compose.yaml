@@ -7,6 +7,7 @@ services:
       args:
         - APP_HOST=$APP_HOST
         - APP_PORT=$APP_PORT
+    environment:
         - CMS_GETBYPATH=$CMS_GETBYPATH
         - CMS_GETPAGES=$CMS_GETPAGES
         - CMS_AUTH=$CMS_AUTH

@@ -1,12 +1,12 @@
-import { CMS_AUTH, CMS_GETBYPATH, CMS_HOST, CMS_MAIN_COLLECTION } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import type {
 	CommitteePage,
 	CommitteePageQueryResponse,
 	PageResponse,
 	ReturnNavHeader
 } from './cms.types';
-const headers = { Authorization: CMS_AUTH };
-const cmsApiUrl = 'https://' + CMS_HOST + '/api/';
+const headers = { Authorization: env.CMS_AUTH };
+const cmsApiUrl = 'https://' + env.CMS_HOST + '/api/';
 
 /**
  * Fetches page content from a specified path.
@@ -15,9 +15,12 @@ const cmsApiUrl = 'https://' + CMS_HOST + '/api/';
  * @returns {Promise<Response>} The response from the fetch request.
  */
 export async function fetchByPath(path: string, fetch_?: typeof fetch): Promise<PageResponse> {
-	return (fetch_ || fetch)('https://' + CMS_HOST + CMS_GETBYPATH + '/' + encodeURIComponent(path), {
-		headers
-	})
+	return (fetch_ || fetch)(
+		'https://' + env.CMS_HOST + env.CMS_GETBYPATH + '/' + encodeURIComponent(path),
+		{
+			headers
+		}
+	)
 		.then((r) => r.json())
 		.catch(() => null);
 }
@@ -29,7 +32,7 @@ export async function fetchByPath2(
 ): Promise<CommitteePage | null> {
 	return (fetch_ || fetch)(
 		cmsApiUrl +
-			(collection || CMS_MAIN_COLLECTION) +
+			(collection || env.CMS_MAIN_COLLECTION) +
 			'?where[path][equals]=' +
 			encodeURIComponent(path),
 		{
@@ -51,9 +54,9 @@ export async function fetchPagesInCollection(
 ): Promise<CommitteePageQueryResponse> {
 	return (fetch_ || fetch)(
 		'https://' +
-			CMS_HOST +
+			env.CMS_HOST +
 			'/api/' +
-			(collection || CMS_MAIN_COLLECTION) +
+			(collection || env.CMS_MAIN_COLLECTION) +
 			'?where[approved][equals]=true&&sort=-createdAt',
 		{
 			headers
