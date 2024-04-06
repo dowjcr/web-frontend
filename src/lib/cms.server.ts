@@ -6,7 +6,7 @@ import type {
 	ReturnNavHeader
 } from './cms.types';
 const headers = { Authorization: env.CMS_AUTH };
-const cmsApiUrl = 'https://' + env.CMS_HOST + '/api/';
+const cmsApiUrl = env.CMS_URL;
 /**
  * Fetches page content from a specified path.
  * This path should not begin with a slash.
