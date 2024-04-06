@@ -18,7 +18,7 @@ export async function fetchByPath(
 	fetch_?: typeof fetch
 ): Promise<PageResponse | null> {
 	return (fetch_ || fetch)(
-		'https://' + env.CMS_HOST + env.CMS_GETBYPATH + '/' + encodeURIComponent(path),
+		env.CMS_URL + env.CMS_GETBYPATH + '/' + encodeURIComponent(path),
 		{
 			headers
 		}
