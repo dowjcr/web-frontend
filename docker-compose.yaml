@@ -10,6 +10,7 @@ services:
     environment:
         - CMS_GETBYPATH=$CMS_GETBYPATH
         - CMS_GETPAGES=$CMS_GETPAGES
+        - CMS_NAVBAR=$CMS_NAVBAR
         - CMS_AUTH=$CMS_AUTH
         - CMS_HOST=$CMS_HOST
         - CMS_MAIN_COLLECTION=$CMS_MAIN_COLLECTION

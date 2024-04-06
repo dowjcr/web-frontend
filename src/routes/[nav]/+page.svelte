@@ -35,7 +35,7 @@
 </div>
 
 <div class="bg-slate-50 dark:bg-surface-900">
-	<div class="bg-transparent m-auto h-min flex-none px-5 py-10 w-[30rem]">
+	<div class="bg-transparent m-auto flex-none p-20 w-[50rem]">
 		{#await data.pages.then((p) => p.docs) then pages}
 			{#each pages as p}
 				{#if p.path !== data.relPath}

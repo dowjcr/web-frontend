@@ -63,13 +63,13 @@ export async function fetchPagesInCollection(
 		{
 			headers
 		}
-	).then((r) => r.json() as Promise<CommitteePageQueryResponse>);
+	).then((r) => r.json());
 }
 
 export async function queryNavBar(fetch_?: typeof fetch): Promise<ReturnNavHeader[]> {
-	return (fetch_ || fetch)('https://cmsnewweb.downingjcr.co.uk/api/globals/nav/navbar', {
+	return (fetch_ || fetch)('https://' + env.CMS_HOST + env.CMS_NAVBAR, {
 		headers
-	}).then((r) => r.json() as Promise<ReturnNavHeader[]>);
+	}).then((r) => r.json());
 }
 
 export async function fetchPagesInNavHeader(
