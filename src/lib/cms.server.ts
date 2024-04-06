@@ -6,7 +6,7 @@ import type {
 	ReturnNavHeader
 } from './cms.types';
 const headers = { Authorization: env.CMS_AUTH };
-const cmsApiUrl = env.CMS_URL;
+const cmsApiUrl = env.CMS_API_URL;
 /**
  * Fetches page content from a specified path.
  * This path should not begin with a slash.
@@ -55,9 +55,7 @@ export async function fetchPagesInCollection(
 	fetch_?: typeof fetch
 ): Promise<CommitteePageQueryResponse> {
 	return (fetch_ || fetch)(
-		'https://' +
-			env.CMS_HOST +
-			'/api/' +
+		env.CMS_API_URL +
 			(collection || env.CMS_MAIN_COLLECTION) +
 			'?where[approved][equals]=true&&sort=-createdAt&&limit=9',
 		{
@@ -67,7 +65,7 @@ export async function fetchPagesInCollection(
 }
 
 export async function queryNavBar(fetch_?: typeof fetch): Promise<ReturnNavHeader[]> {
-	return (fetch_ || fetch)('https://' + env.CMS_HOST + env.CMS_NAVBAR, {
+	return (fetch_ || fetch)(env.CMS_URL + env.CMS_NAVBAR, {
 		headers
 	}).then((r) => r.json());
 }
@@ -77,9 +75,7 @@ export async function fetchPagesInNavHeader(
 	fetch_?: typeof fetch
 ): Promise<CommitteePageQueryResponse> {
 	return (fetch_ || fetch)(
-		'https://' +
-			env.CMS_HOST +
-			'/api/' +
+		env.CMS_API_URL +
 			env.CMS_MAIN_COLLECTION +
 			'?where[path][contains]=' +
 			encodeURIComponent(headerSlug) +
