@@ -12,10 +12,8 @@ RUN npm prune --production
 
 FROM base as prod
 
-ARG APP_HOST
-ARG APP_PORT
-ENV HOST=$APP_HOST
-ENV PORT=$APP_PORT
+ENV HOST
+ENV PORT
 
 # set reverse proxy headers (instead of ORIGIN env var)
 # https://kit.svelte.dev/docs/adapter-node#environment-variables
@@ -30,5 +28,4 @@ COPY --from=build --chown=nodeuser /app/build build/
 COPY --from=build --chown=nodeuser /app/node_modules node_modules/
 COPY --chown=nodeuser package.json .
 
-EXPOSE $PORT
 CMD ["node", "build"]
