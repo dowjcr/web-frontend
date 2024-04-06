@@ -10,7 +10,7 @@ const headers = { Authorization: env.CMS_AUTH };
 const cmsApiUrl = env.CMS_API_URL;
 
 for (const key in env) {
-	if (key.startsWith('CMS_') && env[key].includes('_')) {
+	if (key.startsWith('CMS_') && env[key]?.includes('_')) {
 		console.error(
 			'The value of CMS environment variable ' +
 				key +
@@ -31,9 +31,9 @@ function checkResponse(response: Response) {
 			response.status +
 			' ' +
 			response.statusText +
-			') [' +
+			') [ ' +
 			response.url +
-			'] using headers: ' +
+			' ] with headers: ' +
 			JSON.stringify(Object.fromEntries(response.headers.entries()))
 	);
 }
