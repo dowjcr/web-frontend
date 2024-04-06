@@ -1,16 +1,15 @@
 import lunr from 'lunr';
 import { stripHtmlTags } from '$lib';
-import { fetchPagesInCollection } from '$lib/cms.server';
+import { fetchPages } from '$lib/cms.server';
 
-function buildSearchDocuments() {
-	return fetchPagesInCollection('committee_pages').then((response) => {
-		return response.docs.map((doc) => {
-			return {
-				title: doc.title,
-				path: doc.path + '<SEP>' + doc.title,
-				text: stripHtmlTags(doc.approveditems.content_html)
-			};
-		});
+async function buildSearchDocuments() {
+	const response = await fetchPages();
+	return response?.map((doc) => {
+		return {
+			title: doc.title,
+			path: doc.path + '<SEP>' + doc.title,
+			text: stripHtmlTags(doc.html)
+		};
 	});
 }
 
@@ -21,7 +20,7 @@ export async function fetchSearchIndex(): Promise<lunr.Index> {
 	builder.field('text');
 	return buildSearchDocuments()
 		.then((documents) => {
-			documents.forEach((doc) => {
+			documents?.forEach((doc) => {
 				builder.add(doc);
 			});
 		})

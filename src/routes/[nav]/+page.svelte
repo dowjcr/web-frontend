@@ -36,19 +36,21 @@
 
 <div class="bg-slate-50 dark:bg-surface-900">
 	<div class="bg-transparent m-auto flex-none p-20 w-[50rem]">
-		{#await data.pages.then((p) => p.docs) then pages}
-			{#each pages as p}
-				{#if p.path !== data.relPath}
-					<a href={p.path}>
-						<div
-							class="card rounded-icon-token my-2 p-5 bg-inherit border-none ring-0 hover:shadow-xl"
-						>
-							<h2 class="font-heading-token font-bold">{p.title}</h2>
-							<p>{p.path}</p>
-						</div>
-					</a>
-				{/if}
-			{/each}
+		{#await data.pages.then((p) => p?.docs) then pages}
+			{#if pages}
+				{#each pages as p}
+					{#if p.path !== data.relPath}
+						<a href={p.path}>
+							<div
+								class="card rounded-icon-token my-2 p-5 bg-inherit border-none ring-0 hover:shadow-xl"
+							>
+								<h2 class="font-heading-token font-bold">{p.title}</h2>
+								<p>{p.path}</p>
+							</div>
+						</a>
+					{/if}
+				{/each}
+			{/if}
 		{/await}
 	</div>
 </div>

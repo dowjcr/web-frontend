@@ -9,8 +9,10 @@
 	import { navStore } from '$lib';
 	const headingOrder = $navStore.map((x) => x.header);
 	data.topLevelNavItems
-		.then((x) => x.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header)))
-		.then(navStore.set);
+		.then((x) => x?.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header)))
+		.then((x) => {
+			if (x) navStore.set(x);
+		});
 
 	import logoUrl from '$lib/assets/logo-cleaned.svg?url';
 	import { browser } from '$app/environment';
