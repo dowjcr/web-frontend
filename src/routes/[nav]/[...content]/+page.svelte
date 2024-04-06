@@ -13,7 +13,7 @@
 	<div class="lg:grid lg:grid-cols-4">
 		<article
 			use:tocCrawler={{ mode: 'generate', key: data.html }}
-			class="lg:subgrid lg:col-span-3 max-w-3xl py-20 px-5 lg:px-0 w-full m-auto space-y-5"
+			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-20 w-full m-auto space-y-5"
 		>
 			<ol class="breadcrumb">
 				{#each breadcrumbs as crumb, index (crumb)}
