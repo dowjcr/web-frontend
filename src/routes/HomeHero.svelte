@@ -1,20 +1,21 @@
 <script lang="ts">
-	import logoUrl from '$lib/assets/logo-cleaned.svg?url';
-	import { draw, fade } from 'svelte/transition';
+	let innerWidth = 0;
+	let innerHeight = 0;
 </script>
 
+<svelte:window bind:innerWidth bind:innerHeight />
 <div class="bg-slate-50 dark:bg-surface-800 w-full h-screen box-border relative">
 	<div class="h-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 items-center">
 		<div
-			class="ml-auto my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4"
+			class="p-10 md:pr-10 lg:ml-auto my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4"
 		>
-			<h1 class="h1 !text-5xl md:!text-6xl max-w-[600px] dark:font-bold">
+			<h1 class="h1 !text-5xl lg:!text-6xl max-w-[600px] dark:font-bold">
 				Bleeding <span
 					class="bg-gradient-to-r from-primary-900 via-primary-500 to-primary-800 dark:from-primary-500 dark:via-primary-300 dark:to-primary-500 text-transparent bg-clip-text hero-animate-gradient"
 					>magenta</span
 				> since 1800
 			</h1>
-			<p class="!text-xl max-w-[475px]">
+			<p class="text-md lg:!text-xl max-w-[475px]">
 				The JCR Committee is here to make your time in Downing the best it can be, by running
 				events, providing welfare support, and representing your interests to the College.
 			</p>
@@ -41,8 +42,8 @@
 					class="rounded-container-token"
 					viewBox="0 0 1200 1200"
 					fill="rgba(var(--color-primary-500))"
-					width="30rem"
-					height="30rem"
+					width={innerWidth * 0.35}
+					height={innerWidth * 0.35}
 				>
 					<use xlink:href="/favicon.svg#logoNotInverted" />
 				</svg>
@@ -50,12 +51,12 @@
 		</div>
 	</div>
 
-	<div class="dark:hidden">
+	<div class="hidden md:inline-block dark:hidden">
 		<svg
 			class="bigSvgStyled absolute right-0 bottom-0 fill-primary-900"
 			viewBox="0 0 1200 1200"
-			width="50rem"
-			height="50rem"
+			width={innerWidth * 0.55}
+			height={innerWidth * 0.55}
 		>
 			<use xlink:href="/favicon.svg#logoInverted" />
 		</svg>

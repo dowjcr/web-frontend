@@ -110,7 +110,9 @@
 						</svg>
 					</div>
 					<!-- <img src={logo} alt="Downing JCR Logo" class="dark:bg-white md:w-10 md:h-10" /> -->
-					<h1 class="inline-block text-2xl h1 whitespace-nowrap font-bold">Downing JCR</h1>
+					<h1 class="inline-block text-xl lg:text-2xl h1 whitespace-nowrap font-bold">
+						Downing JCR
+					</h1>
 					<!-- <p class="md:inline-block lg:hidden text-2xl h1 whitespace-nowrap">DowJCR</p> -->
 				</a>
 			</svelte:fragment>

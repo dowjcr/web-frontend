@@ -8,11 +8,13 @@
 	$: pageTitle = h1Content || data.committeePage?.title || data.navHeaderName;
 </script>
 
-<div class="bg-primary-50 w-full lg:grid grid-cols-3 p-10 lg:p-28 gap-28">
+<div class="bg-primary-50 dark:bg-surface-700 w-full lg:grid grid-cols-3 p-10 lg:p-28 gap-28">
 	<div
 		class="col-span-2 mr-auto flex flex-col items-center md:items-start text-center md:text-left space-y-3"
 	>
-		<h1 class="h1 !text-5xl md:!text-6xl max-w-[600px] !text-surface-900 dark:font-bold">
+		<h1
+			class="h1 !text-5xl md:!text-6xl max-w-[600px] !text-surface-900 dark:!text-primary-300 dark:font-bold"
+		>
 			{pageTitle}
 		</h1>
 		<div class="w-full bg-transparent flex">

@@ -3,7 +3,7 @@
 	import Sacha from '$lib/assets/404-hedgehog.jpg';
 </script>
 
-<div class="bg-slate-50">
+<div class="bg-slate-50 dark-bg-surface-900">
 	<div class="absolute m-auto bottom-0 md:h-screen h-[50vh]">
 		<img src={Sacha} alt="Sacha the hedgehog" class="object-cover h-full" />
 	</div>
@@ -11,7 +11,7 @@
 		<div class="h-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 items-center">
 			<div></div>
 			<div
-				class="order-last md:card p-10 !bg-slate-50 mx-auto lg:my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4"
+				class="order-last md:card p-10 !bg-slate-50 dark:!bg-surface-900 mx-auto lg:my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4"
 			>
 				<h1 class="h1 !text-5xl md:!text-6xl max-w-[600px] font-bold">
 					<span
