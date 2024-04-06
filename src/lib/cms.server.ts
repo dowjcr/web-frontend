@@ -7,14 +7,16 @@ import type {
 } from './cms.types';
 const headers = { Authorization: env.CMS_AUTH };
 const cmsApiUrl = 'https://' + env.CMS_HOST + '/api/';
-
 /**
  * Fetches page content from a specified path.
  * This path should not begin with a slash.
  * @param {string} path - The path to fetch data from.
  * @returns {Promise<Response>} The response from the fetch request.
  */
-export async function fetchByPath(path: string, fetch_?: typeof fetch): Promise<PageResponse> {
+export async function fetchByPath(
+	path: string,
+	fetch_?: typeof fetch
+): Promise<PageResponse | null> {
 	return (fetch_ || fetch)(
 		'https://' + env.CMS_HOST + env.CMS_GETBYPATH + '/' + encodeURIComponent(path),
 		{
@@ -57,7 +59,7 @@ export async function fetchPagesInCollection(
 			env.CMS_HOST +
 			'/api/' +
 			(collection || env.CMS_MAIN_COLLECTION) +
-			'?where[approved][equals]=true&&sort=-createdAt',
+			'?where[approved][equals]=true&&sort=-createdAt&&limit=9',
 		{
 			headers
 		}
@@ -68,4 +70,22 @@ export async function queryNavBar(fetch_?: typeof fetch): Promise<ReturnNavHeade
 	return (fetch_ || fetch)('https://cmsnewweb.downingjcr.co.uk/api/globals/nav/navbar', {
 		headers
 	}).then((r) => r.json() as Promise<ReturnNavHeader[]>);
+}
+
+export async function fetchPagesInNavHeader(
+	headerSlug: string,
+	fetch_?: typeof fetch
+): Promise<CommitteePageQueryResponse> {
+	return (fetch_ || fetch)(
+		'https://' +
+			env.CMS_HOST +
+			'/api/' +
+			env.CMS_MAIN_COLLECTION +
+			'?where[path][contains]=' +
+			encodeURIComponent(headerSlug) +
+			'&&where[approved][equals]=true&&sort=-createdAt&&limit=99',
+		{
+			headers
+		}
+	).then((r) => r.json() as Promise<CommitteePageQueryResponse>);
 }

@@ -15,3 +15,10 @@ export function stripHtmlTags(input: string): string {
 		.replace(/\s\s+/g, ' ')
 		.trim();
 }
+
+export function extractH1AndContent(text: string) {
+	const h1Match = text.match(/<h1>(.*?)<\/h1>/i);
+	const h1Content = h1Match ? h1Match[1] : null;
+	const restContent = text.replace(/<h1>.*?<\/h1>/i, '');
+	return { h1Content, restContent };
+}
