@@ -12,9 +12,6 @@ RUN npm prune --production
 
 FROM base as prod
 
-ENV HOST
-ENV PORT
-
 # set reverse proxy headers (instead of ORIGIN env var)
 # https://kit.svelte.dev/docs/adapter-node#environment-variables
 # ENV PROTOCOL_HEADER=x-forwarded-proto
