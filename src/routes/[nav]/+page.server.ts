@@ -6,14 +6,15 @@ import { get } from 'svelte/store';
 
 function getNavHeaderName(navHeaderUrl: string): string | null {
 	for (const navHeader of get(navStore)) {
-		if (navHeader.navitems) {
-			for (const navItem of navHeader.navitems) {
+		if (navHeader.navItems) {
+			for (const navItem of navHeader.navItems) {
 				if (navItem.path.startsWith(navHeaderUrl)) {
 					return navHeader.header;
 				}
 			}
 		}
 	}
+	console.log('Nav header not found for: ', navHeaderUrl);
 	return null;
 }
 

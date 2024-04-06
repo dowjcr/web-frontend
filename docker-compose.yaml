@@ -4,9 +4,6 @@ services:
   web-frontend:
     build:
       context: .
-      args:
-        - APP_HOST=$APP_HOST
-        - APP_PORT=$APP_PORT
     environment:
         - CMS_GETBYPATH=$CMS_GETBYPATH
         - CMS_GETPAGES=$CMS_GETPAGES
@@ -14,5 +11,6 @@ services:
         - CMS_AUTH=$CMS_AUTH
         - CMS_HOST=$CMS_HOST
         - CMS_MAIN_COLLECTION=$CMS_MAIN_COLLECTION
+        - CMS_PROTO=$CMS_PROTO
     ports:
-      - $APP_PORT:$APP_PORT
+      - 3000:3000

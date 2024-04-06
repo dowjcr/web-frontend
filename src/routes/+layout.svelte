@@ -132,8 +132,8 @@
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>
 								<ul>
-									{#if item.navitems}
-										{#each item.navitems as subItem}
+									{#if item.navItems}
+										{#each item.navItems as subItem}
 											<li class="">
 												<a
 													href={subItem.path}
