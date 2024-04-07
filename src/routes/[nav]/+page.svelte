@@ -8,6 +8,10 @@
 	$: pageTitle = h1Content || data.committeePage?.title || data.navHeaderName;
 </script>
 
+<svelte:head>
+	<title>{pageTitle} | Downing JCR</title>
+</svelte:head>
+
 <div class="bg-primary-50 dark:bg-surface-700 w-full lg:grid grid-cols-3 p-10 lg:p-28 gap-28">
 	<div
 		class="col-span-2 mr-auto flex flex-col items-center md:items-start text-center md:text-left space-y-3"
