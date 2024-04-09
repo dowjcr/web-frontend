@@ -13,13 +13,13 @@
 	<div class="lg:grid lg:grid-cols-4">
 		<article
 			use:tocCrawler={{ mode: 'generate', key: data.html }}
-			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-20 w-full m-auto space-y-5"
+			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
 		>
 			<ol class="breadcrumb">
 				{#each breadcrumbs as crumb, index (crumb)}
 					<li class="crumb">
 						<a
-							class="anchor no-underline crumb-separator hover:text-primary-500 hover:opacity-100 hover:underline dark:hover:text-primary-300 dark:text-surface-100"
+							class="text-sm md:text-lg anchor no-underline crumb-separator hover:text-primary-500 hover:opacity-100 hover:underline dark:hover:text-primary-300 dark:text-surface-100"
 							href={`/${breadcrumbs.slice(0, index + 1).join('/')}`}>{crumb}</a
 						>
 					</li>
