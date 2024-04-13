@@ -2,11 +2,11 @@
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
-	import { page } from '$app/stores';
+	import { page, updated } from '$app/stores';
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	import { navStore } from '$lib';
+	import { isMacOs, navStore, headerPathFromName } from '$lib';
 	const headingOrder = $navStore.map((x) => x.header);
 	data.topLevelNavItems
 		.then((x) => x?.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header)))
@@ -14,8 +14,6 @@
 			if (x) navStore.set(x);
 		});
 
-	import logoUrl from '$lib/assets/logo-cleaned.svg?url';
-	import { browser } from '$app/environment';
 	import '../app.postcss';
 	import '@fortawesome/fontawesome-free/css/fontawesome.css';
 	import '@fortawesome/fontawesome-free/css/brands.css';
@@ -41,7 +39,7 @@
 	import Footer from './Footer.svelte';
 
 	function openDrawer(): void {
-		drawerStore.open({ position: 'right' }); // width: 'w-1/3'
+		drawerStore.open({ position: 'right', width: 'w-11/12 md:w-1/2 lg:w-1/3' });
 	}
 	function openSearchModal(): void {
 		modalStore.trigger({
@@ -54,11 +52,6 @@
 		SearchModal: { ref: SearchModal }
 	};
 
-	let isMacOs = false;
-	if (browser) {
-		let os = navigator.userAgent;
-		isMacOs = os.search('Mac') !== -1;
-	}
 	// Keyboard shortcut (Ctrl / ⌘+K) for search modal
 	function onWindowKeydown(e: KeyboardEvent): void {
 		if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -69,7 +62,14 @@
 
 	// Pop-ups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
+	import { beforeNavigate } from '$app/navigation';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	beforeNavigate(({ willUnload, to }) => {
+		if ($updated && !willUnload && to?.url) {
+			location.href = to.url.href;
+		}
+	});
 </script>
 
 <!-- Make sure mode is the same after page reload -->
@@ -94,7 +94,7 @@
 		</div>
 	</svelte:fragment> -->
 	<svelte:fragment slot="header">
-		<AppBar class="shadow-xl !bg-slate-50 dark:!bg-surface-900">
+		<AppBar class="shadow-xl !bg-slate-50 dark:!bg-surface-900 !p-3">
 			<svelte:fragment slot="lead">
 				<a href="/" class="flex items-center space-x-4">
 					<div
@@ -118,28 +118,18 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
-					<!-- {#await data.topLevelNavItems}
-						{#each headingOrder as heading}
-							<NavBarDropdown href={'/' + heading.toLowerCase()} text={heading}>
-								<svelte:fragment></svelte:fragment>
-							</NavBarDropdown>
-						{/each}
-					{:then topLevelNavItems} -->
 					{#each $navStore as item}
-						<NavBarDropdown
-							href={'/' + item.header.toLowerCase().replaceAll(' ', '-')}
-							text={item.header}
-						>
+						<NavBarDropdown href={headerPathFromName(item.header)} text={item.header}>
 							<nav
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>
 								<ul>
 									{#if item.navItems}
 										{#each item.navItems as subItem}
-											<li class="">
+											<li>
 												<a
 													href={subItem.path}
-													class="font-normal px-4 pt-3 pb-3 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
+													class="font-normal px-4 py-2 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
 												>
 													<span>{subItem.label}</span>
 													<span
