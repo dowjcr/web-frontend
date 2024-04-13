@@ -36,13 +36,20 @@
 				<h1>{pageTitle}</h1>
 			</div>
 			<div class="w-full bg-transparent flex">
-				<Avatar width="h-12 my-auto" rounded="rounded-full" initials="TM" />
+				<Avatar
+					width="h-12 my-auto"
+					rounded="rounded-full"
+					initials={data.lastEditedByNames
+						?.split(' ')
+						.map((word) => word.charAt(0).toUpperCase())
+						.join('')}
+				/>
 				<div class="grow flex flex-col justify-center items-start p-4">
 					<p class="text-sm">
-						<span class="font-bold">Tomas Mils</span>
-						· Internet Officer
+						<span class="font-bold">{data.lastEditedByNames}</span>
+						· {data.lastEditedByTitle}
 					</p>
-					<p class="text-sm">Published on <span class="font-bold">2024-01-01</span></p>
+					<p class="text-sm">Updated at <span class="font-bold">{data.lastEditedAt}</span></p>
 				</div>
 			</div>
 			<div
