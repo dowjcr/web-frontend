@@ -79,6 +79,7 @@
 <Modal components={modalRegistry} />
 <NavBarDrawer />
 <AppShell
+	regionPage="scroll-smooth"
 	shadow="shadow-2xl"
 	slotTrail="!space-x-2"
 	slotSidebarLeft="bg-surface-50 dark:bg-surface-900 {$page.url.pathname === '/'

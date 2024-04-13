@@ -16,7 +16,8 @@
 <div class="bg-slate-50 dark:bg-surface-900">
 	<div class="lg:grid lg:grid-cols-4">
 		<article
-			use:tocCrawler={{ mode: 'generate', key: data.html }}
+			id="top"
+			use:tocCrawler={{ mode: 'generate', key: data.html, scrollTarget: '#page' }}
 			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
 		>
 			<ol class="breadcrumb">
@@ -32,7 +33,7 @@
 					{/if}
 				{/each}
 			</ol>
-			<div id="top" class="prose lg:prose-xl">
+			<div class="prose lg:prose-xl">
 				<h1>{pageTitle}</h1>
 			</div>
 			<div class="w-full bg-transparent flex">
