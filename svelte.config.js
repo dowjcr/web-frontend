@@ -15,11 +15,11 @@ const config = {
 	kit: {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
-		version: {
+		// version: {
 			// https://kit.svelte.dev/docs/configuration#version
-			name: child_process.execSync('git rev-parse HEAD').toString().trim(),
-			pollInterval: 10 * 1000
-		}
+		//	name: child_process.execSync('git rev-parse HEAD').toString().trim(),
+		//	pollInterval: 10 * 1000
+		//}
 	}
 };
 
