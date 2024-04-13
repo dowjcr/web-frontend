@@ -9,6 +9,10 @@
 	$: breadcrumbs = data.path.split('/').filter((crumb) => crumb);
 </script>
 
+<svelte:head>
+	<title>{pageTitle} | Downing JCR</title>
+</svelte:head>
+
 <div class="bg-slate-50 dark:bg-surface-900">
 	<div class="lg:grid lg:grid-cols-4">
 		<article
