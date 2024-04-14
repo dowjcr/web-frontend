@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { extractH1AndContent } from '$lib';
 	import { Avatar } from '@skeletonlabs/skeleton';
+	import { DateTime } from 'luxon';
 	import type { PageData } from './$types';
 	export let data: PageData;
-
+	$: committeePageLastEditedAtFormatted = DateTime.fromISO(
+		data.committeePage!.lastEditedAt
+	).toFormat('lastEditedAtFormat');
 	$: ({ h1Content, restContent } = extractH1AndContent(data.committeePage?.html || ''));
 	$: pageTitle = h1Content || data.committeePage?.title || data.navHeaderName;
 </script>
@@ -36,7 +39,7 @@
 					· {data.committeePage?.lastEditedByTitle}
 				</p>
 				<p class="text-sm">
-					Updated at <span class="font-bold">{data.committeePage?.lastEditedAt}</span>
+					Updated at <span class="font-bold">{committeePageLastEditedAtFormatted}</span>
 				</p>
 			</div>
 		</div>

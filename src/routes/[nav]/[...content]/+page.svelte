@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { extractH1AndContent } from '$lib';
 	import type { PageData } from './$types';
+	import { DateTime } from 'luxon';
 	export let data: PageData;
 	import { TableOfContents, tocCrawler, Avatar } from '@skeletonlabs/skeleton';
-
+	import { lastEditedAtFormat } from '$lib/consts';
 	$: ({ h1Content, restContent } = extractH1AndContent(data.html));
 	$: pageTitle = h1Content || data.title;
 	$: breadcrumbs = data.path.split('/').filter((crumb) => crumb);
@@ -50,7 +51,11 @@
 						<span class="font-bold">{data.lastEditedByNames}</span>
 						· {data.lastEditedByTitle}
 					</p>
-					<p class="text-sm">Updated at <span class="font-bold">{data.lastEditedAt}</span></p>
+					<p class="text-sm">
+						Updated at <span class="font-bold"
+							>{DateTime.fromISO(data.lastEditedAt).toFormat(lastEditedAtFormat)}</span
+						>
+					</p>
 				</div>
 			</div>
 			<div
@@ -62,7 +67,7 @@
 		</article>
 		<div>
 			<aside
-				class="bg-transparent mr-auto h-min flex-none fixed top-20 hidden lg:block xl:px-5 py-20 w-80"
+				class="bg-transparent mr-auto h-min flex-none fixed top-20 hidden lg:block xl:px-5 py-10 w-80"
 			>
 				<TableOfContents
 					inactive="font-heading-token !font-normal opacity-60 hover:opacity-100 hover:text-primary-500 dark:hover:text-primary-400"
