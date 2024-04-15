@@ -1,13 +1,21 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import {
 		Accordion,
 		AccordionItem,
 		getDrawerStore,
 		Drawer,
-		LightSwitch
+		LightSwitch,
+		TableOfContents
 	} from '@skeletonlabs/skeleton';
 	import { headerPathFromName, navStore } from '$lib';
 	const drawerStore = getDrawerStore();
+
+	function handleToCAnchors(node: any) {
+		node.querySelectorAll('a').forEach((a: HTMLAnchorElement) => {
+			a.addEventListener('click', drawerStore.close);
+		});
+	}
 </script>
 
 <Drawer>
@@ -79,6 +87,36 @@
 					>
 				</AccordionItem>
 			{/each}
+			{#if $page.data.html}
+				<div class="p-3">
+					<hr />
+				</div>
+				<AccordionItem open>
+					<svelte:fragment slot="iconClosed"><i class="fa-solid fa-minus" /></svelte:fragment>
+					<svelte:fragment slot="iconOpen"><i class="fa-solid fa-plus" /></svelte:fragment>
+					<svelte:fragment slot="summary">
+						<div class="text-xl font-heading-token">
+							<a
+								on:click={drawerStore.close}
+								href="#top"
+								class="focus:variant-soft-primary dark:focus:variant-soft-surface hover:text-primary-500 dark:hover:text-surface-100"
+							>
+								On this Page
+							</a>
+						</div>
+					</svelte:fragment>
+					<svelte:fragment slot="content">
+						<div use:handleToCAnchors>
+							<TableOfContents
+								regionList="!mt-0 px-2"
+								inactive="!font-normal hover:opacity-100 hover:text-primary-500 dark:hover:text-primary-400"
+								active="!font-normal text-primary-500 dark:text-primary-400"
+								><div></div>
+							</TableOfContents>
+						</div>
+					</svelte:fragment>
+				</AccordionItem>
+			{/if}
 		</Accordion>
 	</div>
 </Drawer>
