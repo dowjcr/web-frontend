@@ -123,14 +123,14 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
-					{#each $navStore as item}
+					{#each $navStore as item (item.header)}
 						<NavBarDropdown href={headerPathFromName(item.header)} text={item.header}>
 							<nav
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>
 								<ul>
 									{#if item.navItems}
-										{#each item.navItems as subItem}
+										{#each item.navItems as subItem (subItem.path)}
 											<li>
 												<a
 													href={subItem.path}

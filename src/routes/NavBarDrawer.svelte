@@ -41,7 +41,7 @@
 				</svelte:fragment>
 				<svelte:fragment slot="content">Currently no news to show</svelte:fragment>
 			</AccordionItem>
-			{#each $navStore as item}
+			{#each $navStore as item (item.header)}
 				<AccordionItem>
 					<!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
 					<svelte:fragment slot="iconClosed"><i class="fa-solid fa-minus" /></svelte:fragment>
@@ -60,7 +60,7 @@
 					<svelte:fragment slot="content"
 						><ul class="space-y-2">
 							{#if item.navItems}
-								{#each item.navItems as subItem}
+								{#each item.navItems as subItem (subItem.path)}
 									<li>
 										<a
 											on:click={drawerStore.close}

@@ -15,7 +15,7 @@
 		target,
 		closeQuery: ''
 	};
-	const office = $officeStore.find((x) => x.title === committeeTitle);
+	$: office = $officeStore.find((x) => x.title === committeeTitle);
 	let emailToast: ToastSettings;
 	$: emailToast = {
 		message: `${office?.email || 'Email'} copied to clipboard`,
@@ -44,7 +44,7 @@
 			>
 				{#if office.officers}
 					<header class="card-header !p-0">
-						{#each office.officers as o}
+						{#each office.officers as o (o.name)}
 							<Avatar
 								src={o.img}
 								width="h-12 my-auto"
@@ -57,7 +57,7 @@
 						<a {href} rel="noreferrer">
 							<h1 class="text-sm">
 								{#if office.officers.length > 1}
-									{#each office.officers.slice(0, -1) as o, idx}
+									{#each office.officers.slice(0, -1) as o, idx (o.name)}
 										<span class="font-bold">{o.name} {idx}</span>,
 									{/each}
 									<span>and {office.officers.slice(-1)[0].name}</span>
@@ -71,6 +71,12 @@
 									: office.title}
 							</h2>
 						</a>
+					</section>
+				{:else}
+					<section>
+						<h1 class="text-md">
+							{office.title}
+						</h1>
 					</section>
 				{/if}
 				{#if office.description}
