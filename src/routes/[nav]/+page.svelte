@@ -6,7 +6,7 @@
 	export let data: PageData;
 	$: committeePageLastEditedAtFormatted = DateTime.fromISO(
 		data.committeePage!.lastEditedAt
-	).toFormat('lastEditedAtFormat');
+	).toFormat(lastEditedAtFormat);
 	$: ({ h1Content, restContent } = extractH1AndContent(data.committeePage?.html || ''));
 	$: pageTitle = h1Content || data.committeePage?.title || data.navHeaderName;
 </script>
