@@ -2,8 +2,9 @@ import { env } from '$env/dynamic/private';
 import type {
 	CommitteePageQueryResponse,
 	GetPages,
+	Office,
 	PageResponse,
-	ReturnNavHeader
+	ReturnNavBar
 } from './cms.types';
 const headers = { Authorization: env.CMS_AUTH };
 
@@ -56,7 +57,7 @@ export async function fetchPages(fetch_?: typeof fetch): Promise<GetPages | null
 		.catch(logFailedFetchFor('fetchPages'));
 }
 
-export async function queryNavBar(fetch_?: typeof fetch): Promise<ReturnNavHeader[] | null> {
+export async function queryNavBar(fetch_?: typeof fetch): Promise<ReturnNavBar | null> {
 	return (fetch_ || fetch)(env.CMS_PROTO + env.CMS_HOST + env.CMS_NAVBAR, {
 		headers
 	})
@@ -85,4 +86,11 @@ export async function fetchPagesInNavHeader(
 		.then(checkResponse)
 		.then((r) => r.json())
 		.catch(logFailedFetchFor('fetchPagesInNavHeader'));
+}
+
+export async function fetchCommitteeOffices(fetch_?: typeof fetch): Promise<Office[] | null> {
+	return (fetch_ || fetch)(env.CMS_PROTO + env.CMS_HOST + env.CMS_GET_OFFICES, { headers })
+		.then(checkResponse)
+		.then((r) => r.json())
+		.catch(logFailedFetchFor('fetchCommitteeOffices'));
 }

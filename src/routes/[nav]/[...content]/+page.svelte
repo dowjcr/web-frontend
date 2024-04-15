@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { extractH1AndContent } from '$lib';
+	import { extractH1AndContent, initialsFromName } from '$lib';
 	import type { PageData } from './$types';
 	export let data: PageData;
 	import { TableOfContents, tocCrawler, Avatar } from '@skeletonlabs/skeleton';
+	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
 
 	$: ({ h1Content, restContent } = extractH1AndContent(data.html));
 	$: pageTitle = h1Content || data.title;
@@ -37,19 +38,22 @@
 				<h1>{pageTitle}</h1>
 			</div>
 			<div class="w-full bg-transparent flex">
-				<Avatar
-					width="h-12 my-auto"
-					rounded="rounded-full"
-					initials={data.lastEditedByNames
-						?.split(' ')
-						.map((word) => word.charAt(0).toUpperCase())
-						.join('')}
-				/>
+				<div class="flex items-center">
+					<OfficePopup committeeTitle={data.lastEditedByTitle}>
+						<Avatar
+							width="h-12 my-auto"
+							rounded="rounded-full"
+							initials={initialsFromName(data.lastEditedByNames || '')}
+						/>
+					</OfficePopup>
+				</div>
 				<div class="grow flex flex-col justify-center items-start p-4">
-					<p class="text-sm">
-						<span class="font-bold">{data.lastEditedByNames}</span>
-						· {data.lastEditedByTitle}
-					</p>
+					<OfficePopup committeeTitle={data.lastEditedByTitle} anchorClass="hover:underline">
+						<p class="text-sm">
+							<span class="font-bold">{data.lastEditedByNames}</span>
+							· {data.lastEditedByTitle}
+						</p>
+					</OfficePopup>
 					<p class="text-sm">Updated at <span class="font-bold">{data.lastEditedAt}</span></p>
 				</div>
 			</div>
