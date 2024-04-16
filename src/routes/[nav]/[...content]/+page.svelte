@@ -18,7 +18,6 @@
 	<div class="lg:grid lg:grid-cols-4">
 		<article
 			id="top"
-			use:tocCrawler={{ mode: 'generate', key: data.html, scrollTarget: '#page' }}
 			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
 		>
 			<ol class="breadcrumb">
@@ -58,7 +57,7 @@
 				</div>
 			</div>
 			<div
-				id="top"
+				use:tocCrawler={{ mode: 'generate', key: data.html, scrollTarget: '#page' }}
 				class="!slashed-zero tabular-nums prose md:prose-lg lg:prose-xl text-left !text-pretty"
 			>
 				{@html restContent}
