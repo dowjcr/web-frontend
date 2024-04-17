@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { extractH1AndContent } from '$lib';
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { extractH1AndContent, makeSubtitle } from '$lib';
 	import type { PageData } from './$types';
+	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
+	import AvatarIcon from '$lib/components/AvatarIcon.svelte';
+	import AuthorCard from '$lib/components/AuthorCard.svelte';
 	export let data: PageData;
 
 	$: ({ h1Content, restContent } = extractH1AndContent(data.committeePage?.html || ''));
@@ -21,51 +23,58 @@
 		>
 			{pageTitle}
 		</h1>
-		<div class="w-full bg-transparent flex">
-			<Avatar
-				width="h-12 my-auto"
-				rounded="rounded-full"
-				initials={data.committeePage?.lastEditedByNames
-					?.split(' ')
-					.map((word) => word.charAt(0).toUpperCase())
-					.join('')}
-			/>
-			<div class="grow flex flex-col justify-center items-start p-4">
-				<p class="text-sm">
-					<span class="font-bold">{data.committeePage?.lastEditedByNames}</span>
-					· {data.committeePage?.lastEditedByTitle}
-				</p>
-				<p class="text-sm">
-					Updated at <span class="font-bold">{data.committeePage?.lastEditedAt}</span>
-				</p>
+		{#if data.committeePage}
+			<div class="w-full bg-transparent pt-2 pb-8">
+				<AuthorCard
+					officeTitle={data.committeePage.lastEditedByTitle}
+					authorNames={data.committeePage.lastEditedByNames}
+					timestamp={data.committeePage.lastEditedAt}
+				/>
 			</div>
-		</div>
+		{/if}
 		<div class="text-left prose md:prose-lg lg:prose-xl !text-pretty">
 			{@html restContent}
 		</div>
 	</div>
-	<div class="hidden lg:block m-auto">
-		<Avatar width="w-64" background="bg-primary-400" rounded="rounded-full" />
-	</div>
+	{#if data.committeePage}
+		<div class="hidden lg:block m-auto">
+			<AvatarIcon officeTitle={data.committeePage.lastEditedByTitle} width="w-64" />
+		</div>
+	{/if}
 </div>
 
-<div class="bg-slate-50 dark:bg-surface-900">
-	<div class="bg-transparent m-auto flex-none p-20 w-[50rem]">
-		{#await data.pages.then((p) => p?.docs) then pages}
-			{#if pages}
-				{#each pages as p (p.path)}
-					{#if p.path !== data.relPath}
-						<a href={p.path}>
-							<div
-								class="card rounded-icon-token my-2 p-5 bg-inherit border-none ring-0 hover:shadow-xl"
-							>
-								<h2 class="font-heading-token font-bold">{p.title}</h2>
-								<p>{p.path}</p>
-							</div>
-						</a>
-					{/if}
-				{/each}
-			{/if}
-		{/await}
-	</div>
+<div
+	class="mx-auto p-4 sm:p-8 md:p-10 bg-slate-50 dark:bg-surface-900 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center md:place-items-center gap-4"
+>
+	{#await data.pages.then((p) => p?.docs) then pages}
+		{#if pages}
+			{#each pages as p (p.path)}
+				{#if p.path !== data.relPath}
+					<!-- md:w-[22rem] lg:w-80 xl:w-96 2xl:w-[27rem] -->
+					<div
+						class="h-full rounded-container-token hover:variant-soft-primary active:variant-ghost-primary"
+					>
+						<a href={p.path} class="size-full">
+							<div class="size-full px-8 py-6 space-y-3">
+								<div>
+									<h1 class="font-heading-token font-bold text-lg">{p.approvedItems.title}</h1>
+									<h2 class="font-heading-token text-base">
+										{makeSubtitle(p.approvedItems.contentHTML)}
+									</h2>
+								</div>
+								<div class="w-full bg-transparent">
+									<AuthorCard
+										officeTitle={p.approvedItems.lastEditedByTitleText}
+										authorNames={p.approvedItems.lastEditedByNames}
+										timestamp={p.approvedItems.lastEditedAt}
+										timeText="Edited at"
+									/>
+								</div>
+							</div></a
+						>
+					</div>
+				{/if}
+			{/each}
+		{/if}
+	{/await}
 </div>

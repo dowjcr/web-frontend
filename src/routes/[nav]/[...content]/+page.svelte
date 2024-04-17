@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { extractH1AndContent, initialsFromName } from '$lib';
+	import { extractH1AndContent, officeStore } from '$lib';
 	import type { PageData } from './$types';
 	export let data: PageData;
-	import { TableOfContents, tocCrawler, Avatar } from '@skeletonlabs/skeleton';
+	import { TableOfContents, tocCrawler } from '@skeletonlabs/skeleton';
 	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
+	import AvatarIcon from '$lib/components/AvatarIcon.svelte';
+	import AuthorCard from '$lib/components/AuthorCard.svelte';
 
 	$: ({ h1Content, restContent } = extractH1AndContent(data.html));
 	$: pageTitle = h1Content || data.title;
@@ -36,25 +38,12 @@
 			<div class="prose lg:prose-xl">
 				<h1>{pageTitle}</h1>
 			</div>
-			<div class="w-full bg-transparent flex">
-				<div class="flex items-center">
-					<OfficePopup committeeTitle={data.lastEditedByTitle}>
-						<Avatar
-							width="h-12 my-auto"
-							rounded="rounded-full"
-							initials={initialsFromName(data.lastEditedByNames || '')}
-						/>
-					</OfficePopup>
-				</div>
-				<div class="grow flex flex-col justify-center items-start p-4">
-					<OfficePopup committeeTitle={data.lastEditedByTitle} anchorClass="hover:underline">
-						<p class="text-sm">
-							<span class="font-bold">{data.lastEditedByNames}</span>
-							· {data.lastEditedByTitle}
-						</p>
-					</OfficePopup>
-					<p class="text-sm">Updated at <span class="font-bold">{data.lastEditedAt}</span></p>
-				</div>
+			<div class="w-full bg-transparent pt-2 pb-8">
+				<AuthorCard
+					officeTitle={data.lastEditedByTitle}
+					authorNames={data.lastEditedByNames}
+					timestamp={data.lastEditedAt}
+				/>
 			</div>
 			<div
 				use:tocCrawler={{ mode: 'generate', key: data.html, scrollTarget: '#page' }}
