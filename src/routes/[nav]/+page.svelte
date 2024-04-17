@@ -53,7 +53,7 @@
 	<div class="bg-transparent m-auto flex-none p-20 w-[50rem]">
 		{#await data.pages.then((p) => p?.docs) then pages}
 			{#if pages}
-				{#each pages as p}
+				{#each pages as p (p.path)}
 					{#if p.path !== data.relPath}
 						<a href={p.path}>
 							<div

@@ -42,7 +42,7 @@
 		</header>
 		{#if searchPages.length > 0}
 			<nav class="list-nav overflow-x-auto max-h-[480px] hide-scrollbar" tabindex="-1">
-				{#each searchPages as p}
+				{#each searchPages as p (p.href)}
 					<ul>
 						<li class="text-lg">
 							<a
