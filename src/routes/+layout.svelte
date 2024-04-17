@@ -7,13 +7,7 @@
 	data.searchIndex.then(searchStore.set);
 
 	import { isMacOs, navStore, headerPathFromName, officeStore } from '$lib';
-	const headingOrder = $navStore.map((x) => x.header);
-	data.topLevelNavItems
-		.then((x) => x?.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header)))
-		.then((x) => {
-			if (x) navStore.set(x);
-		});
-
+	data.topLevelNavItems.then((x) => x && navStore.set(x));
 	data.committeeOffices.then((x) => x && officeStore.set(x));
 
 	import '../app.postcss';
