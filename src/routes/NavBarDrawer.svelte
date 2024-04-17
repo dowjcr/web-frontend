@@ -43,7 +43,11 @@
 					><ol>
 						{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
 							<li class="w-full group">
-								<a href={`/news/${$newsStore.length - idx}`} class="size-full">
+								<a
+									on:click={drawerStore.close}
+									href={`/news/${$newsStore.length - idx}`}
+									class="size-full"
+								>
 									<div
 										class="size-full rounded-container-token hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
 									>
