@@ -17,7 +17,7 @@ const config = {
 		adapter: adapter(),
 		version: {
 			// https://kit.svelte.dev/docs/configuration#version
-			name: child_process.execSync('git rev-parse HEAD').toString().trim(),
+			//	name: child_process.execSync('git rev-parse HEAD').toString().trim(),
 			pollInterval: 10 * 1000
 		}
 	}

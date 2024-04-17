@@ -22,13 +22,22 @@
 			{pageTitle}
 		</h1>
 		<div class="w-full bg-transparent flex">
-			<Avatar width="h-12 my-auto" rounded="rounded-full" initials="TM" />
+			<Avatar
+				width="h-12 my-auto"
+				rounded="rounded-full"
+				initials={data.committeePage?.lastEditedByNames
+					?.split(' ')
+					.map((word) => word.charAt(0).toUpperCase())
+					.join('')}
+			/>
 			<div class="grow flex flex-col justify-center items-start p-4">
 				<p class="text-sm">
-					<span class="font-bold">Tomas Mils</span>
-					· Internet Officer
+					<span class="font-bold">{data.committeePage?.lastEditedByNames}</span>
+					· {data.committeePage?.lastEditedByTitle}
 				</p>
-				<p class="text-sm">Published on <span class="font-bold">2024-01-01</span></p>
+				<p class="text-sm">
+					Updated at <span class="font-bold">{data.committeePage?.lastEditedAt}</span>
+				</p>
 			</div>
 		</div>
 		<div class="text-left prose md:prose-lg lg:prose-xl !text-pretty">
@@ -44,7 +53,7 @@
 	<div class="bg-transparent m-auto flex-none p-20 w-[50rem]">
 		{#await data.pages.then((p) => p?.docs) then pages}
 			{#if pages}
-				{#each pages as p}
+				{#each pages as p (p.path)}
 					{#if p.path !== data.relPath}
 						<a href={p.path}>
 							<div

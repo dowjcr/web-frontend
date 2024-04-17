@@ -24,15 +24,15 @@
 			<i class="ml-0 fa-solid fa-caret-down opacity-50" />
 		{/if}
 	</a>
+</div>
 
-	<!-- https://www.skeleton.dev/utilities/popups#avoiding-style-conflicts -->
-	<div data-popup={popupHover.target}>
-		<slot>
-			<div class="card w-60 p-4">
-				<p>Hover Content</p>
-			</div>
-		</slot>
-	</div>
+<!-- https://www.skeleton.dev/utilities/popups#avoiding-style-conflicts -->
+<div data-popup={popupHover.target}>
+	<slot>
+		<div class="card w-60 p-4">
+			<p>Hover Content</p>
+		</div>
+	</slot>
 </div>
 
 <style>

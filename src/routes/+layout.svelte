@@ -6,8 +6,9 @@
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	import { isMacOs, navStore, headerPathFromName } from '$lib';
+	import { isMacOs, navStore, headerPathFromName, officeStore } from '$lib';
 	data.topLevelNavItems.then((x) => x && navStore.set(x));
+	data.committeeOffices.then((x) => x && officeStore.set(x));
 
 	import '../app.postcss';
 	import '@fortawesome/fontawesome-free/css/fontawesome.css';
@@ -21,7 +22,8 @@
 		initializeStores,
 		getDrawerStore,
 		getModalStore,
-		setInitialClassState
+		setInitialClassState,
+		Toast
 	} from '@skeletonlabs/skeleton';
 	import { storePopup } from '$lib/components/Popup';
 	initializeStores();
@@ -72,8 +74,10 @@
 <!-- Use stopPropagation to override Chrome for Windows search shortcut -->
 <svelte:window on:keydown|stopPropagation={onWindowKeydown} />
 <Modal components={modalRegistry} />
+<Toast />
 <NavBarDrawer />
 <AppShell
+	regionPage="scroll-smooth"
 	shadow="shadow-2xl"
 	slotTrail="!space-x-2"
 	slotSidebarLeft="bg-surface-50 dark:bg-surface-900 {$page.url.pathname === '/'
@@ -113,14 +117,14 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
-					{#each $navStore as item}
+					{#each $navStore as item (item.header)}
 						<NavBarDropdown href={headerPathFromName(item.header)} text={item.header}>
 							<nav
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>
 								<ul>
 									{#if item.navItems}
-										{#each item.navItems as subItem}
+										{#each item.navItems as subItem (subItem.path)}
 											<li>
 												<a
 													href={subItem.path}
