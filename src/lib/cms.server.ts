@@ -4,7 +4,8 @@ import type {
 	GetPages,
 	Office,
 	PageResponse,
-	ReturnNavBar
+	ReturnNavBar,
+	ReturnNewsItem
 } from './cms.types';
 const headers = { Authorization: env.CMS_AUTH };
 
@@ -93,4 +94,13 @@ export async function fetchCommitteeOffices(fetch_?: typeof fetch): Promise<Offi
 		.then(checkResponse)
 		.then((r) => r.json())
 		.catch(logFailedFetchFor('fetchCommitteeOffices'));
+}
+
+export async function fetchAllNews(fetch_?: typeof fetch): Promise<ReturnNewsItem[] | null> {
+	return (fetch_ || fetch)(env.CMS_PROTO + env.CMS_HOST + env.CMS_GET_ALL_NEWS, {
+		headers
+	})
+		.then(checkResponse)
+		.then((r) => r.json())
+		.catch(logFailedFetchFor('fetchAllNews'));
 }

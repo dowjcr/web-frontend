@@ -6,7 +6,8 @@
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	import { isMacOs, navStore, headerPathFromName, officeStore } from '$lib';
+	import { isMacOs, newsStore, navStore, headerPathFromName, officeStore } from '$lib';
+	data.allNews.then((x) => x && newsStore.set(x));
 	data.topLevelNavItems.then((x) => x && navStore.set(x));
 	data.committeeOffices.then((x) => x && officeStore.set(x));
 
@@ -118,6 +119,38 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
+					<NavBarDropdown href="/news" text="News">
+						{#if $newsStore}
+							<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
+								<div class="px-4 pt-3 pb-1">
+									<a href="/news">
+										<h1 class="font-heading-token text-md font-bold text-primary-900">
+											Latest news
+										</h1>
+									</a>
+								</div>
+								<ol>
+									{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
+										<li class="w-full group">
+											<a href={`/news/${$newsStore.length - idx}`} class="size-full">
+												<div
+													class="size-full hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
+												>
+													<h2 class="font-heading-token text-md">{newsItem.title}</h2>
+													<h3 class="text-xs">
+														By <span class="font-bold">{newsItem.lastEditedByNames}</span> · {newsItem.lastEditedByTitle}
+													</h3>
+												</div>
+											</a>
+										</li>
+									{/each}
+								</ol>
+							</nav>
+						{/if}
+					</NavBarDropdown>
+					<div
+						class="hidden lg:inline-block divider-vertical !border-t-2 h-10 border-slate-500 opacity-50"
+					/>
 					{#each $navStore as item (item.header)}
 						<NavBarDropdown href={headerPathFromName(item.header)} text={item.header}>
 							<nav

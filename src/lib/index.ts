@@ -1,11 +1,12 @@
 import type { Writable } from 'svelte/store';
 import { localStorageStore } from '@skeletonlabs/skeleton';
-import type { ReturnNavBar, Office } from '$lib/cms.types';
+import type { ReturnNavHeader, ReturnNewsItem, Office } from '$lib/cms.types';
 import { browser } from '$app/environment';
 
 export let isMacOs = browser && navigator.userAgent.search('Mac') !== -1;
 
-export const navStore: Writable<ReturnNavBar> = localStorageStore('navStore', [
+export const newsStore: Writable<ReturnNewsItem[]> = localStorageStore('newsStore', []);
+export const navStore: Writable<ReturnNavHeader[]> = localStorageStore('navStore', [
 	{ header: 'News', navitems: [] },
 	{ header: 'Welfare', navitems: [] },
 	{ header: 'Services', navitems: [] },
@@ -41,4 +42,17 @@ export function initialsFromName(name: string): string {
 		.map((word) => word[0])
 		.join('')
 		.toUpperCase();
+}
+
+/**
+ * Extracts and truncates the content of the first paragraph from an HTML string.
+ * @param {string} html - The HTML string to extract the first paragraph from.
+ * @returns {string | null} The truncated content of the first paragraph or null if no paragraph is found.
+ */
+export function makeSubtitle(html: string): string | null {
+	const firstParagraph = /<p[^>]*>(?<firstP>.*?)<\/p>/gi.exec(html)?.groups?.firstP?.trim();
+	if (!firstParagraph) {
+		return null;
+	}
+	return firstParagraph.length > 100 ? firstParagraph.slice(0, 100).trim() + '...' : firstParagraph;
 }
