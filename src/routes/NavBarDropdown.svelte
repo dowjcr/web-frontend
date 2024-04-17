@@ -12,7 +12,7 @@
 	};
 </script>
 
-<div class="relative hidden lg:block">
+<div class="relative hidden sm:block">
 	<a
 		{href}
 		rel="noreferrer"

@@ -23,6 +23,7 @@
 		getDrawerStore,
 		getModalStore,
 		setInitialClassState,
+		LightSwitch,
 		Toast
 	} from '@skeletonlabs/skeleton';
 	import { storePopup } from '$lib/components/Popup';
@@ -143,12 +144,12 @@
 						</NavBarDropdown>
 					{/each}
 					<!-- {/await} -->
-					<div class="md:inline mx-4">
+					<div class="md:inline md:mx-4">
 						<button
 							on:click={openSearchModal}
-							class="btn space-x-4 variant-soft hover:variant-soft-primary dark:hover:variant-soft-surface"
+							class="btn space-x-4 md:variant-soft hover:variant-soft-primary dark:hover:variant-soft-surface"
 						>
-							<i class="fa-solid fa-magnifying-glass text-sm" />
+							<i class="fa-solid fa-magnifying-glass md:text-sm" />
 							<small class="hidden md:inline-block font-mono font-bold"
 								>{isMacOs ? '⌘' : 'Ctrl'}+K</small
 							>
@@ -156,10 +157,13 @@
 					</div>
 					<button
 						on:click={openDrawer}
-						class="hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
+						class="md:hidden hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
 					>
 						<i class="fa-solid fa-bars text-xl" />
 					</button>
+					<div class="px-2 hidden md:inline-block">
+						<LightSwitch class="bg-opacity-0" />
+					</div>
 				</div>
 			</svelte:fragment>
 		</AppBar>
