@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { extractH1AndContent, officeStore } from '$lib';
+	import { extractH1AndContent } from '$lib';
 	import type { PageData } from './$types';
 	export let data: PageData;
 	import { TableOfContents, tocCrawler } from '@skeletonlabs/skeleton';
-	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
-	import AvatarIcon from '$lib/components/AvatarIcon.svelte';
 	import AuthorCard from '$lib/components/AuthorCard.svelte';
 
 	$: ({ h1Content, restContent } = extractH1AndContent(data.html));
