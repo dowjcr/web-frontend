@@ -40,7 +40,7 @@
 		<div class="arrow bg-slate-50 dark:bg-surface-800" />
 		<slot name="hover-content">
 			<div
-				class="card space-y-2 p-3 shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
+				class="card space-y-2 p-3 shadow-lg rounded-lg w-fit overflow-hidden bg-slate-50 dark:bg-surface-800"
 			>
 				{#if office.officers}
 					<header class="card-header !p-0">
@@ -90,6 +90,7 @@
 						on:click={() => toastStore.trigger(emailToast)}
 					>
 						<i class="group-hover:animate-bounce fa-regular fa-envelope"></i>
+						<span>{office.email}</span>
 					</button>
 				</footer>
 			</div>
