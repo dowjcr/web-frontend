@@ -2,6 +2,7 @@ import type { Writable } from 'svelte/store';
 import { localStorageStore } from '@skeletonlabs/skeleton';
 import type { ReturnNavHeader, ReturnNewsItem, Office } from '$lib/cms.types';
 import { browser } from '$app/environment';
+import { DateTime } from 'luxon';
 
 export let isMacOs = browser && navigator.userAgent.search('Mac') !== -1;
 
@@ -55,4 +56,12 @@ export function makeSubtitle(html: string): string | null {
 		return null;
 	}
 	return firstParagraph.length > 100 ? firstParagraph.slice(0, 100).trim() + '...' : firstParagraph;
+}
+
+const authorTimestampFormat = "HH:mm EEE d MMMM yyyy"
+
+export function formatAuthorTimestamp(timestamp: string): string {
+	return DateTime.fromISO(
+		timestamp, { zone: 'Europe/London'}
+	).toFormat(authorTimestampFormat);
 }

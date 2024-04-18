@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatAuthorTimestamp } from '$lib/index';
 	import AvatarIcon from './AvatarIcon.svelte';
 	import OfficePopup from './Popup/officePopup.svelte';
 
@@ -20,7 +21,7 @@
 			</p>
 		</OfficePopup>
 		<p class="text-sm">
-			{timeText} <span class="font-bold">{timestamp}</span>
+			{timeText} <span class="font-bold">{formatAuthorTimestamp(timestamp)}</span>
 		</p>
 	</div>
 </div>
