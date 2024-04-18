@@ -69,6 +69,10 @@
 									</div>
 								</a>
 							</li>
+						{:else}
+							<li class="px-2">
+								<h2 class="font-token text-md">No news yet</h2>
+							</li>
 						{/each}
 					</ol></svelte:fragment
 				>
