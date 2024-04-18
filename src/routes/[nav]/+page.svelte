@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { extractH1AndContent, makeSubtitle } from '$lib';
+	import { extractH1AndContent, makeSubtitle, navStore } from '$lib';
 	import type { PageData } from './$types';
-	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
 	import AvatarIcon from '$lib/components/AvatarIcon.svelte';
 	import AuthorCard from '$lib/components/AuthorCard.svelte';
 	export let data: PageData;
@@ -46,35 +45,33 @@
 <div
 	class="mx-auto p-4 sm:p-8 md:p-10 bg-slate-50 dark:bg-surface-900 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center md:place-items-center gap-4"
 >
-	{#await data.pages.then((p) => p?.docs) then pages}
-		{#if pages}
-			{#each pages as p (p.path)}
-				{#if p.path !== data.relPath}
-					<!-- md:w-[22rem] lg:w-80 xl:w-96 2xl:w-[27rem] -->
-					<div
-						class="h-full rounded-container-token hover:variant-soft-primary active:variant-ghost-primary"
+	{#await data.pages then pages}
+		{#each pages || [] as p (p.path)}
+			{#if p.path !== data.relPath}
+				<!-- md:w-[22rem] lg:w-80 xl:w-96 2xl:w-[27rem] -->
+				<div
+					class="h-full rounded-container-token hover:variant-soft-primary active:variant-ghost-primary"
+				>
+					<a href={p.fullPath} class="size-full">
+						<div class="size-full px-8 py-6 space-y-3">
+							<div>
+								<h1 class="font-heading-token font-bold text-lg">{p.title}</h1>
+								<h2 class="font-heading-token text-base">
+									{makeSubtitle(p.html)}
+								</h2>
+							</div>
+							<div class="w-full bg-transparent">
+								<AuthorCard
+									officeTitle={p.lastEditedByTitle}
+									authorNames={p.lastEditedByNames}
+									timestamp={p.lastEditedAt}
+									timeText="Edited at"
+								/>
+							</div>
+						</div></a
 					>
-						<a href={p.path} class="size-full">
-							<div class="size-full px-8 py-6 space-y-3">
-								<div>
-									<h1 class="font-heading-token font-bold text-lg">{p.approvedItems.title}</h1>
-									<h2 class="font-heading-token text-base">
-										{makeSubtitle(p.approvedItems.contentHTML)}
-									</h2>
-								</div>
-								<div class="w-full bg-transparent">
-									<AuthorCard
-										officeTitle={p.approvedItems.lastEditedByTitleText}
-										authorNames={p.approvedItems.lastEditedByNames}
-										timestamp={p.approvedItems.lastEditedAt}
-										timeText="Edited at"
-									/>
-								</div>
-							</div></a
-						>
-					</div>
-				{/if}
-			{/each}
-		{/if}
+				</div>
+			{/if}
+		{/each}
 	{/await}
 </div>

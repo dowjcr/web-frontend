@@ -1,12 +1,6 @@
 import { env } from '$env/dynamic/private';
-import type {
-	CommitteePageQueryResponse,
-	GetPages,
-	Office,
-	PageResponse,
-	ReturnNavBar,
-	ReturnNewsItem
-} from './cms.types';
+import type { GetPages, Office, PageResponse, ReturnNavBar, ReturnNewsItem } from './cms.types';
+env.CMS_AUTH = 'users API-Key 160c6b51-3d68-4eb7-b3fe-5e824c4b4d77';
 const headers = { Authorization: env.CMS_AUTH };
 
 for (const key in env) {
@@ -31,7 +25,7 @@ function checkResponse(res: Response) {
 
 function logFailedFetchFor(name: string) {
 	return (reason: any): null => {
-		console.error(name, 'failed to fetch from CMS:', reason);
+		console.error(name, 'failed to fetch from CMS:', reason, '\nusing headers: ', headers);
 		return null;
 	};
 }
@@ -67,28 +61,6 @@ export async function queryNavBar(fetch_?: typeof fetch): Promise<ReturnNavBar |
 		.catch(logFailedFetchFor('queryNavBar'));
 }
 
-// TODO: make CMS endpoint to replace this
-export async function fetchPagesInNavHeader(
-	headerSlug: string,
-	fetch_?: typeof fetch
-): Promise<CommitteePageQueryResponse | null> {
-	return (fetch_ || fetch)(
-		env.CMS_PROTO +
-			env.CMS_HOST +
-			'/api/' +
-			env.CMS_MAIN_COLLECTION +
-			'?where[path][contains]=' +
-			encodeURIComponent(headerSlug) +
-			'&&where[approved][equals]=true&&sort=-createdAt&&limit=99',
-		{
-			headers
-		}
-	)
-		.then(checkResponse)
-		.then((r) => r.json())
-		.catch(logFailedFetchFor('fetchPagesInNavHeader'));
-}
-
 export async function fetchCommitteeOffices(fetch_?: typeof fetch): Promise<Office[] | null> {
 	return (fetch_ || fetch)(env.CMS_PROTO + env.CMS_HOST + env.CMS_GET_OFFICES, { headers })
 		.then(checkResponse)
@@ -103,4 +75,17 @@ export async function fetchAllNews(fetch_?: typeof fetch): Promise<ReturnNewsIte
 		.then(checkResponse)
 		.then((r) => r.json())
 		.catch(logFailedFetchFor('fetchAllNews'));
+}
+
+export async function fetchByCategory(
+	category: string,
+	fetch_?: typeof fetch
+): Promise<GetPages | null> {
+	return (fetch_ || fetch)(
+		env.CMS_PROTO + env.CMS_HOST + env.CMS_GET_BY_CATEGORY + '/' + encodeURIComponent(category),
+		{ headers }
+	)
+		.then(checkResponse)
+		.then((r) => r.json())
+		.catch(logFailedFetchFor('fetchByCategory'));
 }
