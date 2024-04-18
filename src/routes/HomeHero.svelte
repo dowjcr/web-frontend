@@ -7,7 +7,7 @@
 <div class="bg-slate-50 dark:bg-surface-800 w-full h-screen box-border relative">
 	<div class="h-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 items-center">
 		<div
-			class="p-10 md:pr-10 lg:ml-auto my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4"
+				class="p-10 md:pr-10 lg:ml-auto my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4 z-10"
 		>
 			<h1 class="h1 !text-5xl lg:!text-6xl max-w-[600px] dark:font-bold">
 				Bleeding <span
@@ -28,7 +28,7 @@
 					<span>To the Domus</span>
 					<i class="fa-solid fa-arrow-right-long" />
 				</a>
-				<a href="/about" class="btn variant-soft-primary dark:variant-ghost-surface">Learn More</a>
+				<a href="/about" class="btn variant-filled-primary dark:variant-ghost-surface">Learn More</a>
 			</div>
 		</div>
 		<div class="hidden dark:inline-flex items-center justify-center">
@@ -51,12 +51,10 @@
 		</div>
 	</div>
 
-	<div class="hidden md:inline-block dark:hidden">
+	<div class="block h-full md:inline-block dark:hidden z-0">
 		<svg
-			class="bigSvgStyled absolute right-0 bottom-0 fill-primary-900"
+			class="bigSvgStyled w-full md:h-auto md:w-[min(55vw,100vh)] absolute left-0 md:left-auto right-0 bottom-0 fill-primary-900/10 md:fill-primary-900 z-0"
 			viewBox="0 0 1200 1200"
-			width={innerWidth * 0.55}
-			height={innerWidth * 0.55}
 		>
 			<use xlink:href="/favicon.svg#logoInverted" />
 		</svg>
