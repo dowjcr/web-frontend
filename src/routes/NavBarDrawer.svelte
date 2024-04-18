@@ -6,7 +6,7 @@
 		Drawer,
 		LightSwitch
 	} from '@skeletonlabs/skeleton';
-	import { headerPathFromName, navStore } from '$lib';
+	import { headerPathFromName, navStore, newsStore } from '$lib';
 	const drawerStore = getDrawerStore();
 </script>
 
@@ -39,7 +39,31 @@
 						</a>
 					</div>
 				</svelte:fragment>
-				<svelte:fragment slot="content">Currently no news to show</svelte:fragment>
+				<svelte:fragment slot="content"
+					><ol>
+						{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
+							<li class="w-full group">
+								<a
+									on:click={drawerStore.close}
+									href={`/news/${$newsStore.length - idx}`}
+									class="size-full"
+								>
+									<div
+										class="size-full rounded-container-token hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
+									>
+										<h2 class="font-heading-token text-md">{newsItem.title}</h2>
+										<h3 class="text-xs">
+											By <span class="font-bold"
+												>{newsItem.lastEditedByNames || 'Unknown author'}</span
+											>
+											· {newsItem.lastEditedByTitle}
+										</h3>
+									</div>
+								</a>
+							</li>
+						{/each}
+					</ol></svelte:fragment
+				>
 			</AccordionItem>
 			{#each $navStore as item (item.header)}
 				<AccordionItem>
