@@ -59,25 +59,24 @@ export function makeSubtitle(html: string): string | null {
 		: firstParagraph;
 }
 
-function numberToOrdinal(i) {
-    let j = i % 10,
-        k = i % 100;
-    if (j === 1 && k !== 11) {
-        return i + "st";
-    }
-    if (j === 2 && k !== 12) {
-        return i + "nd";
-    }
-    if (j === 3 && k !== 13) {
-        return i + "rd";
-    }
-    return i + "th";
+function numberToOrdinal(i: number) {
+	const j = i % 10,
+		k = i % 100;
+	if (j === 1 && k !== 11) {
+		return i + 'st';
+	}
+	if (j === 2 && k !== 12) {
+		return i + 'nd';
+	}
+	if (j === 3 && k !== 13) {
+		return i + 'rd';
+	}
+	return i + 'th';
 }
 
-const authorTimestampFormat = "HH:mm EEE" + numberToOrdinal(d) + " MMMM yyyy"
-
 export function formatAuthorTimestamp(timestamp: string): string {
-	return DateTime.fromISO(
-		timestamp, { zone: 'Europe/London'}
-	).toFormat(authorTimestampFormat);
+	const timestampDateTime = DateTime.fromISO(timestamp, { zone: 'Europe/London' });
+	console.log(numberToOrdinal(timestampDateTime.day));
+	const authorTimestampFormat = "EEE '" + numberToOrdinal(timestampDateTime.day) + "' MMMM yyyy";
+	return timestampDateTime.toFormat(authorTimestampFormat);
 }

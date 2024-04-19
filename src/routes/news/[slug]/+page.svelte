@@ -42,7 +42,7 @@
 					officeTitle={content.lastEditedByTitle}
 					authorNames={content.lastEditedByNames}
 					timestamp={content.publishedAt}
-					timeText="Published at"
+					timeText="Published on"
 				/>
 			</div>
 			<div class="!slashed-zero tabular-nums prose md:prose-lg lg:prose-xl text-left !text-pretty">

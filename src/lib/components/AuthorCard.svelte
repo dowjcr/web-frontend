@@ -6,7 +6,7 @@
 	export let officeTitle: string;
 	export let authorNames: string | undefined = 'Unknown author';
 	export let timestamp: string;
-	export let timeText: string = 'Edited at';
+	export let timeText: string = 'Edited on';
 </script>
 
 <div class="flex space-x-4 text-token">

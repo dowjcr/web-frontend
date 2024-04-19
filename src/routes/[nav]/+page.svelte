@@ -65,7 +65,7 @@
 									officeTitle={p.lastEditedByTitle}
 									authorNames={p.lastEditedByNames}
 									timestamp={p.lastEditedAt}
-									timeText="Edited at"
+									timeText="Edited on"
 								/>
 							</div>
 						</div></a
