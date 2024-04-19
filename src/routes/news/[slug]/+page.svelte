@@ -4,10 +4,10 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 
-	$: content = $newsStore[$newsStore.length - parseInt(data.slug)];
+	$: content = $newsStore[$newsStore.length - data.newsIndex];
 	$: ({ h1Content, restContent } = extractH1AndContent(content.html));
 	$: pageTitle = h1Content || content.title;
-	$: breadcrumbs = ['News', data.slug];
+	$: breadcrumbs = ['News', `${data.newsIndex}`];
 </script>
 
 <svelte:head>
