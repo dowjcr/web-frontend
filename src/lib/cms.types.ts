@@ -1,52 +1,6 @@
-export interface CommitteePage {
-	id: string;
-	approved: boolean;
-	readyforapproval: boolean;
-	lastEditedBy: {
-		id: string;
-		committee_information: object;
-		email: string;
-		createdAt: string;
-		updatedAt: string;
-		committeePageApprover: boolean;
-	};
-	title: string;
-	path: string;
-	content: object;
-	category: {
-		id: string;
-		category: string;
-		createdAt: string;
-		updatedAt: string;
-	};
-	createdAt: string;
-	updatedAt: string;
-	approvedItems: {
-		path: string;
-		title: string;
-		lastEditedBy: string;
-		lastEditedByTitleText: string;
-		lastEditedByNames?: string;
-		lastEditedAt: string;
-		acontent: object;
-		contentHTML: string;
-	};
-}
-
-export interface CommitteePageQueryResponse {
-	docs: CommitteePage[];
-	totalDocs: number;
-	limit: number;
-	totalPages: number;
-	page: number;
-	pagingCounter: number;
-	hasPrevPage: boolean;
-	hasNextPage: boolean;
-	prevPage?: number | null;
-	nextPage?: number | null;
-}
 export interface PageResponse {
 	path: string;
+	fullPath: string;
 	title: string;
 	html: string;
 	lastEditedBy: string;

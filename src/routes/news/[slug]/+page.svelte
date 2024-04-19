@@ -1,15 +1,10 @@
 <script lang="ts">
-	import { newsStore, officeStore } from '$lib';
+	import { newsStore, extractH1AndContent } from '$lib';
+	import AuthorCard from '$lib/components/AuthorCard.svelte';
 	import type { PageData } from './$types';
 	export let data: PageData;
+
 	$: content = $newsStore[$newsStore.length - parseInt(data.slug)];
-
-	import { extractH1AndContent, initialsFromName } from '$lib';
-	import { Avatar } from '@skeletonlabs/skeleton';
-	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
-	import AvatarIcon from '$lib/components/AvatarIcon.svelte';
-	import AuthorCard from '$lib/components/AuthorCard.svelte';
-
 	$: ({ h1Content, restContent } = extractH1AndContent(content.html));
 	$: pageTitle = h1Content || content.title;
 	$: breadcrumbs = ['News', data.slug];
@@ -26,6 +21,7 @@
 			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
 		>
 			<ol class="breadcrumb">
+				<li class="crumb-separator" aria-hidden>/</li>
 				{#each breadcrumbs as crumb, index (crumb)}
 					<li class="crumb">
 						<a

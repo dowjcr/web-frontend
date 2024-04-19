@@ -8,10 +8,9 @@ export let isMacOs = browser && navigator.userAgent.search('Mac') !== -1;
 
 export const newsStore: Writable<ReturnNewsItem[]> = localStorageStore('newsStore', []);
 export const navStore: Writable<ReturnNavHeader[]> = localStorageStore('navStore', [
-	{ header: 'News', navitems: [] },
-	{ header: 'Welfare', navitems: [] },
-	{ header: 'Services', navitems: [] },
-	{ header: 'About', navitems: [] }
+	{ header: 'Welfare' },
+	{ header: 'Services' },
+	{ header: 'About' }
 ]);
 
 export const officeStore: Writable<Office[]> = localStorageStore('officeStore', [
@@ -55,7 +54,9 @@ export function makeSubtitle(html: string): string | null {
 	if (!firstParagraph) {
 		return null;
 	}
-	return firstParagraph.length > 100 ? firstParagraph.slice(0, 100).trim() + '...' : firstParagraph;
+	return firstParagraph.length > 100
+		? stripHtmlTags(firstParagraph).slice(0, 100).trim() + '...'
+		: firstParagraph;
 }
 
 const authorTimestampFormat = "HH:mm EEE d MMMM yyyy"
