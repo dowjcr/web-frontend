@@ -8,7 +8,7 @@
 	export let officeTitle: string | undefined = undefined;
 	export let width: string;
 
-	$: office = office || $officeStore.find((o) => o.title === officeTitle);
+	$: office = $officeStore.find((o) => o.title === officeTitle) || office;
 </script>
 
 {#if office}
