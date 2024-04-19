@@ -8,21 +8,28 @@ export interface CommitteePage {
 		email: string;
 		createdAt: string;
 		updatedAt: string;
+		committeePageApprover: boolean;
 	};
 	title: string;
 	path: string;
 	content: object;
-	category: string;
+	category: {
+		id: string;
+		category: string;
+		createdAt: string;
+		updatedAt: string;
+	};
 	createdAt: string;
 	updatedAt: string;
-	approveditems: {
+	approvedItems: {
 		path: string;
 		title: string;
 		lastEditedBy: string;
-		lastEditedByOfficeText: string;
+		lastEditedByTitleText: string;
+		lastEditedByNames?: string;
 		lastEditedAt: string;
 		acontent: object;
-		content_html: string;
+		contentHTML: string;
 	};
 }
 

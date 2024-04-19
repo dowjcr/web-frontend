@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { newsStore, makeSubtitle, initialsFromName } from '$lib';
-	import { Avatar } from '@skeletonlabs/skeleton';
-	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
+	import { newsStore, makeSubtitle } from '$lib';
+	import AuthorCard from '$lib/components/AuthorCard.svelte';
 </script>
 
 <svelte:head>
@@ -21,45 +20,35 @@
 </div>
 
 <div
-	class="mx-auto p-4 md:p-8 lg:p-10 bg-slate-50 dark:bg-surface-900 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center md:place-items-center gap-4"
+	class="mx-auto p-4 sm:p-8 md:p-10 bg-slate-50 dark:bg-surface-900 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center md:place-items-center gap-4"
 >
 	{#each $newsStore as newsItem, idx (newsItem.publishedAt)}
+		<!-- md:w-[22rem] lg:w-80 xl:w-96 2xl:w-[27rem]  -->
 		<div
-			class="lg:w-80 xl:w-96 h-full rounded-container-token hover:bg-primary-hover active:variant-soft-primary"
+			class="h-full rounded-container-token hover:variant-soft-primary active:variant-ghost-primary"
 		>
 			<a href={`/news/${$newsStore.length - idx}`} class="size-full">
-				<div class="size-full px-4 py-3 group-last:pb-4">
-					<!-- <div class="md:h-28"> -->
-					<h1 class="font-heading-token font-bold text-lg">{newsItem.title}</h1>
-					<h2 class="font-heading-token text-base">{makeSubtitle(newsItem.html)}</h2>
-					<!-- </div> -->
-					<div class="w-full bg-transparent flex">
-						<div class="flex items-center">
-							<OfficePopup committeeTitle={newsItem.lastEditedByTitle}>
-								<Avatar
-									width="h-12 my-auto"
-									rounded="rounded-full"
-									initials={initialsFromName(newsItem.lastEditedByNames || '')}
-								/>
-							</OfficePopup>
-						</div>
-						<div class="grow flex flex-col justify-center items-start p-4">
-							<OfficePopup
-								committeeTitle={newsItem.lastEditedByTitle}
-								anchorClass="hover:underline"
-							>
-								<p class="text-sm">
-									<span class="font-bold">{newsItem.lastEditedByNames}</span>
-									· {newsItem.lastEditedByTitle}
-								</p>
-							</OfficePopup>
-							<p class="text-sm">
-								Published at <span class="font-bold">{newsItem.publishedAt}</span>
-							</p>
-						</div>
+				<div class="size-full px-8 py-6 space-y-3">
+					<div>
+						<h1 class="font-heading-token font-bold text-lg">{newsItem.title}</h1>
+						<h2 class="font-heading-token text-base">{makeSubtitle(newsItem.html)}</h2>
+					</div>
+					<div class="w-full bg-transparent">
+						<AuthorCard
+							officeTitle={newsItem.lastEditedByTitle}
+							authorNames={newsItem.lastEditedByNames}
+							timestamp={newsItem.publishedAt}
+							timeText="Published at"
+						/>
 					</div>
 				</div>
 			</a>
 		</div>
 	{/each}
 </div>
+
+<!-- <style>
+	* {
+		border: red 1px solid;
+	}
+</style> -->

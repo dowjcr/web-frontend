@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { newsStore } from '$lib';
+	import { newsStore, officeStore } from '$lib';
 	import type { PageData } from './$types';
 	export let data: PageData;
 	$: content = $newsStore[$newsStore.length - parseInt(data.slug)];
@@ -7,6 +7,8 @@
 	import { extractH1AndContent, initialsFromName } from '$lib';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
+	import AvatarIcon from '$lib/components/AvatarIcon.svelte';
+	import AuthorCard from '$lib/components/AuthorCard.svelte';
 
 	$: ({ h1Content, restContent } = extractH1AndContent(content.html));
 	$: pageTitle = h1Content || content.title;
@@ -39,25 +41,13 @@
 			<div class="prose lg:prose-xl">
 				<h1>{pageTitle}</h1>
 			</div>
-			<div class="w-full bg-transparent flex">
-				<div class="flex items-center">
-					<OfficePopup committeeTitle={content.lastEditedByTitle}>
-						<Avatar
-							width="h-12 my-auto"
-							rounded="rounded-full"
-							initials={initialsFromName(content.lastEditedByNames || '')}
-						/>
-					</OfficePopup>
-				</div>
-				<div class="grow flex flex-col justify-center items-start p-4">
-					<OfficePopup committeeTitle={content.lastEditedByTitle} anchorClass="hover:underline">
-						<p class="text-sm">
-							<span class="font-bold">{content.lastEditedByNames}</span>
-							· {content.lastEditedByTitle}
-						</p>
-					</OfficePopup>
-					<p class="text-sm">Published at <span class="font-bold">{content.publishedAt}</span></p>
-				</div>
+			<div class="w-full bg-transparent pt-2 pb-8">
+				<AuthorCard
+					officeTitle={content.lastEditedByTitle}
+					authorNames={content.lastEditedByNames}
+					timestamp={content.publishedAt}
+					timeText="Published at"
+				/>
 			</div>
 			<div class="!slashed-zero tabular-nums prose md:prose-lg lg:prose-xl text-left !text-pretty">
 				{@html restContent}

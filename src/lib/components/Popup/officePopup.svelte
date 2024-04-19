@@ -3,8 +3,8 @@
 	import { popup, type PopupSettings } from '$lib/components/Popup';
 	import { Avatar, clipboard, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
-	export let committeeTitle = '';
-	export let href = '/about/committee#' + committeeTitle.toLowerCase().replace(/ /g, '-');
+	export let officeTitle = '';
+	export let href = '/about/committee#' + officeTitle.toLowerCase().replace(/ /g, '-');
 	export let target = 'popupHover-' + (Math.random() * 10e15).toString(16);
 	export let anchorClass = '';
 
@@ -15,7 +15,7 @@
 		target,
 		closeQuery: ''
 	};
-	$: office = $officeStore.find((x) => x.title === committeeTitle);
+	$: office = $officeStore.find((x) => x.title === officeTitle);
 	let emailToast: ToastSettings;
 	$: emailToast = {
 		message: `${office?.email || 'Email'} copied to clipboard`,

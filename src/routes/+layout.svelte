@@ -124,7 +124,9 @@
 							<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
 								<div class="px-4 pt-3 pb-1">
 									<a href="/news">
-										<h1 class="font-heading-token text-md font-bold text-primary-900">
+										<h1
+											class="font-heading-token text-md font-bold text-primary-900 dark:text-primary-400"
+										>
 											Latest news
 										</h1>
 									</a>
@@ -138,7 +140,10 @@
 												>
 													<h2 class="font-heading-token text-md">{newsItem.title}</h2>
 													<h3 class="text-xs">
-														By <span class="font-bold">{newsItem.lastEditedByNames}</span> · {newsItem.lastEditedByTitle}
+														By <span class="font-bold"
+															>{newsItem.lastEditedByNames || 'Unknown author'}</span
+														>
+														· {newsItem.lastEditedByTitle}
 													</h3>
 												</div>
 											</a>
