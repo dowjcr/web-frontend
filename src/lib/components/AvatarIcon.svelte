@@ -21,6 +21,7 @@
 					rounded="rounded-full"
 					initials={initialsFromName(o.name).slice(0, 2)}
 				/>
+				<link rel="preload" as="image" href={o.img} />
 			{/each}
 		{:else}
 			<Avatar

@@ -1,4 +1,4 @@
-import type { Writable } from 'svelte/store';
+import { get, type Writable } from 'svelte/store';
 import { localStorageStore } from '@skeletonlabs/skeleton';
 import type { ReturnNavHeader, ReturnNewsItem, Office } from '$lib/cms.types';
 import { browser } from '$app/environment';
@@ -16,6 +16,26 @@ export const officeStore: Writable<Office[]> = localStorageStore('officeStore', 
 	{ title: 'President', email: 'president@jcr.dow.cam.ac.uk' },
 	{ title: 'Internet Officer', email: 'internet@jcr.dow.cam.ac.uk' }
 ]);
+
+export const preloadOfficerAvatar = (officeTitle: string): void => {
+	console.assert(
+		typeof document !== 'undefined',
+		'preloadOfficerAvatar should only be called in the browser'
+	);
+	get(officeStore)
+		.find((office) => office.title === officeTitle)
+		?.officers?.forEach((person) => {
+			if (person.img) {
+				new Image().src = person.img;
+			}
+		});
+};
+
+export function preloadAllOfficerAvatars() {
+	for (const office of get(officeStore)) {
+		preloadOfficerAvatar(office.title);
+	}
+}
 
 export function stripHtmlTags(input: string): string {
 	return input
