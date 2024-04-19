@@ -21,6 +21,7 @@
 			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
 		>
 			<ol class="breadcrumb">
+				<li class="crumb-separator" aria-hidden>/</li>
 				{#each breadcrumbs as crumb, index (crumb)}
 					<li class="crumb">
 						<a

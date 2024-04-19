@@ -120,38 +120,42 @@
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
 					<NavBarDropdown href="/news" text="News">
-						{#if $newsStore}
-							<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
-								<div class="px-4 pt-3 pb-1">
-									<a href="/news">
-										<h1
-											class="font-heading-token text-md font-bold text-primary-900 dark:text-primary-400"
-										>
-											Latest news
-										</h1>
-									</a>
-								</div>
-								<ol>
-									{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
-										<li class="w-full group">
-											<a href={`/news/${$newsStore.length - idx}`} class="size-full">
-												<div
-													class="size-full hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
-												>
-													<h2 class="font-heading-token text-md">{newsItem.title}</h2>
-													<h3 class="text-xs">
-														By <span class="font-bold"
-															>{newsItem.lastEditedByNames || 'Unknown author'}</span
-														>
-														· {newsItem.lastEditedByTitle}
-													</h3>
-												</div>
-											</a>
-										</li>
-									{/each}
-								</ol>
-							</nav>
-						{/if}
+						<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
+							<div class="px-4 pt-3 pb-1">
+								<a href="/news">
+									<h1
+										class="font-heading-token text-md font-bold text-primary-900 dark:text-primary-400"
+									>
+										Latest news
+									</h1>
+								</a>
+							</div>
+							<ol>
+								{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
+									<li class="w-full group">
+										<a href={`/news/${$newsStore.length - idx}`} class="size-full">
+											<div
+												class="size-full hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
+											>
+												<h2 class="font-heading-token text-md">{newsItem.title}</h2>
+												<h3 class="text-xs">
+													By <span class="font-bold"
+														>{newsItem.lastEditedByNames || 'Unknown author'}</span
+													>
+													· {newsItem.lastEditedByTitle}
+												</h3>
+											</div>
+										</a>
+									</li>
+								{:else}
+									<li class="w-full">
+										<div class="px-4 py-3">
+											<h2 class="font-heading-token text-md">No news yet</h2>
+										</div>
+									</li>
+								{/each}
+							</ol>
+						</nav>
 					</NavBarDropdown>
 					<div
 						class="hidden lg:inline-block divider-vertical !border-t-2 h-10 border-slate-500 opacity-50"

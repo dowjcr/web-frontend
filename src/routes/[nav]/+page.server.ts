@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { fetchByPath, fetchPagesInNavHeader } from '$lib/cms.server';
+import { fetchByCategory, fetchByPath } from '$lib/cms.server';
 import { navStore } from '$lib';
 import { get } from 'svelte/store';
 
@@ -23,7 +23,10 @@ export const load: PageServerLoad = async ({ params, url, fetch }) => {
 	if (!navHeaderName) {
 		error(404, 'Not found');
 	}
-	const committeePage = await fetchByPath(url.pathname, fetch);
-	const pages = fetchPagesInNavHeader(url.pathname, fetch);
-	return { navHeaderName, committeePage, pages, relPath: url.pathname };
+	return {
+		navHeaderName,
+		committeePage: await fetchByPath(url.pathname.slice(1), fetch),
+		pages: fetchByCategory(navHeaderName, fetch),
+		relPath: url.pathname
+	};
 };
