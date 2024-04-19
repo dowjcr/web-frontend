@@ -7,7 +7,7 @@
 
 	$: ({ h1Content, restContent } = extractH1AndContent(data.html));
 	$: pageTitle = h1Content || data.title;
-	$: breadcrumbs = data.path.split('/').filter((crumb) => crumb);
+	$: breadcrumbs = data.fullPath.split('/').filter((crumb) => crumb);
 </script>
 
 <svelte:head>
