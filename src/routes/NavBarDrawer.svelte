@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import {
 		Accordion,
@@ -11,11 +12,17 @@
 	import { headerPathFromName, navStore, newsStore } from '$lib';
 	const drawerStore = getDrawerStore();
 
-	function handleToCAnchors(node: any) {
+	function handleToCAnchors(node: HTMLElement) {
 		node.querySelectorAll('a').forEach((a: HTMLAnchorElement) => {
 			a.addEventListener('click', drawerStore.close);
 		});
 	}
+
+	function closeDrawer(): void {
+		// drawerStore.close();
+		history.back();
+	}
+	$: $drawerStore.open = $page.state.showDrawer;
 </script>
 
 <Drawer>
@@ -23,7 +30,7 @@
 		<div class="w-full flex items-center">
 			<div class="grow"><LightSwitch class="m-3 bg-opacity-0" /></div>
 			<button
-				on:click={drawerStore.close}
+				on:click={closeDrawer}
 				class="hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
 			>
 				<i class="fa-solid fa-times text-xl" />

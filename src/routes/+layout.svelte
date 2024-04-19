@@ -2,6 +2,7 @@
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
+	import { beforeNavigate, pushState } from '$app/navigation';
 	import { page, updated } from '$app/stores';
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
@@ -38,6 +39,7 @@
 	import Footer from './Footer.svelte';
 
 	function openDrawer(): void {
+		pushState('', { showDrawer: true });
 		drawerStore.open({ position: 'right', width: 'w-11/12 md:w-1/2 lg:w-1/3' });
 	}
 	function openSearchModal(): void {
@@ -61,7 +63,6 @@
 
 	// Pop-ups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { beforeNavigate } from '$app/navigation';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	beforeNavigate(({ willUnload, to }) => {
