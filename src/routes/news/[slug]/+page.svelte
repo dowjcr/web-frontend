@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { extractH1AndContent } from '$lib';
+	import { newsStore, extractH1AndContent } from '$lib';
+	import AuthorCard from '$lib/components/AuthorCard.svelte';
 	import type { PageData } from './$types';
 	export let data: PageData;
-	import { TableOfContents, tocCrawler } from '@skeletonlabs/skeleton';
-	import AuthorCard from '$lib/components/AuthorCard.svelte';
 
-	$: ({ h1Content, restContent } = extractH1AndContent(data.html));
-	$: pageTitle = h1Content || data.title;
-	$: breadcrumbs = data.fullPath.split('/').filter((crumb) => crumb);
+	$: content = $newsStore[$newsStore.length - data.newsIndex];
+	$: ({ h1Content, restContent } = extractH1AndContent(content.html));
+	$: pageTitle = h1Content || content.title;
+	$: breadcrumbs = ['News', `${data.newsIndex}`];
 </script>
 
 <svelte:head>
@@ -39,28 +39,20 @@
 			</div>
 			<div class="w-full bg-transparent pt-2 pb-8">
 				<AuthorCard
-					officeTitle={data.lastEditedByTitle}
-					authorNames={data.lastEditedByNames}
-					timestamp={data.lastEditedAt}
+					officeTitle={content.lastEditedByTitle}
+					authorNames={content.lastEditedByNames}
+					timestamp={content.publishedAt}
+					timeText="Published at"
 				/>
 			</div>
-			<div
-				use:tocCrawler={{ mode: 'generate', key: data.html, scrollTarget: '#page' }}
-				class="!slashed-zero tabular-nums prose md:prose-lg lg:prose-xl text-left !text-pretty"
-			>
+			<div class="!slashed-zero tabular-nums prose md:prose-lg lg:prose-xl text-left !text-pretty">
 				{@html restContent}
 			</div>
 		</article>
-		<div>
+		<div class="hidden">
 			<aside
-				class="bg-transparent mr-auto h-min flex-none sticky top-0 hidden lg:block xl:px-5 py-10 w-80"
-			>
-				<TableOfContents
-					inactive="font-heading-token !font-normal opacity-60 hover:opacity-100 hover:text-primary-500 dark:hover:text-primary-400"
-					active="text-primary-500 dark:text-primary-400 font-heading-token"
-					><a href="#top" class="font-heading-token text-lg">On this Page</a></TableOfContents
-				>
-			</aside>
+				class="bg-transparent mr-auto h-min flex-none fixed top-20 hidden lg:block xl:px-5 py-20 w-80"
+			></aside>
 		</div>
 	</div>
 </div>

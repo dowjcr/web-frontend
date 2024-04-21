@@ -2,17 +2,15 @@
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
+	import { beforeNavigate, pushState } from '$app/navigation';
 	import { page, updated } from '$app/stores';
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	import { isMacOs, navStore, headerPathFromName } from '$lib';
-	const headingOrder = $navStore.map((x) => x.header);
-	data.topLevelNavItems
-		.then((x) => x?.sort((a, b) => headingOrder.indexOf(a.header) - headingOrder.indexOf(b.header)))
-		.then((x) => {
-			if (x) navStore.set(x);
-		});
+	import { isMacOs, newsStore, navStore, pathFromText, officeStore } from '$lib';
+	data.allNews.then((x) => x && newsStore.set(x));
+	data.topLevelNavItems.then((x) => x && navStore.set(x));
+	data.committeeOffices.then((x) => x && officeStore.set(x));
 
 	import '../app.postcss';
 	import '@fortawesome/fontawesome-free/css/fontawesome.css';
@@ -26,7 +24,9 @@
 		initializeStores,
 		getDrawerStore,
 		getModalStore,
-		setInitialClassState
+		setInitialClassState,
+		LightSwitch,
+		Toast
 	} from '@skeletonlabs/skeleton';
 	import { storePopup } from '$lib/components/Popup';
 	initializeStores();
@@ -39,6 +39,7 @@
 	import Footer from './Footer.svelte';
 
 	function openDrawer(): void {
+		pushState('', { showDrawer: true });
 		drawerStore.open({ position: 'right', width: 'w-11/12 md:w-1/2 lg:w-1/3' });
 	}
 	function openSearchModal(): void {
@@ -62,7 +63,6 @@
 
 	// Pop-ups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { beforeNavigate } from '$app/navigation';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	beforeNavigate(({ willUnload, to }) => {
@@ -77,6 +77,7 @@
 <!-- Use stopPropagation to override Chrome for Windows search shortcut -->
 <svelte:window on:keydown|stopPropagation={onWindowKeydown} />
 <Modal components={modalRegistry} />
+<Toast />
 <NavBarDrawer />
 <AppShell
 	regionPage="scroll-smooth"
@@ -119,14 +120,55 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
-					{#each $navStore as item}
-						<NavBarDropdown href={headerPathFromName(item.header)} text={item.header}>
+					<NavBarDropdown href="/news" text="News">
+						<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
+							<div class="px-4 pt-3 pb-1">
+								<a href="/news">
+									<h1
+										class="font-heading-token text-md font-bold text-primary-900 dark:text-primary-400"
+									>
+										Latest news
+									</h1>
+								</a>
+							</div>
+							<ol>
+								{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
+									<li class="w-full group">
+										<a href={`/news/${$newsStore.length - idx}`} class="size-full">
+											<div
+												class="size-full hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
+											>
+												<h2 class="font-heading-token text-md">{newsItem.title}</h2>
+												<h3 class="text-xs">
+													By <span class="font-bold"
+														>{newsItem.lastEditedByNames || 'Unknown author'}</span
+													>
+													· {newsItem.lastEditedByTitle}
+												</h3>
+											</div>
+										</a>
+									</li>
+								{:else}
+									<li class="w-full">
+										<div class="px-4 py-3">
+											<h2 class="font-heading-token text-md">No news yet</h2>
+										</div>
+									</li>
+								{/each}
+							</ol>
+						</nav>
+					</NavBarDropdown>
+					<div
+						class="hidden lg:inline-block divider-vertical !border-t-2 h-10 border-slate-500 opacity-50"
+					/>
+					{#each $navStore as item (item.header)}
+						<NavBarDropdown href={pathFromText(item.header, '/')} text={item.header}>
 							<nav
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>
 								<ul>
 									{#if item.navItems}
-										{#each item.navItems as subItem}
+										{#each item.navItems as subItem (subItem.path)}
 											<li>
 												<a
 													href={subItem.path}
@@ -145,12 +187,12 @@
 						</NavBarDropdown>
 					{/each}
 					<!-- {/await} -->
-					<div class="md:inline mx-4">
+					<div class="md:inline md:mx-4">
 						<button
 							on:click={openSearchModal}
-							class="btn space-x-4 variant-soft hover:variant-soft-primary dark:hover:variant-soft-surface"
+							class="btn space-x-4 md:variant-soft hover:variant-soft-primary dark:hover:variant-soft-surface"
 						>
-							<i class="fa-solid fa-magnifying-glass text-sm" />
+							<i class="fa-solid fa-magnifying-glass md:text-sm" />
 							<small class="hidden md:inline-block font-mono font-bold"
 								>{isMacOs ? '⌘' : 'Ctrl'}+K</small
 							>
@@ -158,10 +200,13 @@
 					</div>
 					<button
 						on:click={openDrawer}
-						class="hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
+						class="md:hidden hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
 					>
 						<i class="fa-solid fa-bars text-xl" />
 					</button>
+					<div class="px-2 hidden md:inline-block">
+						<LightSwitch class="bg-opacity-0" />
+					</div>
 				</div>
 			</svelte:fragment>
 		</AppBar>

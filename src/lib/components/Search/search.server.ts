@@ -7,7 +7,7 @@ async function buildSearchDocuments() {
 	return response?.map((doc) => {
 		return {
 			title: doc.title,
-			path: doc.path + '<SEP>' + doc.title,
+			path: doc.fullPath + '<SEP>' + doc.title,
 			text: stripHtmlTags(doc.html)
 		};
 	});
