@@ -76,7 +76,6 @@ function numberToOrdinal(i: number) {
 
 export function formatAuthorTimestamp(timestamp: string): string {
 	const timestampDateTime = DateTime.fromISO(timestamp, { zone: 'Europe/London' });
-	console.log(numberToOrdinal(timestampDateTime.day));
 	const authorTimestampFormat = "EEE '" + numberToOrdinal(timestampDateTime.day) + "' MMMM yyyy";
 	return timestampDateTime.toFormat(authorTimestampFormat);
 }
