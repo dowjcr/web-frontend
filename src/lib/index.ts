@@ -18,10 +18,7 @@ export const officeStore: Writable<Office[]> = localStorageStore('officeStore', 
 ]);
 
 export const preloadOfficerAvatar = (officeTitle: string): void => {
-	console.assert(
-		typeof document !== 'undefined',
-		'preloadOfficerAvatar should only be called in the browser'
-	);
+	console.assert(browser, 'preloadOfficerAvatar should only be called in the browser');
 	get(officeStore)
 		.find((office) => office.title === officeTitle)
 		?.officers?.forEach((person) => {
@@ -51,8 +48,8 @@ export function extractH1AndContent(text: string) {
 	return { h1Content, restContent };
 }
 
-export function headerPathFromName(name: string): string {
-	return '/' + name.toLowerCase().replaceAll(' ', '-');
+export function pathFromText(name: string, prefix = ''): string {
+	return prefix + name.toLowerCase().replaceAll(' ', '-');
 }
 
 export function initialsFromName(name: string): string {

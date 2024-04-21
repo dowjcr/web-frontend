@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { initialsFromName, officeStore } from '$lib';
+	import { initialsFromName, officeStore, pathFromText } from '$lib';
 	import { popup, type PopupSettings } from '$lib/components/Popup';
 	import { Avatar, clipboard, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let officeTitle = '';
-	export let href = '/about/committee#' + officeTitle.toLowerCase().replace(/ /g, '-');
+	export let href = '/about/committee' + pathFromText(officeTitle, '#');
 	export let target = 'popupHover-' + (Math.random() * 10e15).toString(16);
 	export let anchorClass = '';
 

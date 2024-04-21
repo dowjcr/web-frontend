@@ -7,7 +7,7 @@
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	import { isMacOs, newsStore, navStore, headerPathFromName, officeStore } from '$lib';
+	import { isMacOs, newsStore, navStore, pathFromText, officeStore } from '$lib';
 	data.allNews.then((x) => x && newsStore.set(x));
 	data.topLevelNavItems.then((x) => x && navStore.set(x));
 	data.committeeOffices.then((x) => x && officeStore.set(x));
@@ -162,7 +162,7 @@
 						class="hidden lg:inline-block divider-vertical !border-t-2 h-10 border-slate-500 opacity-50"
 					/>
 					{#each $navStore as item (item.header)}
-						<NavBarDropdown href={headerPathFromName(item.header)} text={item.header}>
+						<NavBarDropdown href={pathFromText(item.header, '/')} text={item.header}>
 							<nav
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import {
 		Accordion,
@@ -9,7 +8,7 @@
 		LightSwitch,
 		TableOfContents
 	} from '@skeletonlabs/skeleton';
-	import { headerPathFromName, navStore, newsStore } from '$lib';
+	import { pathFromText, navStore, newsStore } from '$lib';
 	const drawerStore = getDrawerStore();
 
 	function handleToCAnchors(node: HTMLElement) {
@@ -93,7 +92,7 @@
 						<div class="text-xl font-heading-token">
 							<a
 								on:click={drawerStore.close}
-								href={headerPathFromName(item.header)}
+								href={pathFromText(item.header, '/')}
 								class="focus:variant-soft-primary dark:focus:variant-soft-surface hover:text-primary-500 dark:hover:text-surface-100"
 							>
 								{item.header}
