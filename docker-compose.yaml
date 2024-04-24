@@ -2,15 +2,7 @@ version: '3.4'
 
 services:
   web-frontend:
-    build:
-      context: .
-    environment:
-        - CMS_GETBYPATH=$CMS_GETBYPATH
-        - CMS_GETPAGES=$CMS_GETPAGES
-        - CMS_NAVBAR=$CMS_NAVBAR
-        - CMS_AUTH=$CMS_AUTH
-        - CMS_HOST=$CMS_HOST
-        - CMS_MAIN_COLLECTION=$CMS_MAIN_COLLECTION
-        - CMS_PROTO=$CMS_PROTO
+    build: .
+    env_file: .env
     ports:
       - 3000:3000
