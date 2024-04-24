@@ -2,6 +2,7 @@ import { get, type Writable } from 'svelte/store';
 import { localStorageStore } from '@skeletonlabs/skeleton';
 import type { ReturnNavHeader, ReturnNewsItem, Office } from '$lib/cms.types';
 import { browser } from '$app/environment';
+import { DateTime } from 'luxon';
 
 export let isMacOs = browser && navigator.userAgent.search('Mac') !== -1;
 
@@ -73,4 +74,25 @@ export function makeSubtitle(html: string): string | null {
 	return firstParagraph.length > 100
 		? stripHtmlTags(firstParagraph).slice(0, 100).trim() + '...'
 		: firstParagraph;
+}
+
+function numberToOrdinal(i: number) {
+	const j = i % 10,
+		k = i % 100;
+	if (j === 1 && k !== 11) {
+		return i + 'st';
+	}
+	if (j === 2 && k !== 12) {
+		return i + 'nd';
+	}
+	if (j === 3 && k !== 13) {
+		return i + 'rd';
+	}
+	return i + 'th';
+}
+
+export function formatAuthorTimestamp(timestamp: string): string {
+	const timestampDateTime = DateTime.fromISO(timestamp, { zone: 'Europe/London' });
+	const authorTimestampFormat = "EEE '" + numberToOrdinal(timestampDateTime.day) + "' MMMM yyyy";
+	return timestampDateTime.toFormat(authorTimestampFormat);
 }
