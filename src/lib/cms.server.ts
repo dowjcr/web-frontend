@@ -1,6 +1,5 @@
 import { env } from '$env/dynamic/private';
 import type { GetPages, Office, PageResponse, ReturnNavBar, ReturnNewsItem } from './cms.types';
-env.CMS_AUTH = 'users API-Key 160c6b51-3d68-4eb7-b3fe-5e824c4b4d77';
 const headers = { Authorization: env.CMS_AUTH };
 
 for (const key in env) {
