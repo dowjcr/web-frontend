@@ -92,7 +92,7 @@
 						use:clipboard={office.email}
 						on:click={() => toastStore.trigger(emailToast)}
 					>
-						<i class="group-hover:animate-bounce fa-regular fa-envelope"></i>
+						<i class="group-hover:animate-bounce-bottom fa-regular fa-envelope"></i>
 						<span class="text-sm opacity-70 hover:opacity-100 font-mono transition ease-in-out">{office.email}</span>
 					</button>
 				</footer>
