@@ -2,11 +2,12 @@
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
 
+	import { beforeNavigate, pushState } from '$app/navigation';
 	import { page, updated } from '$app/stores';
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	import { isMacOs, newsStore, navStore, headerPathFromName, officeStore } from '$lib';
+	import { isMacOs, newsStore, navStore, pathFromText, officeStore } from '$lib';
 	data.allNews.then((x) => x && newsStore.set(x));
 	data.topLevelNavItems.then((x) => x && navStore.set(x));
 	data.committeeOffices.then((x) => x && officeStore.set(x));
@@ -33,11 +34,13 @@
 	const drawerStore = getDrawerStore();
 
 	import SearchModal from './SearchModal.svelte';
+	import OfficeModal from './about/committee/OfficeModal.svelte';
 	import NavBarDropdown from './NavBarDropdown.svelte';
 	import NavBarDrawer from './NavBarDrawer.svelte';
 	import Footer from './Footer.svelte';
 
 	function openDrawer(): void {
+		pushState('', { showDrawer: true });
 		drawerStore.open({ position: 'right', width: 'w-11/12 md:w-1/2 lg:w-1/3' });
 	}
 	function openSearchModal(): void {
@@ -48,7 +51,8 @@
 		});
 	}
 	const modalRegistry: Record<string, ModalComponent> = {
-		SearchModal: { ref: SearchModal }
+		SearchModal: { ref: SearchModal },
+		OfficeModal: { ref: OfficeModal }
 	};
 
 	// Keyboard shortcut (Ctrl / ⌘+K) for search modal
@@ -61,7 +65,6 @@
 
 	// Pop-ups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { beforeNavigate } from '$app/navigation';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	beforeNavigate(({ willUnload, to }) => {
@@ -120,44 +123,48 @@
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
 					<NavBarDropdown href="/news" text="News">
-						{#if $newsStore}
-							<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
-								<div class="px-4 pt-3 pb-1">
-									<a href="/news">
-										<h1
-											class="font-heading-token text-md font-bold text-primary-900 dark:text-primary-400"
-										>
-											Latest news
-										</h1>
-									</a>
-								</div>
-								<ol>
-									{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
-										<li class="w-full group">
-											<a href={`/news/${$newsStore.length - idx}`} class="size-full">
-												<div
-													class="size-full hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
-												>
-													<h2 class="font-heading-token text-md">{newsItem.title}</h2>
-													<h3 class="text-xs">
-														By <span class="font-bold"
-															>{newsItem.lastEditedByNames || 'Unknown author'}</span
-														>
-														· {newsItem.lastEditedByTitle}
-													</h3>
-												</div>
-											</a>
-										</li>
-									{/each}
-								</ol>
-							</nav>
-						{/if}
+						<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
+							<div class="px-4 pt-3 pb-1">
+								<a href="/news">
+									<h1
+										class="font-heading-token text-md font-bold text-primary-900 dark:text-primary-400"
+									>
+										Latest news
+									</h1>
+								</a>
+							</div>
+							<ol>
+								{#each $newsStore.slice(0, 5) as newsItem, idx (newsItem.publishedAt)}
+									<li class="w-full group">
+										<a href={`/news/${$newsStore.length - idx}`} class="size-full">
+											<div
+												class="size-full hover:variant-soft-primary group-active:variant-ghost-primary px-4 py-3 group-last:pb-4"
+											>
+												<h2 class="font-heading-token text-md">{newsItem.title}</h2>
+												<h3 class="text-xs">
+													By <span class="font-bold"
+														>{newsItem.lastEditedByNames || 'Unknown author'}</span
+													>
+													· {newsItem.lastEditedByTitle}
+												</h3>
+											</div>
+										</a>
+									</li>
+								{:else}
+									<li class="w-full">
+										<div class="px-4 py-3">
+											<h2 class="font-heading-token text-md">No news yet</h2>
+										</div>
+									</li>
+								{/each}
+							</ol>
+						</nav>
 					</NavBarDropdown>
 					<div
 						class="hidden lg:inline-block divider-vertical !border-t-2 h-10 border-slate-500 opacity-50"
 					/>
 					{#each $navStore as item (item.header)}
-						<NavBarDropdown href={headerPathFromName(item.header)} text={item.header}>
+						<NavBarDropdown href={pathFromText(item.header, '/')} text={item.header}>
 							<nav
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>

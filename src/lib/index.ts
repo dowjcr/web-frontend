@@ -1,22 +1,39 @@
-import type { Writable } from 'svelte/store';
+import { get, type Writable } from 'svelte/store';
 import { localStorageStore } from '@skeletonlabs/skeleton';
 import type { ReturnNavHeader, ReturnNewsItem, Office } from '$lib/cms.types';
 import { browser } from '$app/environment';
+import { DateTime } from 'luxon';
 
 export let isMacOs = browser && navigator.userAgent.search('Mac') !== -1;
 
 export const newsStore: Writable<ReturnNewsItem[]> = localStorageStore('newsStore', []);
 export const navStore: Writable<ReturnNavHeader[]> = localStorageStore('navStore', [
-	{ header: 'News', navitems: [] },
-	{ header: 'Welfare', navitems: [] },
-	{ header: 'Services', navitems: [] },
-	{ header: 'About', navitems: [] }
+	{ header: 'Welfare' },
+	{ header: 'Services' },
+	{ header: 'About' }
 ]);
 
 export const officeStore: Writable<Office[]> = localStorageStore('officeStore', [
 	{ title: 'President', email: 'president@jcr.dow.cam.ac.uk' },
 	{ title: 'Internet Officer', email: 'internet@jcr.dow.cam.ac.uk' }
 ]);
+
+export const preloadOfficerAvatar = (officeTitle: string): void => {
+	console.assert(browser, 'preloadOfficerAvatar should only be called in the browser');
+	get(officeStore)
+		.find((office) => office.title === officeTitle)
+		?.officers?.forEach((person) => {
+			if (person.img) {
+				new Image().src = person.img;
+			}
+		});
+};
+
+export function preloadAllOfficerAvatars() {
+	for (const office of get(officeStore)) {
+		preloadOfficerAvatar(office.title);
+	}
+}
 
 export function stripHtmlTags(input: string): string {
 	return input
@@ -32,8 +49,8 @@ export function extractH1AndContent(text: string) {
 	return { h1Content, restContent };
 }
 
-export function headerPathFromName(name: string): string {
-	return '/' + name.toLowerCase().replaceAll(' ', '-');
+export function pathFromText(name: string, prefix = ''): string {
+	return prefix + name.toLowerCase().replaceAll(' ', '-');
 }
 
 export function initialsFromName(name: string): string {
@@ -54,5 +71,28 @@ export function makeSubtitle(html: string): string | null {
 	if (!firstParagraph) {
 		return null;
 	}
-	return firstParagraph.length > 100 ? firstParagraph.slice(0, 100).trim() + '...' : firstParagraph;
+	return firstParagraph.length > 100
+		? stripHtmlTags(firstParagraph).slice(0, 100).trim() + '...'
+		: firstParagraph;
+}
+
+function numberToOrdinal(i: number) {
+	const j = i % 10,
+		k = i % 100;
+	if (j === 1 && k !== 11) {
+		return i + 'st';
+	}
+	if (j === 2 && k !== 12) {
+		return i + 'nd';
+	}
+	if (j === 3 && k !== 13) {
+		return i + 'rd';
+	}
+	return i + 'th';
+}
+
+export function formatAuthorTimestamp(timestamp: string): string {
+	const timestampDateTime = DateTime.fromISO(timestamp, { zone: 'Europe/London' });
+	const authorTimestampFormat = "EEE '" + numberToOrdinal(timestampDateTime.day) + "' MMMM yyyy";
+	return timestampDateTime.toFormat(authorTimestampFormat);
 }

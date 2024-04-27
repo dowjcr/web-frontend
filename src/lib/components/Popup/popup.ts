@@ -1,8 +1,9 @@
 import { get, writable, type Writable } from 'svelte/store';
 import type { PopupSettings } from './types';
+import * as fu from '@floating-ui/dom';
 
 // Use a store to pass the Floating UI import references
-export const storePopup: Writable<any> = writable(undefined);
+export const storePopup: Writable<Partial<typeof fu>> = writable(fu);
 
 export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	// Floating UI Modules
@@ -108,8 +109,12 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 				// https://floating-ui.com/docs/flip
 				flip(args.middleware?.flip),
 				// https://floating-ui.com/docs/arrow
-				arrow(args.middleware?.arrow ?? { element: elemArrow || null }),
-				// Implement optional middleware
+				arrow({
+					element:
+						(args.middleware?.arrow && document.querySelector(args.middleware?.arrow?.element)) ||
+						elemArrow ||
+						null
+				}),
 				...optionalMiddleware
 			]
 		}).then(({ x, y, placement, middlewareData }: any) => {
@@ -160,7 +165,7 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 		elemPopup.removeAttribute('inert');
 		// Trigger Floating UI autoUpdate (open only)
 		// https://floating-ui.com/docs/autoUpdate
-		popupState.autoUpdateCleanup = autoUpdate(triggerNode, elemPopup, render);
+		popupState.autoUpdateCleanup = autoUpdate?.(triggerNode, elemPopup, render) || (() => {});
 		// Focus the first focusable element within the popup
 		focusablePopupElements = Array.from(elemPopup?.querySelectorAll(focusableAllowedList));
 	};
@@ -188,11 +193,11 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 
 	// Event Handlers
 	const toggle = (): void => {
-		popupState.open === false ? open() : close();
+		popupState.open ? close() : open();
 	};
 	const onWindowClick = (event: any): void => {
 		// Return if the popup is not yet open
-		if (popupState.open === false) {
+		if (!popupState.open) {
 			return;
 		}
 		// Return if click is the trigger element
@@ -220,15 +225,13 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	};
 
 	// Keyboard Interactions for A11y
-	const onWindowKeyDown = (event: KeyboardEvent): void => {
+	const onWindowKeyDown = (e: KeyboardEvent): void => {
 		if (popupState.open === false) {
 			return;
 		}
-		// Handle keys
-		const key: string = event.key;
 		// On Esc key
-		if (key === 'Escape') {
-			event.preventDefault();
+		if (e.key === 'Escape') {
+			e.preventDefault();
 			triggerNode.focus();
 			close();
 			return;
@@ -239,11 +242,11 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 		const triggerMenuFocused: boolean = popupState.open && document.activeElement === triggerNode;
 		if (
 			triggerMenuFocused &&
-			(key === 'ArrowDown' || key === 'Tab') &&
-			focusableAllowedList.length > 0 &&
-			focusablePopupElements.length > 0
+			['ArrowDown', 'Tab'].includes(e.key) &&
+			focusableAllowedList &&
+			focusablePopupElements
 		) {
-			event.preventDefault();
+			e.preventDefault();
 			focusablePopupElements[0].focus();
 		}
 	};
@@ -252,13 +255,17 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	const triggerToPopupCondition = (e: MouseEvent) => {
 		switch (popupPlacement?.split('-')[0]) {
 			case 'top':
-				return e.pageY + e.offsetY < triggerNode.getBoundingClientRect().top;
 			case 'bottom':
-				return e.pageY + e.offsetY > triggerNode.getBoundingClientRect().bottom;
+				return (
+					e.pageY + e.offsetY < triggerNode.getBoundingClientRect().top ||
+					e.pageY + e.offsetY > triggerNode.getBoundingClientRect().bottom
+				);
 			case 'left':
-				return e.pageX + e.offsetX < triggerNode.getBoundingClientRect().left;
 			case 'right':
-				return e.pageX + e.offsetX > triggerNode.getBoundingClientRect().right;
+				return (
+					e.pageX + e.offsetX < triggerNode.getBoundingClientRect().left ||
+					e.pageX + e.offsetX > triggerNode.getBoundingClientRect().right
+				);
 			default:
 				return true; // Use true because it helps testing
 		}
@@ -267,13 +274,17 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	const popupToTriggerCondition = (e: MouseEvent) => {
 		switch (popupPlacement?.split('-')[0]) {
 			case 'top':
-				return e.pageY + e.offsetY > elemPopup.getBoundingClientRect().bottom;
 			case 'bottom':
-				return e.pageY + e.offsetY < elemPopup.getBoundingClientRect().top;
+				return (
+					e.pageY + e.offsetY > elemPopup.getBoundingClientRect().bottom ||
+					e.pageY + e.offsetY < elemPopup.getBoundingClientRect().top
+				);
 			case 'left':
-				return e.pageX + e.offsetX > elemPopup.getBoundingClientRect().right;
 			case 'right':
-				return e.pageX + e.offsetX < elemPopup.getBoundingClientRect().left;
+				return (
+					e.pageX + e.offsetX > elemPopup.getBoundingClientRect().right ||
+					e.pageX + e.offsetX < elemPopup.getBoundingClientRect().left
+				);
 			default:
 				return true;
 		}

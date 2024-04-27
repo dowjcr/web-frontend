@@ -15,6 +15,7 @@
 					>magenta</span
 				> since 1800
 			</h1>
+			<p>(NOTE: This text will likely be edited)</p>
 			<p class="text-md lg:!text-xl max-w-[475px]">
 				The JCR Committee is here to make your time in Downing the best it can be, by running
 				events, providing welfare support, and representing your interests to the College.

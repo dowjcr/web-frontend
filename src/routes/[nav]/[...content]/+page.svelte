@@ -7,7 +7,7 @@
 
 	$: ({ h1Content, restContent } = extractH1AndContent(data.html));
 	$: pageTitle = h1Content || data.title;
-	$: breadcrumbs = data.path.split('/').filter((crumb) => crumb);
+	$: breadcrumbs = data.fullPath.split('/').filter((crumb) => crumb);
 </script>
 
 <svelte:head>
@@ -21,6 +21,7 @@
 			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
 		>
 			<ol class="breadcrumb">
+				<li class="crumb-separator" aria-hidden>/</li>
 				{#each breadcrumbs as crumb, index (crumb)}
 					<li class="crumb">
 						<a
@@ -52,7 +53,7 @@
 		</article>
 		<div>
 			<aside
-				class="bg-transparent mr-auto h-min flex-none fixed top-20 hidden lg:block xl:px-5 py-20 w-80"
+				class="bg-transparent mr-auto h-min flex-none sticky top-0 hidden lg:block xl:px-5 py-10 w-80"
 			>
 				<TableOfContents
 					inactive="font-heading-token !font-normal opacity-60 hover:opacity-100 hover:text-primary-500 dark:hover:text-primary-400"

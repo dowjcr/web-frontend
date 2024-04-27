@@ -27,6 +27,7 @@
 		"@tailwindcss/typography": "0.5.10",
 		"@types/eslint": "^8.56.0",
 		"@types/lunr": "^2.3.7",
+		"@types/luxon": "^3.4.2",
 		"@types/node": "20.11.30",
 		"@typescript-eslint/eslint-plugin": "^7.0.0",
 		"@typescript-eslint/parser": "^7.0.0",
@@ -50,6 +51,7 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.6.3",
 		"@fortawesome/fontawesome-free": "^6.5.1",
-		"lunr": "^2.3.9"
+		"lunr": "^2.3.9",
+		"luxon": "^3.4.4"
 	}
 }

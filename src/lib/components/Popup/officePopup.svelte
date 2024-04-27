@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { initialsFromName, officeStore } from '$lib';
+	import { initialsFromName, officeStore, pathFromText } from '$lib';
 	import { popup, type PopupSettings } from '$lib/components/Popup';
 	import { Avatar, clipboard, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let officeTitle = '';
-	export let href = '/about/committee#' + officeTitle.toLowerCase().replace(/ /g, '-');
+	export let href = '/about/committee' + pathFromText(officeTitle, '#');
 	export let target = 'popupHover-' + (Math.random() * 10e15).toString(16);
 	export let anchorClass = '';
 
@@ -61,12 +61,12 @@
 							<h1 class="text-sm">
 								{#if office.officers.length > 1}
 									{#each office.officers.slice(0, -1) as o, idx (o.name)}
-										<span class="font-bold">{o.name} {idx}</span>,
+										<span class="font-bold">{o.name}</span>
+										{#if idx < office.officers.length - 2}<span>, </span>{/if}
 									{/each}
-									<span>and {office.officers.slice(-1)[0].name}</span>
-								{:else}
-									<span class="font-bold">{office.officers[0].name}</span>
+									<span>and</span>
 								{/if}
+								<span class="font-bold">{office.officers[office.officers.length - 1].name}</span>
 							</h1>
 							<h2 class="text-sm font-heading italic opacity-50">
 								{office.officers && office.officers.length > 1 && !office.title.endsWith('s')
