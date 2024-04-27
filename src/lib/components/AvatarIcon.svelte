@@ -14,15 +14,17 @@
 {#if office}
 	<OfficePopup officeTitle={office.title}>
 		{#if office.officers}
-			{#each office.officers as o (o.name)}
-				<Avatar
-					src={o.img}
-					{width}
-					rounded="rounded-full"
-					initials={initialsFromName(o.name).slice(0, 2)}
-				/>
-				<link rel="preload" as="image" href={o.img} />
-			{/each}
+			<div class="flex items-center">
+				{#each office.officers as o (o.name)}
+					<Avatar
+						src={o.img}
+						{width}
+						rounded="rounded-full"
+						initials={initialsFromName(o.name).slice(0, 2)}
+					/>
+					<link rel="preload" as="image" href={o.img} />
+				{/each}
+			</div>
 		{:else}
 			<Avatar
 				{width}

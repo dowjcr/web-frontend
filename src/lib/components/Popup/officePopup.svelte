@@ -43,7 +43,7 @@
 				class="card space-y-2 p-3 shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 			>
 				{#if office.officers}
-					<header class="card-header !p-0">
+					<header class="card-header !p-0 flex items-center">
 						{#each office.officers as o (o.name)}
 							<Avatar
 								src={o.img}
