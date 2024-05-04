@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import type { Office } from '$lib/cms.types';
-	import { officeStore, pathFromText } from '$lib';
+	import { officeStore, pathFromText, sortOfficesByTitle } from '$lib';
 	import Sacha from '$lib/assets/404-hedgehog.jpg';
-
 	const modalStore = getModalStore();
 	export function openOfficeModal(office: Office) {
 		modalStore.trigger({
