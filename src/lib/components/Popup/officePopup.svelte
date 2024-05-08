@@ -41,7 +41,7 @@
 		<div class="arrow bg-slate-50 dark:bg-surface-800" />
 		<slot name="hover-content">
 			<div
-				class="card space-y-2 p-3 shadow-lg rounded-lg w-80 overflow-hidden bg-slate-50 dark:bg-surface-800"
+				class="card space-y-2 p-3 shadow-lg rounded-lg w-max overflow-hidden bg-slate-50 dark:bg-surface-800"
 			>
 				{#if office.officers}
 					<header class="card-header !p-0 flex items-center">
