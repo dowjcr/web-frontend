@@ -83,10 +83,6 @@
 						</h1>
 					</section>
 				{/if}
-				{#if office.description}
-					<hr />
-					<p class="text-sm">{office.description}</p>
-				{/if}
 				<footer class="card-footer !px-0 !pb-0 w-full">
 					<button
 						class="btn group !m-0 !p-0"
