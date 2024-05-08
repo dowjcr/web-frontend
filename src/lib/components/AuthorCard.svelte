@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex space-x-4 text-token">
-	<div class="flex items-center">
+	<div>
 		<AvatarIcon {officeTitle} width="w-12 my-auto" />
 	</div>
 	<div class="grow flex flex-col justify-center items-start">

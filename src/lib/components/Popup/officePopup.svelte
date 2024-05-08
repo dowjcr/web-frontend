@@ -44,7 +44,7 @@
 				class="card space-y-2 p-3 shadow-lg rounded-lg w-80 overflow-hidden bg-slate-50 dark:bg-surface-800"
 			>
 				{#if office.officers}
-					<header class="card-header !p-0">
+					<header class="card-header !p-0 flex items-center">
 						<a {href} rel="noreferrer">
 							{#each office.officers as o (o.name)}
 								<Avatar
