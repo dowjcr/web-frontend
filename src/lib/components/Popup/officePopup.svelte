@@ -67,12 +67,13 @@
 									<span>and</span>
 								{/if}
 								<span class="font-bold">{office.officers[office.officers.length - 1].name}</span>
+								<br>
+								<span class="text-sm font-heading italic opacity-50"
+									>{office.officers && office.officers.length > 1 && !office.title.endsWith('s')
+										? office.title + 's'
+										: office.title}
+								</span>
 							</h1>
-							<h2 class="text-sm font-heading italic opacity-50">
-								{office.officers && office.officers.length > 1 && !office.title.endsWith('s')
-									? office.title + 's'
-									: office.title}
-							</h2>
 						</a>
 					</section>
 				{:else}
