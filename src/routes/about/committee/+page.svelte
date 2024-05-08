@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import type { Office } from '$lib/cms.types';
-	import { officeStore, pathFromText, sortOfficesByTitle } from '$lib';
+	import { officeStore, pathFromText } from '$lib';
 	import Sacha from '$lib/assets/404-hedgehog.jpg';
 	const modalStore = getModalStore();
 	export function openOfficeModal(office: Office) {
@@ -12,8 +12,6 @@
 			meta: { office }
 		});
 	}
-	let offices = sortOfficesByTitle($officeStore)
-	officeStore.set(offices);
 </script>
 
 <div class="w-full p-10 min-h-screen bg-slate-50 dark:bg-surface-900">

@@ -30,63 +30,9 @@ export const preloadOfficerAvatar = (officeTitle: string): void => {
 };
 
 export function preloadAllOfficerAvatars() {
-	const offices = sortOfficesByTitle(get(officeStore))
-	officeStore.set(offices);
 	for (const office of get(officeStore)) {
 		preloadOfficerAvatar(office.title);
 	}
-}
-
-export function sortOfficesByTitle(objects: Office[]): Office[] {
-	const titleOrder = [
-		'President',
-		'Vice-President',
-		'Treasurer',
-		'Internet Officer',
-		'Welfare Officers'
-	];
-	// Create a map to store the index of each title in the order array
-	const titleIndexMap: { [title: string]: number } = {};
-	titleOrder.forEach((title, index) => {
-		titleIndexMap[title] = index;
-	});
-
-	// Sort objects based on their title's index in the titleOrder array or substring match
-	objects.sort((a, b) => {
-		const indexA = titleIndexMap[a.title];
-		const indexB = titleIndexMap[b.title];
-
-		// If both titles are in the order array, sort based on their indices
-		if (indexA !== undefined && indexB !== undefined) {
-			return indexA - indexB;
-		}
-		// If only one title is in the order array, it comes before the other
-		else if (indexA !== undefined) {
-			return -1;
-		} else if (indexB !== undefined) {
-			return 1;
-		}
-		// If neither title is in the order array, check if any title in titleOrder is a substring of the titles
-		else {
-			// Check if any title in titleOrder is a substring of title A
-			const isSubstringA = titleOrder.some((title) => a.title.includes(title));
-			// Check if any title in titleOrder is a substring of title B
-			const isSubstringB = titleOrder.some((title) => b.title.includes(title));
-
-			// If both titles have substrings in titleOrder, maintain the original order
-			if (isSubstringA && isSubstringB) {
-				return 0;
-			} else if (isSubstringA) {
-				return -1;
-			} else if (isSubstringB) {
-				return 1;
-			} else {
-				return 0; // Maintain the original order
-			}
-		}
-	});
-
-	return objects;
 }
 
 export function stripHtmlTags(input: string): string {
