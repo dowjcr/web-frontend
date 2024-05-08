@@ -30,7 +30,7 @@ export default {
 				}
 			},
 			animation: {
-				'bounce-bottom': 'bounce-bottom 0.75s ease-in-out infinite'
+				'bounce-bottom': 'bounce-bottom 0.65s ease-in-out infinite'
 			},
 			keyframes: {
 				'bounce-bottom': {
