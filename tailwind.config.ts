@@ -28,6 +28,21 @@ export default {
 					900: '#800055',
 					950: '#42002C'
 				}
+			},
+			animation: {
+				'bounce-bottom': 'bounce-bottom 0.65s ease-in-out infinite'
+			},
+			keyframes: {
+				'bounce-bottom': {
+					'0%, 100%': {
+						transform: 'translateY(0)',
+						'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)'
+					},
+					'50%': {
+						transform: 'translateY(-25%)',
+						'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)'
+					}
+				}
 			}
 		}
 	},

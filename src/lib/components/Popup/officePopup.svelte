@@ -18,7 +18,8 @@
 	$: office = $officeStore.find((x) => x.title === officeTitle);
 	let emailToast: ToastSettings;
 	$: emailToast = {
-		message: `${office?.email || 'Email'} copied to clipboard`,
+		// message: `${office?.email || 'Email'} copied to clipboard`,
+		message: 'Email copied to clipboard',
 		background: 'variant-glass-primary',
 		timeout: 2000,
 		hideDismiss: true,
@@ -40,18 +41,20 @@
 		<div class="arrow bg-slate-50 dark:bg-surface-800" />
 		<slot name="hover-content">
 			<div
-				class="card space-y-2 p-3 shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
+				class="card space-y-2 p-3 shadow-lg rounded-lg w-max overflow-hidden bg-slate-50 dark:bg-surface-800"
 			>
 				{#if office.officers}
 					<header class="card-header !p-0 flex items-center">
-						{#each office.officers as o (o.name)}
-							<Avatar
-								src={o.img}
-								width="h-12 my-auto"
-								rounded="rounded-full"
-								initials={initialsFromName(o.name)}
-							/>
-						{/each}
+						<a {href} rel="noreferrer">
+							{#each office.officers as o (o.name)}
+								<Avatar
+									src={o.img}
+									width="h-12 my-auto"
+									rounded="rounded-full"
+									initials={initialsFromName(o.name)}
+								/>
+							{/each}
+						</a>
 					</header>
 					<section>
 						<a {href} rel="noreferrer">
@@ -64,32 +67,32 @@
 									<span>and</span>
 								{/if}
 								<span class="font-bold">{office.officers[office.officers.length - 1].name}</span>
+								<br>
+								<span class="text-sm font-heading italic opacity-50"
+									>{office.officers && office.officers.length > 1 && !office.title.endsWith('s')
+										? office.title + 's'
+										: office.title}
+								</span>
 							</h1>
-							<h2 class="text-sm">
-								{office.officers && office.officers.length > 1 && !office.title.endsWith('s')
-									? office.title + 's'
-									: office.title}
-							</h2>
 						</a>
 					</section>
 				{:else}
 					<section>
-						<h1 class="text-md">
+						<h1 class="text-md font-heading">
 							{office.title}
 						</h1>
 					</section>
 				{/if}
-				{#if office.description}
-					<hr />
-					<p class="text-sm">{office.description}</p>
-				{/if}
-				<footer class="card-footer !p-0 w-full">
+				<footer class="card-footer !px-0 !pb-0 w-full">
 					<button
 						class="btn group !m-0 !p-0"
 						use:clipboard={office.email}
 						on:click={() => toastStore.trigger(emailToast)}
 					>
-						<i class="group-hover:animate-bounce fa-regular fa-envelope"></i>
+						<i class="group-hover:animate-bounce-bottom fa-regular fa-envelope"></i>
+						<span class="text-sm opacity-70 hover:opacity-100 font-mono transition ease-in-out"
+							>{office.email}</span
+						>
 					</button>
 				</footer>
 			</div>
