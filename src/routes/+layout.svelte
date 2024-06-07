@@ -214,5 +214,7 @@
 		</AppBar>
 	</svelte:fragment>
 	<slot />
-	<Footer />
+	<svelte:fragment slot="pageFooter">
+		<Footer />
+	</svelte:fragment>
 </AppShell>
