@@ -73,7 +73,7 @@
 						</button>
 					</div>
 					{#if office.manifesto}
-						<div>
+						<div class="flex text-center">
 							<a
 								title="Manifesto"
 								href={office.manifesto}
@@ -81,7 +81,7 @@
 								class="!outline-none bg-transparent border-0 shadow-none ring-0 group"
 							>
 								<i
-									class="group-hover:animate-[pulse_1s_ease-in-out_infinite] text-xl fa-regular fa-scroll"
+									class="group-hover:animate-[pulse_2.5s_ease-in-out_infinite] text-xl fa-regular fa-scroll"
 								></i>
 								<span
 									class="underline group-hover:decoration-black decoration-transparent transition ease-in-out"
