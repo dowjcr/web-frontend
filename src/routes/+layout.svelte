@@ -79,7 +79,7 @@
 <!-- Use stopPropagation to override Chrome for Windows search shortcut -->
 <svelte:window on:keydown|stopPropagation={onWindowKeydown} />
 <Modal components={modalRegistry} />
-<Toast zIndex='z-[1000]'/>
+<Toast zIndex="z-[1000]" />
 <NavBarDrawer />
 <AppShell
 	regionPage="scroll-smooth"
