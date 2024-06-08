@@ -14,7 +14,7 @@
 	<title>{pageTitle} | Downing JCR</title>
 </svelte:head>
 
-<div class="bg-slate-50 dark:bg-surface-900">
+<div class="bg-slate-50 dark:bg-surface-900 h-full">
 	<div class="lg:grid lg:grid-cols-4">
 		<article
 			id="top"
