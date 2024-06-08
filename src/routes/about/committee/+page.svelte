@@ -15,6 +15,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Committee | Downing JCR</title>
+</svelte:head>
+
 <div class="w-full p-10 min-h-screen bg-slate-50 dark:bg-surface-900">
 	<div class="flex justify-center p-10">
 		<h1 class="h1 font-bold">Meet the Committee</h1>
