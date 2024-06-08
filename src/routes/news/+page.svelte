@@ -38,7 +38,7 @@
 							officeTitle={newsItem.lastEditedByTitle}
 							authorNames={newsItem.lastEditedByNames}
 							timestamp={newsItem.publishedAt}
-							timeText="Published at"
+							timeText="Published on"
 						/>
 					</div>
 				</div>

@@ -8,14 +8,20 @@
 		LightSwitch,
 		TableOfContents
 	} from '@skeletonlabs/skeleton';
-	import { headerPathFromName, navStore, newsStore } from '$lib';
+	import { pathFromText, navStore, newsStore } from '$lib';
 	const drawerStore = getDrawerStore();
 
-	function handleToCAnchors(node: any) {
+	function handleToCAnchors(node: HTMLElement) {
 		node.querySelectorAll('a').forEach((a: HTMLAnchorElement) => {
 			a.addEventListener('click', drawerStore.close);
 		});
 	}
+
+	function closeDrawer(): void {
+		// drawerStore.close();
+		history.back();
+	}
+	$: $drawerStore.open = $page.state.showDrawer;
 </script>
 
 <Drawer>
@@ -23,7 +29,7 @@
 		<div class="w-full flex items-center">
 			<div class="grow"><LightSwitch class="m-3 bg-opacity-0" /></div>
 			<button
-				on:click={drawerStore.close}
+				on:click={closeDrawer}
 				class="hover:variant-soft-primary dark:hover:variant-soft-surface btn btn-sm size-10"
 			>
 				<i class="fa-solid fa-times text-xl" />
@@ -86,7 +92,7 @@
 						<div class="text-xl font-heading-token">
 							<a
 								on:click={drawerStore.close}
-								href={headerPathFromName(item.header)}
+								href={pathFromText(item.header, '/')}
 								class="focus:variant-soft-primary dark:focus:variant-soft-surface hover:text-primary-500 dark:hover:text-surface-100"
 							>
 								{item.header}

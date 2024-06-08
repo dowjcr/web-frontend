@@ -255,13 +255,17 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	const triggerToPopupCondition = (e: MouseEvent) => {
 		switch (popupPlacement?.split('-')[0]) {
 			case 'top':
-				return e.pageY + e.offsetY < triggerNode.getBoundingClientRect().top;
 			case 'bottom':
-				return e.pageY + e.offsetY > triggerNode.getBoundingClientRect().bottom;
+				return (
+					e.pageY + e.offsetY < triggerNode.getBoundingClientRect().top ||
+					e.pageY + e.offsetY > triggerNode.getBoundingClientRect().bottom
+				);
 			case 'left':
-				return e.pageX + e.offsetX < triggerNode.getBoundingClientRect().left;
 			case 'right':
-				return e.pageX + e.offsetX > triggerNode.getBoundingClientRect().right;
+				return (
+					e.pageX + e.offsetX < triggerNode.getBoundingClientRect().left ||
+					e.pageX + e.offsetX > triggerNode.getBoundingClientRect().right
+				);
 			default:
 				return true; // Use true because it helps testing
 		}
@@ -270,13 +274,17 @@ export function popup(triggerNode: HTMLElement, args: PopupSettings) {
 	const popupToTriggerCondition = (e: MouseEvent) => {
 		switch (popupPlacement?.split('-')[0]) {
 			case 'top':
-				return e.pageY + e.offsetY > elemPopup.getBoundingClientRect().bottom;
 			case 'bottom':
-				return e.pageY + e.offsetY < elemPopup.getBoundingClientRect().top;
+				return (
+					e.pageY + e.offsetY > elemPopup.getBoundingClientRect().bottom ||
+					e.pageY + e.offsetY < elemPopup.getBoundingClientRect().top
+				);
 			case 'left':
-				return e.pageX + e.offsetX > elemPopup.getBoundingClientRect().right;
 			case 'right':
-				return e.pageX + e.offsetX < elemPopup.getBoundingClientRect().left;
+				return (
+					e.pageX + e.offsetX > elemPopup.getBoundingClientRect().right ||
+					e.pageX + e.offsetX < elemPopup.getBoundingClientRect().left
+				);
 			default:
 				return true;
 		}

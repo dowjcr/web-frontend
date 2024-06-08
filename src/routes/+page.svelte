@@ -2,6 +2,9 @@
 	import HomeHero from './HomeHero.svelte';
 </script>
 
+<svelte:head>
+	<title>Home | Downing JCR</title>
+</svelte:head>
 <!-- <div> -->
 <!-- <header id="hero" class="bg-surface-100-800-token"> -->
 <div class="fixed top-0 left-0 right-0"><HomeHero /></div>
