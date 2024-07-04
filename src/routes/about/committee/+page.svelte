@@ -2,7 +2,7 @@
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import type { Office } from '$lib/cms.types';
 	import { officeStore, pathFromText } from '$lib';
-	import Sacha from '$lib/assets/404-hedgehog.jpg';
+	import OfficerRow from './OfficerRow.svelte';
 
 	const modalStore = getModalStore();
 	export function openOfficeModal(office: Office) {
@@ -19,34 +19,16 @@
 	<title>Committee | Downing JCR</title>
 </svelte:head>
 
-<div class="w-full p-10 min-h-screen bg-slate-50 dark:bg-surface-900">
-	<div class="flex justify-center p-10">
+<div class="w-full p-10 pt-2 min-h-screen bg-slate-50 dark:bg-surface-900">
+	<div class="flex text-center justify-center p-6">
 		<h1 class="h1 font-bold">Meet the Committee</h1>
 	</div>
-	<div class="container mx-auto px-10 pt-5">
-		<div class="mx-auto md:columns-3 lg:columns-4 xl:columns-5 gap-[1.25rem] space-y-4">
+	<div>
+		<div
+			class="grid grid-cols-1 lg:grid-cols-[1fr_2fr_2fr] lg:w-auto lg:mx-[2vw] 2xl:mx-[10vw] w-full justify-items-center gap-y-2 lg:gap-x-5"
+		>
 			{#each $officeStore as office}
-				{#if office.officers}
-					<div id={pathFromText(office.title)} class="break-inside-auto">
-						{#each office.officers as officer}
-							<div class="break-inside-avoid-column">
-								<button class="group" on:click={() => openOfficeModal(office)}>
-									<div class="rounded-2xl overflow-hidden bg-black dark:bg-white">
-										<img
-											src={officer.img || Sacha}
-											alt={officer.name}
-											class="h-auto min-w-full hover:opacity-60"
-										/>
-									</div>
-									<div class="p-3 mb-4 min-w-full font-heading-token group-hover:underline">
-										<p class="font-bold text-sm">{officer.name}</p>
-										<p class="opacity-50 text-sm">{office.title}</p>
-									</div>
-								</button>
-							</div>
-						{/each}
-					</div>
-				{/if}
+				<OfficerRow bind:office></OfficerRow>
 			{/each}
 		</div>
 	</div>
