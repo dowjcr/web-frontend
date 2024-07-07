@@ -12,6 +12,7 @@
 		searchResults = searchIndex.search(insertLunrFuzzyMatcher(searchTerm));
 		searchPages = searchResults.map((r) => {
 			let [href, title] = r.ref.split('<SEP>');
+			href = '/' + href
 			return { href, title };
 		});
 	};
