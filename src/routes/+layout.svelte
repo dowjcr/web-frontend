@@ -83,7 +83,7 @@
 <NavBarDrawer />
 <AppShell
 	regionPage="scroll-smooth"
-	shadow="shadow-2xl"
+	shadow="shadow-none"
 	slotTrail="!space-x-2"
 	slotSidebarLeft="bg-surface-50 dark:bg-surface-900 {$page.url.pathname === '/'
 		? 'w-0'
@@ -98,7 +98,7 @@
 		</div>
 	</svelte:fragment> -->
 	<svelte:fragment slot="header">
-		<AppBar class="shadow-xl !bg-slate-50 dark:!bg-surface-900 !p-3">
+		<AppBar class="shadow-none !bg-slate-50 dark:!bg-surface-900 !p-3">
 			<svelte:fragment slot="lead">
 				<a href="/" class="flex items-center space-x-4">
 					<div
@@ -129,7 +129,7 @@
 									<h1
 										class="font-heading-token text-md font-bold text-primary-900 dark:text-primary-400"
 									>
-										Latest news
+										Recent
 									</h1>
 								</a>
 							</div>
@@ -160,9 +160,6 @@
 							</ol>
 						</nav>
 					</NavBarDropdown>
-					<div
-						class="hidden lg:inline-block divider-vertical !border-t-2 h-10 border-slate-500 opacity-50"
-					/>
 					{#each $navStore as item (item.header)}
 						<NavBarDropdown href={pathFromText(item.header, '/')} text={item.header}>
 							<nav
