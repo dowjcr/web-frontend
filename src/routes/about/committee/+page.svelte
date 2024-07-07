@@ -3,7 +3,6 @@
 	import type { Office } from '$lib/cms.types';
 	import { officeStore, pathFromText } from '$lib';
 	import Sacha from '$lib/assets/404-hedgehog.jpg';
-
 	const modalStore = getModalStore();
 	export function openOfficeModal(office: Office) {
 		modalStore.trigger({
@@ -20,7 +19,7 @@
 </svelte:head>
 
 <div class="w-full p-10 min-h-screen bg-slate-50 dark:bg-surface-900">
-	<div class="flex justify-center p-10">
+	<div class="flex justify-center px-10 pb-10">
 		<h1 class="h1 font-bold">Meet the Committee</h1>
 	</div>
 	<div class="container mx-auto px-10 pt-5">
@@ -40,7 +39,7 @@
 									</div>
 									<div class="p-3 mb-4 min-w-full font-heading-token group-hover:underline">
 										<p class="font-bold text-sm">{officer.name}</p>
-										<p class="opacity-50 text-sm">{office.title}</p>
+										<p class="opacity-80 text-sm">{office.title}</p>
 									</div>
 								</button>
 							</div>
