@@ -7,7 +7,7 @@
 <div class="bg-slate-50 dark:bg-surface-800 w-full h-screen box-border relative">
 	<div class="h-full grid items-center">
 		<div
-			class="p-10 md:p-32 md:pr-10 my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4"
+			class="p-10 md:p-20 xl:p-32 md:pr-10 my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4"
 		>
 			<h1 class="h1 !text-5xl lg:!text-6xl max-w-[600px] dark:font-bold">Your digital Domus</h1>
 			<p class="text-md lg:!text-xl max-w-[475px]">
