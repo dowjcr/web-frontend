@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Office } from '$lib/cms.types';
-	import { clipboard, getModalStore, getToastStore } from '@skeletonlabs/skeleton';
+	import { clipboard, getToastStore } from '@skeletonlabs/skeleton';
 	export let office: Office;
 	const toastStore = getToastStore();
 	const emailToast = {
@@ -14,7 +14,7 @@
 </script>
 
 <div
-	class="grid grid-cols-subgrid lg:col-span-3 border-[5px] border-primary-100 rounded-xl gap-y-5 p-4 items-center bg-slate-50 dark:bg-surface-700 dark:text-white"
+	class="grid grid-cols-subgrid md:col-span-3 border-[5px] border-primary-100 rounded-xl gap-y-5 p-4 items-center bg-slate-50 dark:bg-surface-700 dark:text-white"
 >
 	<div class="grid grid-cols-1 h-max gap-y-1 text-center">
 		<h2 class="text-xl text-center font-bold">{office.title}</h2>
@@ -64,7 +64,7 @@
 						<img
 							src={officer.img}
 							alt={officer.name}
-							class="rounded-xl text-center object-contain h-[20vh] min-w-[5vw] lg:max-w-[12vw] lg:max-h-auto lg:h-auto"
+							class="rounded-xl text-center object-contain h-[30vh] min-w-[5vw] lg:max-w-[12vw] lg:max-h-auto lg:h-auto"
 						/>
 					{:else}
 						<p>No image :(</p>
