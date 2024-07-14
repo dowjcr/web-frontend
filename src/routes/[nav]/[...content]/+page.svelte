@@ -14,11 +14,11 @@
 	<title>{pageTitle} | Downing JCR</title>
 </svelte:head>
 
-<div class="bg-slate-50 dark:bg-surface-900">
-	<div class="lg:grid lg:grid-cols-4">
+<div class="bg-slate-50 dark:bg-surface-900 h-full">
+	<div class="lg:grid lg:grid-cols-3 xl:grid-cols-4">
 		<article
 			id="top"
-			class="lg:subgrid lg:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
+			class="lg:subgrid lg:col-span-2 xl:col-span-3 max-w-3xl p-5 md:py-10 w-full m-auto space-y-2 md:space-y-5"
 		>
 			<ol class="breadcrumb">
 				<li class="crumb-separator" aria-hidden>/</li>
@@ -53,7 +53,7 @@
 		</article>
 		<div>
 			<aside
-				class="bg-transparent mr-auto h-min flex-none sticky top-0 hidden lg:block xl:px-5 py-10 w-80"
+				class="bg-transparent xl:mr-auto h-min flex-none sticky top-0 hidden lg:block xl:px-5 py-10 w-80"
 			>
 				<TableOfContents
 					inactive="font-heading-token !font-normal opacity-60 hover:opacity-100 hover:text-primary-500 dark:hover:text-primary-400"

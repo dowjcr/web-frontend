@@ -1,19 +1,29 @@
 import { env } from '$env/dynamic/private';
 import type { GetPages, Office, PageResponse, ReturnNavBar, ReturnNewsItem } from './cms.types';
-const headers = { Authorization: env.CMS_AUTH };
+
+interface Header {
+	[key: string]: string | undefined;
+}
+let headers: Header = { Authorization: env.CMS_AUTH };
 
 for (const key in env) {
-	if (key.startsWith('CMS_') && env[key]?.includes('_')) {
-		console.error(
-			'The value of CMS environment variable ' +
-				key +
-				' (' +
-				env[key] +
-				')' +
-				' contains an underscore. This is not allowed. Please use camelCase instead.'
-		);
+	if (key.startsWith('CMS_')) {
+		if (env[key]?.includes('_')) {
+			console.error(
+				'Warning: the value of CMS environment variable ' +
+					key +
+					' (' +
+					env[key] +
+					')' +
+					' contains an underscore.'
+			);
+		}
+		if (key.startsWith('CMS_HEADER_')) {
+			headers[key.replace('CMS_HEADER_', '')] = env[key];
+		}
 	}
 }
+console.log('Initializing CMS headers:', headers);
 
 function checkResponse(res: Response) {
 	if (res.ok) {
