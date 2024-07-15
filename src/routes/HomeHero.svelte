@@ -5,9 +5,9 @@
 
 <svelte:window bind:innerWidth bind:innerHeight />
 <div class="bg-slate-50 dark:bg-surface-800 w-full h-screen box-border relative">
-	<div class="h-full grid items-center">
+	<div class="h-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 items-center">
 		<div
-				class="p-10 md:pr-10 lg:ml-auto my-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4 z-10"
+				class="p-10 pt-2 md:pr-10 lg:ml-auto my-24 flex flex-col items-center md:items-start text-center self-start md:self-center md:text-left space-y-4 z-10"
 		>
 			<h1 class="h1 !text-5xl lg:!text-6xl max-w-[600px] dark:font-bold">Your digital Domus</h1>
 			<p class="text-md lg:!text-xl max-w-[475px]">
