@@ -122,7 +122,7 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
-					<NavBarDropdown navHeader={{ header: 'News', prefix: '/news', pageNeeded: true }}>
+					<NavBarDropdown navHeader={{ header: 'News', prefix: 'news', pageNeeded: true }}>
 						<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
 							<div class="px-4 pt-3 pb-1">
 								<a href="/news">
