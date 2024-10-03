@@ -13,7 +13,9 @@ export type GetPages = PageResponse[];
 
 export interface ReturnNavHeader {
 	header: string;
+	prefix?: string;
 	navItems?: ReturnNavItem[];
+	pageNeeded?: boolean;
 }
 export interface ReturnNavItem {
 	path: string;

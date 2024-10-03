@@ -1,6 +1,7 @@
 <script lang="ts">
-	export let href = '';
-	export let text = 'text';
+	import type { ReturnNavHeader } from '$lib/cms.types';
+
+	export let navHeader: ReturnNavHeader;
 	export let caret = true;
 	let popupId = (Math.random() * 10e15).toString(16);
 
@@ -14,12 +15,14 @@
 
 <div class="relative hidden sm:block">
 	<a
-		{href}
-		rel="noreferrer"
+		href={navHeader.pageNeeded ? '/' + navHeader.prefix : ''}
 		use:popup={popupHover}
-		class="[&>*]:pointer-events-none btn btn-sm py-3 hover:text-primary-500 hover:variant-soft-primary dark:hover:text-token dark:hover:variant-soft-surface text-sm hidden md:inline"
+		class={'[&>*]:pointer-events-none btn btn-sm py-3 hover:text-primary-500 text-sm hidden md:inline' +
+			(navHeader.pageNeeded
+				? ' dark:hover:text-token hover:variant-soft-primary dark:hover:variant-soft-surface'
+				: '')}
 	>
-		<span class="mr-0 text-sm font-medium font-heading-token">{text}</span>
+		<span class="mr-0 text-sm font-medium font-heading-token">{navHeader.header}</span>
 		{#if caret}
 			<i class="ml-0 fa-solid fa-caret-down opacity-50" />
 		{/if}
