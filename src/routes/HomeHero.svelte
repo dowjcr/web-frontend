@@ -24,7 +24,7 @@
 					<span>Enter</span>
 					<i class="fa-solid fa-arrow-right-long" />
 				</a>
-				<a href="/about" class="btn variant-filled-primary dark:variant-ghost-surface">Learn More</a>
+				<!-- <a href="/about" class="btn variant-filled-primary dark:variant-ghost-surface">Learn More</a> -->
 			</div>
 		</div>
 	</div>
