@@ -41,6 +41,6 @@
 
 <style>
 	[data-popup] {
-		transition-duration: 0.05s;
+		transition-duration: 0s;
 	}
 </style>

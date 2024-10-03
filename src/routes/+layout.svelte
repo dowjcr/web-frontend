@@ -171,6 +171,8 @@
 											<li>
 												<a
 													href={subItem.path}
+													rel="noreferrer"
+													target={subItem.path.startsWith('/') ? '_self' : '_blank'}
 													class="font-normal px-4 py-2 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
 												>
 													<span>{subItem.label}</span>
