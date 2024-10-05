@@ -27,12 +27,12 @@
 			/>
 			{#each $officeStore as office}
 				<div
-					class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] justify-items-center gap-y-2 lg:gap-x-5 lg:border-x-2 lg:border-gray-400"
+					class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] justify-items-center gap-y-2 lg:gap-x-5 lg:border-x-[1px] lg:border-gray-400"
 				>
 					<OfficerRow bind:office></OfficerRow>
 				</div>
 				<hr
-					class="w-[70%] max-w-[480px] divider h-0 mx-auto my-4 border-t-2 rounded md:my-10 border-gray-700 dark:border-white col-span-3"
+					class="w-[30%] max-w-[480px] divider h-0 mx-auto my-4 border-t-2 rounded md:my-10 border-gray-700 dark:border-white col-span-3"
 				/>
 			{/each}
 		</div>

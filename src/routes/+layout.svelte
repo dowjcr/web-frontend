@@ -34,7 +34,6 @@
 	const drawerStore = getDrawerStore();
 
 	import SearchModal from './SearchModal.svelte';
-	import OfficeModal from './about/committee/OfficeModal.svelte';
 	import NavBarDropdown from './NavBarDropdown.svelte';
 	import NavBarDrawer from './NavBarDrawer.svelte';
 	import Footer from './Footer.svelte';
@@ -51,8 +50,7 @@
 		});
 	}
 	const modalRegistry: Record<string, ModalComponent> = {
-		SearchModal: { ref: SearchModal },
-		OfficeModal: { ref: OfficeModal }
+		SearchModal: { ref: SearchModal }
 	};
 
 	// Keyboard shortcut (Ctrl / ⌘+K) for search modal

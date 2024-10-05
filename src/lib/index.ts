@@ -8,9 +8,11 @@ export let isMacOs = browser && navigator.userAgent.search('Mac') !== -1;
 
 export const newsStore: Writable<ReturnNewsItem[]> = localStorageStore('newsStore', []);
 export const navStore: Writable<ReturnNavHeader[]> = localStorageStore('navStore', [
+	{ header: 'News' },
+	{ header: 'College Life' },
 	{ header: 'Welfare' },
-	{ header: 'Services' },
-	{ header: 'About' }
+	{ header: 'JCR' },
+	{ header: 'Links' }
 ]);
 
 export const officeStore: Writable<Office[]> = localStorageStore('officeStore', [
