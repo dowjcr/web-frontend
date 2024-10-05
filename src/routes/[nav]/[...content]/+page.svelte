@@ -46,7 +46,7 @@
 			</div>
 			<div
 				use:tocCrawler={{ mode: 'generate', key: data.html, scrollTarget: '#page' }}
-				class="!slashed-zero tabular-nums prose md:prose-lg lg:prose-xl text-left !text-pretty"
+				class="!slashed-zero tabular-nums prose md:prose-base lg:prose-lg text-left !text-pretty prose-headings:my-7 md:prose-headings:my-9 prose-img:max-w-[40%] prose-img:h-auto"
 			>
 				{@html restContent}
 			</div>

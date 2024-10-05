@@ -7,7 +7,7 @@
 	import { searchStore } from '$lib/components/Search';
 	data.searchIndex.then(searchStore.set);
 
-	import { isMacOs, newsStore, navStore, pathFromText, officeStore } from '$lib';
+	import { isMacOs, newsStore, navStore, officeStore } from '$lib';
 	data.allNews.then((x) => x && newsStore.set(x));
 	data.topLevelNavItems.then((x) => x && navStore.set(x));
 	data.committeeOffices.then((x) => x && officeStore.set(x));
@@ -122,7 +122,7 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div class="flex items-center lg:space-x-2 text-slate-950 dark:text-tertiary-50">
-					<NavBarDropdown href="/news" text="News">
+					<NavBarDropdown navHeader={{ header: 'News', prefix: 'news', pageNeeded: true }}>
 						<nav class="card shadow-lg w-[20em] overflow-hidden bg-slate-50 dark:bg-surface-800">
 							<div class="px-4 pt-3 pb-1">
 								<a href="/news">
@@ -161,7 +161,7 @@
 						</nav>
 					</NavBarDropdown>
 					{#each $navStore as item (item.header)}
-						<NavBarDropdown href={pathFromText(item.header, '/')} text={item.header}>
+						<NavBarDropdown navHeader={item}>
 							<nav
 								class="card shadow-lg rounded-lg w-60 overflow-hidden bg-slate-50 dark:bg-surface-800"
 							>
@@ -171,6 +171,8 @@
 											<li>
 												<a
 													href={subItem.path}
+													rel="noreferrer"
+													target={subItem.path.startsWith('/') ? '_self' : '_blank'}
 													class="font-normal px-4 py-2 focus:variant-soft-primary dark:focus:variant-soft-surface group transition duration-300 block text-sm hover:text-primary-500 dark:hover:text-surface-100"
 												>
 													<span>{subItem.label}</span>

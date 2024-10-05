@@ -2,6 +2,8 @@
 	import { initialsFromName, officeStore, pathFromText } from '$lib';
 	import { popup, type PopupSettings } from '$lib/components/Popup';
 	import { Avatar, clipboard, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import AvatarIcon from '../AvatarIcon.svelte';
+	import BoldedOfficerNames from '../BoldedOfficerNames.svelte';
 
 	export let officeTitle = '';
 	export let href = '/about/committee' + pathFromText(officeTitle, '#');
@@ -37,7 +39,7 @@
 </a>
 {#if office}
 	<!-- https://www.skeleton.dev/utilities/popups#avoiding-style-conflicts -->
-	<div data-popup={popupHover.target}>
+	<div data-popup={popupHover.target} class="z-50">
 		<div class="arrow bg-slate-50 dark:bg-surface-800" />
 		<slot name="hover-content">
 			<div
@@ -46,28 +48,14 @@
 				{#if office.officers}
 					<header class="card-header !p-0 flex items-center">
 						<a {href} rel="noreferrer">
-							{#each office.officers as o (o.name)}
-								<Avatar
-									src={o.img}
-									width="h-12 my-auto"
-									rounded="rounded-full"
-									initials={initialsFromName(o.name)}
-								/>
-							{/each}
+							<AvatarIcon officeTitle={office.title} width="w-12" />
 						</a>
 					</header>
 					<section>
 						<a {href} rel="noreferrer">
 							<h1 class="text-sm">
-								{#if office.officers.length > 1}
-									{#each office.officers.slice(0, -1) as o, idx (o.name)}
-										<span class="font-bold">{o.name}</span>
-										{#if idx < office.officers.length - 2}<span>, </span>{/if}
-									{/each}
-									<span>and</span>
-								{/if}
-								<span class="font-bold">{office.officers[office.officers.length - 1].name}</span>
-								<br>
+								<BoldedOfficerNames officers={office.officers} />
+								<br />
 								<span class="text-sm font-heading italic opacity-50"
 									>{office.officers && office.officers.length > 1 && !office.title.endsWith('s')
 										? office.title + 's'
@@ -99,3 +87,9 @@
 		</slot>
 	</div>
 {/if}
+
+<style>
+	[data-popup] {
+		transition-duration: 0s;
+	}
+</style>
