@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { DateTime } from 'luxon'
-	let year = DateTime.now().setZone('Europe/London').year
+	import { DateTime } from 'luxon';
+	let year = DateTime.now().setZone('Europe/London').year;
 </script>
 
 <div class="bg-slate-50 dark:bg-surface-900 border-t border-surface-500/10 text-xs md:text-base">
