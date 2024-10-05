@@ -10,6 +10,7 @@
 	// 		meta: { office }
 	// 	});
 	// }
+	import { pathFromText } from '$lib';
 </script>
 
 <svelte:head>
@@ -27,6 +28,7 @@
 			/>
 			{#each $officeStore as office}
 				<div
+					id={pathFromText(office.title)}
 					class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] justify-items-center gap-y-2 lg:gap-x-5 lg:border-x-[1px] lg:border-gray-400"
 				>
 					<OfficerRow bind:office></OfficerRow>

@@ -6,7 +6,7 @@
 	import BoldedOfficerNames from '../BoldedOfficerNames.svelte';
 
 	export let officeTitle = '';
-	export let href = '/about/committee' + pathFromText(officeTitle, '#');
+	export let href = '/jcr/committee' + pathFromText(officeTitle, '#');
 	export let target = 'popupHover-' + (Math.random() * 10e15).toString(16);
 	export let anchorClass = '';
 
