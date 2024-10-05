@@ -5,13 +5,10 @@ import { navStore } from '$lib';
 import { get } from 'svelte/store';
 
 function getNavHeaderName(navHeaderUrl: string): string | null {
+	const leadingSlashRegex = /^\/+/;
 	for (const navHeader of get(navStore)) {
-		if (navHeader.navItems) {
-			for (const navItem of navHeader.navItems) {
-				if (navItem.path.startsWith(navHeaderUrl)) {
-					return navHeader.header;
-				}
-			}
+		if (navHeader.prefix === navHeaderUrl.replace(leadingSlashRegex, '')) {
+			return navHeader.header;
 		}
 	}
 	console.log('Nav header not found for: ', navHeaderUrl);

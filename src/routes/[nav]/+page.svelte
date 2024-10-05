@@ -48,19 +48,18 @@
 		{#await data.pages then pages}
 			{#each pages || [] as p (p.path)}
 				{#if p.path !== data.relPath}
-					<!-- md:w-[22rem] lg:w-80 xl:w-96 2xl:w-[27rem] -->
 					<div
-						class="h-full rounded-container-token hover:variant-soft-primary active:variant-ghost-primary"
+						class="rounded-container-token hover:variant-soft-primary active:variant-ghost-primary w-full h-full"
 					>
-						<a href={p.fullPath} class="size-full">
-							<div class="size-full px-8 py-6 space-y-3">
-								<div>
+						<a href={p.fullPath} class="block h-full">
+							<div class="flex flex-col justify-between h-full px-8 py-6">
+								<div class="space-y-3">
 									<h1 class="font-heading-token font-bold text-lg">{p.title}</h1>
 									<h2 class="font-heading-token text-base">
 										{makeSubtitle(p.html)}
 									</h2>
 								</div>
-								<div class="w-full bg-transparent">
+								<div class="w-full bg-transparent mt-auto pt-3">
 									<AuthorCard
 										officeTitle={p.lastEditedByTitle}
 										authorNames={p.lastEditedByNames}
@@ -68,8 +67,8 @@
 										timeText="Edited on"
 									/>
 								</div>
-							</div></a
-						>
+							</div>
+						</a>
 					</div>
 				{/if}
 			{/each}
