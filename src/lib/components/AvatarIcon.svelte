@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { initialsFromName, officeStore } from '$lib';
 	import type { Office } from '$lib/cms.types';
-	import OfficePopup from '$lib/components/Popup/officePopup.svelte';
 	import { Avatar } from '@skeletonlabs/skeleton';
 
 	export let office: Office | undefined = undefined;
