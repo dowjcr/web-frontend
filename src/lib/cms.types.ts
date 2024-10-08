@@ -28,14 +28,14 @@ export interface Office {
 	title: string;
 	email: string;
 	description?: string;
-	manifesto?: string;
+	manifesto?: string; // URL
 	officers?: Officer[];
 }
 
 export interface Officer {
 	name: string;
-	crsid: string;
-	img?: string;
+	crsid: string; // Cambridge ID
+	img?: string; // URL
 }
 
 export interface ReturnNewsItem {
