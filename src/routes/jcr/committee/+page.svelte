@@ -31,7 +31,7 @@
 					id={pathFromText(office.title)}
 					class="mb-8 p-12 dark:bg-surface-800 rounded-2xl hover:shadow"
 				>
-					<div class="flex justify-between items-start">
+					<div class="md:flex justify-between items-start">
 						<div>
 							<div class="flex items-baseline">
 								<h2 class="text-2xl font-semibold font-heading-token mr-3">{office.title}</h2>
@@ -62,7 +62,7 @@
 								use:clipboard={office.email}
 								on:click={() => toastStore.trigger(emailToast)}
 							>
-								<p>
+								<p class="pb-12">
 									<span class="italic opacity-70 group-hover:opacity-100 transition ease-in-out">
 										{office.email}
 									</span>
@@ -71,7 +71,8 @@
 						</div>
 						{#if office.officers && office.officers.length > 0}
 							<div class="flex flex-col items-center gap-2">
-								<AvatarIcon {office} officeTitle={office.title} width="w-48"></AvatarIcon>
+								<AvatarIcon {office} officeTitle={office.title} width="w-32 md:36 lg:w-44 xl:w-48"
+								></AvatarIcon>
 								<p class="text-nowrap">
 									<BoldedOfficerNames names={office.officers.map((o) => o.name)}
 									></BoldedOfficerNames>
