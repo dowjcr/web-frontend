@@ -1,16 +1,19 @@
 <script lang="ts">
 	import { officeStore } from '$lib';
-	import OfficerRow from './OfficerRow.svelte';
-
-	// export function openOfficeModal(office: Office) {
-	// 	modalStore.trigger({
-	// 		type: 'component',
-	// 		component: 'OfficeModal',
-	// 		backdropClasses: '!bg-transparent dark:!bg-surface-500/30',
-	// 		meta: { office }
-	// 	});
-	// }
 	import { pathFromText } from '$lib';
+	import AvatarIcon from '$lib/components/AvatarIcon.svelte';
+	import BoldedOfficerNames from '$lib/components/BoldedOfficerNames.svelte';
+	import { clipboard, getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
+	const emailToast = {
+		message: 'Email copied to clipboard',
+		background: 'bg-primary-300',
+		color: 'text-black dark:text-white',
+		timeout: 20000,
+		hideDismiss: true,
+		classes: 'font-mono'
+	};
 </script>
 
 <svelte:head>
@@ -23,19 +26,68 @@
 	</div>
 	<div>
 		<div class="lg:w-[60vw] lg:max-w-[800px] mx-auto w-[95%]">
-			<hr
-				class="w-[60%] max0- divider h-0 mx-auto my-4 border-t-2 rounded md:mb-10 border-gray-700 dark:border-white col-span-3"
-			/>
 			{#each $officeStore as office}
 				<div
 					id={pathFromText(office.title)}
-					class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] justify-items-center gap-y-2 lg:gap-x-5 lg:border-x-[1px] lg:border-gray-400"
+					class="mb-8 p-12 dark:bg-surface-800 rounded-2xl hover:shadow"
 				>
-					<OfficerRow bind:office></OfficerRow>
+					<div class="md:flex justify-between items-start">
+						<div>
+							<div class="flex items-baseline">
+								<h2 class="text-2xl font-semibold font-heading-token mr-3">{office.title}</h2>
+								<button
+									title={office.email}
+									class="mr-2 !outline-none bg-transparent border-0 shadow-none ring-0 group flex items-center gap-2"
+									use:clipboard={office.email}
+									on:click={() => toastStore.trigger(emailToast)}
+								>
+									<i class="text-xl fa-regular fa-envelope group-hover:animate-bounce-bottom"></i>
+								</button>
+								{#if office.manifesto}
+									<div>
+										<a
+											title="Manifesto"
+											href={office.manifesto}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="!outline-none bg-transparent border-0 shadow-none ring-0 group flex items-center gap-2"
+										>
+											<i class="text-xl fa-regular fa-scroll group-hover:animate-bounce-bottom"></i>
+										</a>
+									</div>
+								{/if}
+							</div>
+							<button
+								title="Click to copy email"
+								use:clipboard={office.email}
+								on:click={() => toastStore.trigger(emailToast)}
+							>
+								<p class="pb-12">
+									<span class="italic opacity-70 group-hover:opacity-100 transition ease-in-out">
+										{office.email}
+									</span>
+								</p>
+							</button>
+						</div>
+						{#if office.officers && office.officers.length > 0}
+							<div class="flex flex-col items-center gap-2">
+								<AvatarIcon {office} officeTitle={office.title} width="w-32 md:36 lg:w-44 xl:w-48"
+								></AvatarIcon>
+								<p class="text-nowrap">
+									<BoldedOfficerNames names={office.officers.map((o) => o.name)}
+									></BoldedOfficerNames>
+								</p>
+							</div>
+						{:else}
+							<p class="text-gray-600 dark:text-gray-400">
+								No officers currently assigned to this role.
+							</p>
+						{/if}
+					</div>
+					{#if office.description}
+						<p class="mt-8">{office.description}</p>
+					{/if}
 				</div>
-				<hr
-					class="w-[30%] max-w-[480px] divider h-0 mx-auto my-4 border-t-2 rounded md:my-10 border-gray-700 dark:border-white col-span-3"
-				/>
 			{/each}
 		</div>
 	</div>
