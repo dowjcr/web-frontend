@@ -91,8 +91,8 @@
 					<svelte:fragment slot="summary">
 						<div class="text-xl font-heading-token">
 							<a
-								on:click={drawerStore.close}
-								href={pathFromText(item.header, '/')}
+								on:click={item.pageNeeded ? drawerStore.close : undefined}
+								href={item.pageNeeded ? '/' + item.prefix : ''}
 								class="focus:variant-soft-primary dark:focus:variant-soft-surface hover:text-primary-500 dark:hover:text-surface-100"
 							>
 								{item.header}
